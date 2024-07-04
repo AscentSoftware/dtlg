@@ -2,7 +2,7 @@
 % Please edit documentation in R/calcStats.R
 \name{calc_counts}
 \alias{calc_counts}
-\title{Title}
+\title{calc_counts}
 \usage{
 calc_counts(
   dt,
@@ -24,10 +24,10 @@ calc_counts(
 \item{indent}{indentation to use for statistic row names, used for formatting outputs for shiny}
 }
 \value{
-data.table
+a list containing a data.table
 }
 \description{
-Title
+calc_counts
 }
 \examples{
 x

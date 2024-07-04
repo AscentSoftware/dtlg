@@ -1,4 +1,4 @@
-#' get_desc
+#' calc_desc
 #'
 #' Given a table, calculate descriptive statistics for a target column.
 #'
@@ -8,7 +8,7 @@
 #' @param treat string, treatment population to use as row headers
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
 #'
-#' @return table output of new descriptive information.
+#' @return a list containing a data.table
 #' @export
 #'
 #' @import data.table
@@ -19,9 +19,6 @@
 calc_desc <- function(dt, target, target_name = NULL, treat,
                      indent = '&nbsp;&nbsp;&nbsp;&nbsp;'){
   dt <- check_table(dt)
-  if (is.null(target_name)){
-    target_name <- target
-  }
   stat_names <- c(paste0(indent,'n'),
                   paste0(indent,'Mean (SD)'),
                   paste0(indent,'Median'),
@@ -44,11 +41,11 @@ calc_desc <- function(dt, target, target_name = NULL, treat,
   dt_stats <- dt_stats[,.(treatment = get(treat),x = '', dt_stats[,2:ncol(dt_stats)])]
   dt_stats <- data.table::transpose(dt_stats, keep.names = 'stats', make.names = 'treatment')
   dt_stats[,stats := c(target_name, stat_names)]
-  return(dt_stats)
+  return(list(dt_stats))
 }
 
 
-#' Title
+#' calc_counts
 #'
 #' @param dt table input to use.
 #' @param target string, column name to calculate count statistics on
@@ -56,18 +53,17 @@ calc_desc <- function(dt, target, target_name = NULL, treat,
 #' @param treat string, treatment population to use as row headers
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
 #'
-#' @return data.table
+#' @return a list containing a data.table
 #' @export
+#'
+#' @import data.table
 #'
 #' @examples x
 
 calc_counts <- function(dt, target, target_name = NULL, treat,
                        indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
   dt <- check_table(dt)
-  if (is.null(target_name)){
-    target_name <- target
-  }
-  dt_count <- dt[,.(n = .N), by = list(treatment=get(treat),stats=get(target))]
+  dt_count <- dt[,.(n = .N), by = list(treatment = get(treat),stats = get(target))]
   dt_count <- data.table::dcast(dt_count, stats ~ treatment, value.var = 'n', fill = 0)
 
   target_rows <- dt_count[,stats]
@@ -75,8 +71,65 @@ calc_counts <- function(dt, target, target_name = NULL, treat,
   dt_count <- rbind(rep(list(''),times=ncol(dt_count)),dt_count)
 
   dt_count[,stats := c(target_name, paste0(indent,as.character(target_rows)))]
-
+  return(list(dt_count))
 }
 
 
+#' calc_stats
+#'
+#' @param dt table input to use.
+#' @param target string, column name to calculate count statistics on
+#' @param target_name string, how to display column name when new table is create, if null then target column name is used
+#' @param treat string, treatment population to use as row headers
+#' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
+#'
+#' @return a list containing a data.table
+#' @export
+#'
+#' @examples x
 
+calc_stats <- function(dt, target, target_name = NULL, treat,
+                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;'){
+  dt <- check_table(dt)
+  UseMethod('calc_stats', dt[,(get(target))])
+}
+
+#' @rdname calc_stats
+#' @export
+
+calc_stats.numeric <- function(dt, target, target_name = NULL, treat,
+                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
+  x <- calc_desc(dt=dt,target=target, target_name = target_name, treat=treat,
+            indent = indent)
+  return(x)
+}
+
+#' @rdname calc_stats
+#' @export
+
+calc_stats.character <- function(dt, target, target_name = NULL, treat,
+                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
+  x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
+            indent = indent)
+  return(x)
+}
+
+#' @rdname calc_stats
+#' @export
+
+calc_stats.factor <- function(dt, target, target_name = NULL, treat,
+                                 indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
+  x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
+              indent = indent)
+  return(x)
+}
+
+#' @rdname calc_stats
+#' @export
+
+calc_stats.logical <- function(dt, target, target_name = NULL, treat,
+                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
+  x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
+              indent = indent)
+  return(x)
+}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/calcStats.R
 \name{calc_desc}
 \alias{calc_desc}
-\title{get_desc}
+\title{calc_desc}
 \usage{
 calc_desc(
   dt,
@@ -24,7 +24,7 @@ calc_desc(
 \item{indent}{indentation to use for statistic row names, used for formatting outputs for shiny}
 }
 \value{
-table output of new descriptive information.
+a list containing a data.table
 }
 \description{
 Given a table, calculate descriptive statistics for a target column.
