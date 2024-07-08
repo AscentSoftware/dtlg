@@ -4,13 +4,7 @@
 \alias{calc_desc}
 \title{calc_desc}
 \usage{
-calc_desc(
-  dt,
-  target,
-  target_name = NULL,
-  treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;"
-)
+calc_desc(dt, target, target_name, treat, indent = "&nbsp;&nbsp;&nbsp;&nbsp;")
 }
 \arguments{
 \item{dt}{table input to use.}
@@ -31,6 +25,6 @@ Given a table, calculate descriptive statistics for a target column.
 }
 \examples{
 adsl<- random.cdisc.data::cadsl
-age<-calc_desc(adsl,'AGE',treat='ARM')
+age<-calc_desc(adsl, 'AGE', 'AGE', treat='ARM')
 
 }

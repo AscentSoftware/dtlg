@@ -37,8 +37,8 @@ event_count <- function(dt, patient, treat, label, .filters = NULL, .total_dt = 
  event <- event[,.(n = .N), by = treat]
  event <- event[.total_dt, on = treat]
  event <- event[, .(get(treat), paste0(n, ' (', round((n/total)*100, 2),'%)'))]
- event <- data.table::transpose(event,keep.names = 'events', make.names = 'V1', fill = 0)
- event[, events := label]
+ event <- data.table::transpose(event,keep.names = 'stats', make.names = 'V1', fill = 0)
+ event[, stats := label]
  return(list(event))
 }
 
@@ -58,17 +58,17 @@ event_count <- function(dt, patient, treat, label, .filters = NULL, .total_dt = 
 total_events <- function(dt, treat, label){
   dt <- check_table(dt)
   dt <- dt[,.(n = .N), by = treat]
-  dt <- transpose(dt,keep.names = 'events',make.names = treat, fill=0)
-  dt[, events := label]
+  dt <- transpose(dt,keep.names = 'stats',make.names = treat, fill=0)
+  dt[, stats := label]
   return(list(dt))
 }
 
-#' multi_event_true
+#' calculate the event statistics for T/F columns
 #'
 #' @param dt table to perform function on
 #' @param event_vars events to perform counts on
 #' @param patient string, column for unique patient identifier
-#' @param treat string, treatment population to use as row headers
+#' @param treat string, treatment population to use as column headers
 #' @param heading string, title row to add to the returned table
 #' @param label row name to be displayed, if NULL then column name or label is used
 #' @param .total_dt optional table for total counts to be derived
@@ -130,13 +130,13 @@ multi_event_true <- function(dt, event_vars, patient, treat, heading, label = NU
                   MoreArgs = list(dt = dt, patient = patient, treat = treat,
                                   .total_dt = .total_dt))
   event <- data.table::rbindlist(event, use.names = T)
-  target_rows <- event[,events]
+  target_rows <- event[,stats]
   event <- rbind(rep(list(''),times=ncol(event)),event)
-  event[, events := c(heading, paste0(indent, target_rows))]
+  event[, stats := c(heading, paste0(indent, target_rows))]
   return(list(event))
 }
 
-#' merge_table_lists
+#' merge a list of tables stored in lists
 #'
 #' @param dt_l nested list of data.table outputs from created from other dtlg functions
 #'
@@ -190,4 +190,44 @@ multi_event_true <- function(dt, event_vars, patient, treat, heading, label = NU
 merge_table_lists <- function(dt_l){
   dt_l <- lapply(1:length(dt_l), function(x) dt_l[[x]][[1]])
   dt_l <- data.table::rbindlist(dt_l, use.names = T)
+}
+
+#' count total, at least one and splits on the treatment, grouping and target variables
+#'
+#' @param dt table to perform function on
+#' @param patient string, column for unique patient identifier
+#' @param treat string, treatment population to use as column headers
+#' @param rows_by string, grouping variable to split events by.
+#' @param target string, target column to provide further counts within group provided by rows_by
+#' @param .total_dt optional table for total counts to be derived
+#' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
+#'
+#' @return data.table
+#' @export
+#'
+#' @examples adae <- random.cdisc.data::cadae |> dplyr::filter(ANL01FL == "Y")
+#' event_count_by(dt=adae, patient='USUBJID', treat='ARM', target='AEDECOD',rows_by = 'AEBODSYS',.total_dt = adsl, indent = ' ')
+#'
+
+event_count_by <- function(dt, patient, treat, rows_by, target, .total_dt = NULL,
+                           indent = '&nbsp;&nbsp;&nbsp;&nbsp;'){
+  dt <- check_table(dt)
+  event <- dt
+  if(!is.null(.total_dt)){
+    .total_dt <- check_table(.total_dt)
+  } else {
+    .total_dt <- dt
+  }
+  event_split <- split(event, by = rows_by)
+  event_patient <- mapply(event_count, dt = event_split, treat = treat,
+                          label = 'Total number of patients with at least one event',
+                         MoreArgs = list(.total_dt=.total_dt,
+                                         patient = patient))
+  event_total <- mapply(total_events, event_split, treat = treat,
+                        label = 'Total number of events')
+  event_target <- mapply(calc_stats, dt = event_split, target = target, treat = treat,
+                         indent=indent, target_name = names(event_split), MoreArgs = list(.total_dt=.total_dt))
+  event_table <- mapply(list, event_target, event_total, event_patient)
+  event_table <- rbindlist(event_table, use.names=T)
+ return(event_table)
 }

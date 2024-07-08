@@ -14,10 +14,10 @@
 #' @import data.table
 #'
 #' @examples adsl<- random.cdisc.data::cadsl
-#' age<-calc_desc(adsl,'AGE',treat='ARM')
+#' age<-calc_desc(adsl, 'AGE', 'AGE', treat='ARM')
 #'
 
-calc_desc <- function(dt, target, target_name = NULL, treat,
+calc_desc <- function(dt, target, target_name, treat,
                      indent = '&nbsp;&nbsp;&nbsp;&nbsp;'){
   dt <- check_table(dt)
   stat_names <- c(paste0(indent,'n'),
@@ -53,6 +53,7 @@ calc_desc <- function(dt, target, target_name = NULL, treat,
 #' @param target_name string, how to display column name when new table is create, if null then target column name is used
 #' @param treat string, treatment population to use as row headers
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
+#' @param .total_dt optional table for total counts to be derived
 #'
 #' @return a list containing a data.table
 #' @export
@@ -62,10 +63,18 @@ calc_desc <- function(dt, target, target_name = NULL, treat,
 #' @examples adsl <- random.cdisc.data::cadsl
 #' RACE<-calc_counts(dt = adsl, 'RACE', target_name = 'RACE', treat = 'ARM', indent = '')
 
-calc_counts <- function(dt, target, target_name = NULL, treat,
-                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
+calc_counts <- function(dt, target, target_name, treat,
+                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL) {
   dt <- check_table(dt)
+
   dt_count <- dt[,.(n = .N), by = list(treatment = get(treat),stats = get(target))]
+  if(!is.null(.total_dt)){
+    .total_dt <- check_table(.total_dt)
+    .total_dt <- .total_dt[,.(total=.N), by=list(treatment = get(treat))]
+    dt_count <- dt_count[.total_dt, on = 'treatment']
+    dt_count <- dt_count[, .(treatment, stats, n=paste0(n, ' (', round((n/total)*100, 2),'%)'))]
+  }
+
   dt_count <- data.table::dcast(dt_count, stats ~ treatment, value.var = 'n', fill = 0)
 
   target_rows <- dt_count[,stats]
@@ -82,9 +91,10 @@ calc_counts <- function(dt, target, target_name = NULL, treat,
 #'
 #' @param dt table input to use.
 #' @param target string, column name to calculate count statistics on
-#' @param target_name string, how to display column name when new table is create, if null then target column name is used
+#' @param target_name string, how to display column name when new table is created, if null, target is used
 #' @param treat string, treatment population to use as row headers
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
+#' @param .total_dt optional table for total counts to be derived, works for character, logical and factor
 #'
 #' @return a list containing a data.table
 #' @export
@@ -92,8 +102,9 @@ calc_counts <- function(dt, target, target_name = NULL, treat,
 #' @examples adsl <- random.cdisc.data::cadsl
 #' age<-calc_stats(adsl,'AGE',treat='ARM')
 
-calc_stats <- function(dt, target, target_name = NULL, treat,
-                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;'){
+calc_stats <- function(dt, target, target_name, treat,
+                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                       .total_dt = NULL){
   dt <- check_table(dt)
   UseMethod('calc_stats', dt[,(get(target))])
 }
@@ -101,8 +112,11 @@ calc_stats <- function(dt, target, target_name = NULL, treat,
 #' @rdname calc_stats
 #' @export
 
-calc_stats.numeric <- function(dt, target, target_name = NULL, treat,
-                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
+calc_stats.numeric <- function(dt, target, target_name=NULL, treat,
+                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+  if (is.null(target_name)){
+    target_name <- target
+  }
   x <- calc_desc(dt=dt,target=target, target_name = target_name, treat=treat,
             indent = indent)
   return(x)
@@ -111,29 +125,38 @@ calc_stats.numeric <- function(dt, target, target_name = NULL, treat,
 #' @rdname calc_stats
 #' @export
 
-calc_stats.character <- function(dt, target, target_name = NULL, treat,
-                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
+calc_stats.character <- function(dt, target, target_name=NULL, treat,
+                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+  if (is.null(target_name)){
+    target_name <- target
+  }
   x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-            indent = indent)
+            indent = indent, .total_dt = .total_dt)
   return(x)
 }
 
 #' @rdname calc_stats
 #' @export
 
-calc_stats.factor <- function(dt, target, target_name = NULL, treat,
-                                 indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
+calc_stats.factor <- function(dt, target, target_name=NULL, treat,
+                                 indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+  if (is.null(target_name)){
+    target_name <- target
+  }
   x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-              indent = indent)
+              indent = indent, .total_dt = .total_dt)
   return(x)
 }
 
 #' @rdname calc_stats
 #' @export
 
-calc_stats.logical <- function(dt, target, target_name = NULL, treat,
-                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
+calc_stats.logical <- function(dt, target, target_name=NULL, treat,
+                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+  if (is.null(target_name)){
+    target_name <- target
+  }
   x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-              indent = indent)
+              indent = indent, .total_dt = .total_dt)
   return(x)
 }

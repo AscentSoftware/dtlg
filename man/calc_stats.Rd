@@ -12,9 +12,10 @@ wrapper of calc_desc and calc_counts}
 calc_stats(
   dt,
   target,
-  target_name = NULL,
+  target_name,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;"
+  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  .total_dt = NULL
 )
 
 \method{calc_stats}{numeric}(
@@ -22,7 +23,8 @@ calc_stats(
   target,
   target_name = NULL,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;"
+  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  .total_dt = NULL
 )
 
 \method{calc_stats}{character}(
@@ -30,7 +32,8 @@ calc_stats(
   target,
   target_name = NULL,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;"
+  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  .total_dt = NULL
 )
 
 \method{calc_stats}{factor}(
@@ -38,7 +41,8 @@ calc_stats(
   target,
   target_name = NULL,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;"
+  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  .total_dt = NULL
 )
 
 \method{calc_stats}{logical}(
@@ -46,7 +50,8 @@ calc_stats(
   target,
   target_name = NULL,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;"
+  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  .total_dt = NULL
 )
 }
 \arguments{
@@ -54,11 +59,13 @@ calc_stats(
 
 \item{target}{string, column name to calculate count statistics on}
 
-\item{target_name}{string, how to display column name when new table is create, if null then target column name is used}
+\item{target_name}{string, how to display column name when new table is created, if null, target is used}
 
 \item{treat}{string, treatment population to use as row headers}
 
 \item{indent}{indentation to use for statistic row names, used for formatting outputs for shiny}
+
+\item{.total_dt}{optional table for total counts to be derived, works for character, logical and factor}
 }
 \value{
 a list containing a data.table

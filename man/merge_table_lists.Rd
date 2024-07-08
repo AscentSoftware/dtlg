@@ -2,7 +2,7 @@
 % Please edit documentation in R/withEvent.R
 \name{merge_table_lists}
 \alias{merge_table_lists}
-\title{merge_table_lists}
+\title{merge a list of tables stored in lists}
 \usage{
 merge_table_lists(dt_l)
 }
@@ -13,7 +13,7 @@ merge_table_lists(dt_l)
 data.table containing all listed data.tables
 }
 \description{
-merge_table_lists
+merge a list of tables stored in lists
 }
 \examples{
 set.seed(99)

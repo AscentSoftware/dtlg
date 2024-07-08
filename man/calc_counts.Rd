@@ -8,9 +8,10 @@ generate counts of a column}
 calc_counts(
   dt,
   target,
-  target_name = NULL,
+  target_name,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;"
+  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  .total_dt = NULL
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ calc_counts(
 \item{treat}{string, treatment population to use as row headers}
 
 \item{indent}{indentation to use for statistic row names, used for formatting outputs for shiny}
+
+\item{.total_dt}{optional table for total counts to be derived}
 }
 \value{
 a list containing a data.table

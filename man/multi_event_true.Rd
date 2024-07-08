@@ -2,7 +2,7 @@
 % Please edit documentation in R/withEvent.R
 \name{multi_event_true}
 \alias{multi_event_true}
-\title{multi_event_true}
+\title{calculate the event statistics for T/F columns}
 \usage{
 multi_event_true(
   dt,
@@ -22,7 +22,7 @@ multi_event_true(
 
 \item{patient}{string, column for unique patient identifier}
 
-\item{treat}{string, treatment population to use as row headers}
+\item{treat}{string, treatment population to use as column headers}
 
 \item{heading}{string, title row to add to the returned table}
 
@@ -36,7 +36,7 @@ multi_event_true(
 list of data.table containing events
 }
 \description{
-multi_event_true
+calculate the event statistics for T/F columns
 }
 \examples{
 set.seed(99)
