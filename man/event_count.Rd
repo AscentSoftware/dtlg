@@ -4,7 +4,7 @@
 \alias{event_count}
 \title{event_count}
 \usage{
-event_count(dt, patient, treat, label, .filters = NULL)
+event_count(dt, patient, treat, label, .filters = NULL, .total_dt = NULL)
 }
 \arguments{
 \item{dt}{table to perform function on}
@@ -16,9 +16,11 @@ event_count(dt, patient, treat, label, .filters = NULL)
 \item{label}{row name to be displayed}
 
 \item{.filters}{filter variables for event written as single string e.g. "DTHFL == 'Y' & SEX == 'M'}
+
+\item{.total_dt}{optional table for total counts to be derived}
 }
 \value{
-data.table of event
+list containing data.table of event
 }
 \description{
 event_count

@@ -13,7 +13,8 @@ check_table <- function(x) {
 #'
 #' @export
 check_table.default <- function(x){
-  return(data.table::as.data.table(x))
+  data.table::setDT(x)
+  return(x)
 }
 
 #' @rdname check_table
