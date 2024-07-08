@@ -1,4 +1,5 @@
 #' summary_table
+#' wrapper function to create data.table on target variables using calc_stats
 #'
 #' @param dt table to perform function on
 #' @param target vector of column names desired to obtain information on
@@ -9,7 +10,9 @@
 #' @return a data.table containing summary information on target variables specified
 #' @export
 #'
-#' @examples x
+#' @examples adsl <- random.cdisc.data::cadsl
+#' vars<-c('AGE','RACE','SEX','COUNTRY')
+#' DMT01<-summary_table(adsl, target = vars, treat = 'ARM', indent = '  ')
 
 summary_table <- function(dt, target, treat, target_name = NULL,
                          indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {

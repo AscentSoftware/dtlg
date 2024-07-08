@@ -10,11 +10,54 @@ merge_table_lists(dt_l)
 \item{dt_l}{nested list of data.table outputs from created from other dtlg functions}
 }
 \value{
-data.table
+data.table containing all listed data.tables
 }
 \description{
 merge_table_lists
 }
 \examples{
-x
+set.seed(99)
+adae <- random.cdisc.data::cadae |> dplyr::mutate(
+AEDECOD = formatters::with_label(as.character(AEDECOD), "Dictionary-Derived Term"),
+AESDTH = formatters::with_label(
+  sample(c("N", "Y"), size = nrow(adae), replace = TRUE, prob = c(0.99, 0.01)),
+  "Results in Death"
+),
+AEACN = formatters::with_label(
+  sample(
+    c("DOSE NOT CHANGED", "DOSE INCREASED", "DRUG INTERRUPTED", "DRUG WITHDRAWN"),
+    size = nrow(adae),
+    replace = TRUE, prob = c(0.68, 0.02, 0.25, 0.05)
+  ),
+  "Action Taken with Study Treatment"
+),
+FATAL = formatters::with_label(AESDTH == "Y", "AE with fatal outcome"),
+SEV = formatters::with_label(AESEV == "SEVERE", "Severe AE (at greatest intensity)"),
+SER = formatters::with_label(AESER == "Y", "Serious AE"),
+SERWD = formatters::with_label(AESER == "Y" & AEACN == "DRUG WITHDRAWN", "Serious AE leading to withdrawal from treatment"),
+SERDSM = formatters::with_label(
+  AESER == "Y" & AEACN \%in\% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"),
+  "Serious AE leading to dose modification/interruption"
+),
+RELSER = formatters::with_label(AESER == "Y" & AEREL == "Y", "Related Serious AE"),
+WD = formatters::with_label(AEACN == "DRUG WITHDRAWN", "AE leading to withdrawal from treatment"),
+DSM = formatters::with_label(
+  AEACN \%in\% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"), "AE leading to dose modification/interruption"
+),
+REL = formatters::with_label(AEREL == "Y", "Related AE"),
+RELWD = formatters::with_label(AEREL == "Y" & AEACN == "DRUG WITHDRAWN", "Related AE leading to withdrawal from treatment"),
+RELDSM = formatters::with_label(
+ AEREL == "Y" & AEACN \%in\% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"),
+  "Related AE leading to dose modification/interruption"
+)) |> dplyr::filter(ANL01FL == "Y")
+adsl <- random.cdisc.data::cadsl
+a<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of deaths", .filters = "DTHFL == 'Y'", .total_dt = NULL)
+b<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of patients withdrawn from study due to an AE", .filters = "DCSREAS == 'ADVERSE EVENT'", .total_dt = NULL)
+d<-event_count(adae, patient = "USUBJID", treat = "ARM", label = "Total number of patients with at least one AE",.total_dt = adsl)
+
+e <- total_events(adae, 'ARM', 'Total number of AEs')
+aesi_vars <- c("FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
+f <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
+
+AET01 <- merge_table_list()
 }

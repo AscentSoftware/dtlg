@@ -30,6 +30,7 @@ a list containing a data.table
 Given a table, calculate descriptive statistics for a target column.
 }
 \examples{
-x
+adsl<- random.cdisc.data::cadsl
+age<-calc_desc(adsl,'AGE',treat='ARM')
 
 }

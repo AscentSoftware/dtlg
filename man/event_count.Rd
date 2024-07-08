@@ -2,7 +2,9 @@
 % Please edit documentation in R/withEvent.R
 \name{event_count}
 \alias{event_count}
-\title{event_count}
+\title{event_count
+Functionality to count the number of distinct occurrences of an 'event', defined using .filters,
+using patient as the identifier.}
 \usage{
 event_count(dt, patient, treat, label, .filters = NULL, .total_dt = NULL)
 }
@@ -24,7 +26,13 @@ list containing data.table of event
 }
 \description{
 event_count
+Functionality to count the number of distinct occurrences of an 'event', defined using .filters,
+using patient as the identifier.
 }
 \examples{
-x
+adsl <- random.cdisc.data::cadsl
+adae <- random.cdisc.data::cadae |> dplyr::filter(ANL01FL == "Y")
+a<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of deaths", .filters = "DTHFL == 'Y'", .total_dt = NULL)
+b<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of patients withdrawn from study due to an AE", .filters = "DCSREAS == 'ADVERSE EVENT'", .total_dt = NULL)
+d<-event_count(adae, patient = "USUBJID", treat = "ARM", label = "Total number of patients with at least one AE",.total_dt = adsl)
 }

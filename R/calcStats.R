@@ -13,7 +13,8 @@
 #'
 #' @import data.table
 #'
-#' @examples x
+#' @examples adsl<- random.cdisc.data::cadsl
+#' age<-calc_desc(adsl,'AGE',treat='ARM')
 #'
 
 calc_desc <- function(dt, target, target_name = NULL, treat,
@@ -46,7 +47,7 @@ calc_desc <- function(dt, target, target_name = NULL, treat,
 
 
 #' calc_counts
-#'
+#' generate counts of a column
 #' @param dt table input to use.
 #' @param target string, column name to calculate count statistics on
 #' @param target_name string, how to display column name when new table is create, if null then target column name is used
@@ -58,7 +59,8 @@ calc_desc <- function(dt, target, target_name = NULL, treat,
 #'
 #' @import data.table
 #'
-#' @examples x
+#' @examples adsl <- random.cdisc.data::cadsl
+#' RACE<-calc_counts(dt = adsl, 'RACE', target_name = 'RACE', treat = 'ARM', indent = '')
 
 calc_counts <- function(dt, target, target_name = NULL, treat,
                        indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
@@ -76,6 +78,7 @@ calc_counts <- function(dt, target, target_name = NULL, treat,
 
 
 #' calc_stats
+#' wrapper of calc_desc and calc_counts
 #'
 #' @param dt table input to use.
 #' @param target string, column name to calculate count statistics on
@@ -86,7 +89,8 @@ calc_counts <- function(dt, target, target_name = NULL, treat,
 #' @return a list containing a data.table
 #' @export
 #'
-#' @examples x
+#' @examples adsl <- random.cdisc.data::cadsl
+#' age<-calc_stats(adsl,'AGE',treat='ARM')
 
 calc_stats <- function(dt, target, target_name = NULL, treat,
                        indent = '&nbsp;&nbsp;&nbsp;&nbsp;'){

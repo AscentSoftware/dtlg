@@ -2,7 +2,8 @@
 % Please edit documentation in R/generateTables.R
 \name{summary_table}
 \alias{summary_table}
-\title{summary_table}
+\title{summary_table
+wrapper function to create data.table on target variables using calc_stats}
 \usage{
 summary_table(
   dt,
@@ -28,7 +29,10 @@ a data.table containing summary information on target variables specified
 }
 \description{
 summary_table
+wrapper function to create data.table on target variables using calc_stats
 }
 \examples{
-x
+adsl <- random.cdisc.data::cadsl
+vars<-c('AGE','RACE','SEX','COUNTRY')
+DMT01<-summary_table(adsl, target = vars, treat = 'ARM', indent = '  ')
 }

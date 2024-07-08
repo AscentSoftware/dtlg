@@ -2,7 +2,8 @@
 % Please edit documentation in R/calcStats.R
 \name{calc_counts}
 \alias{calc_counts}
-\title{calc_counts}
+\title{calc_counts
+generate counts of a column}
 \usage{
 calc_counts(
   dt,
@@ -28,7 +29,9 @@ a list containing a data.table
 }
 \description{
 calc_counts
+generate counts of a column
 }
 \examples{
-x
+adsl <- random.cdisc.data::cadsl
+RACE<-calc_counts(dt = adsl, 'RACE', target_name = 'RACE', treat = 'ARM', indent = '')
 }

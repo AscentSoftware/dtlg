@@ -6,7 +6,8 @@
 \alias{calc_stats.character}
 \alias{calc_stats.factor}
 \alias{calc_stats.logical}
-\title{calc_stats}
+\title{calc_stats
+wrapper of calc_desc and calc_counts}
 \usage{
 calc_stats(
   dt,
@@ -64,7 +65,9 @@ a list containing a data.table
 }
 \description{
 calc_stats
+wrapper of calc_desc and calc_counts
 }
 \examples{
-x
+adsl <- random.cdisc.data::cadsl
+age<-calc_stats(adsl,'AGE',treat='ARM')
 }

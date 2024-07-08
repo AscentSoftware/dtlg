@@ -2,7 +2,8 @@
 % Please edit documentation in R/withEvent.R
 \name{total_events}
 \alias{total_events}
-\title{total_events}
+\title{total_events
+Identify the total count of treatment groups}
 \usage{
 total_events(dt, treat, label)
 }
@@ -18,7 +19,9 @@ list containing data.table of event
 }
 \description{
 total_events
+Identify the total count of treatment groups
 }
 \examples{
-x
+adae <- random.cdisc.data::cadae |> dplyr::filter(ANL01FL == "Y")
+e <- total_events(adae, 'ARM', 'Total number of AEs')
 }
