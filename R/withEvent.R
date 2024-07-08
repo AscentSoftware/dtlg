@@ -60,6 +60,7 @@ total_events <- function(dt, treat, label){
 #' @param event_vars events to perform counts on
 #' @param patient string, column for unique patient identifier
 #' @param treat string, treatment population to use as row headers
+#' @param heading string, title row to add to the returned table
 #' @param label row name to be displayed, if NULL then column name or label is used
 #' @param .total_dt optional table for total counts to be derived
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
@@ -68,8 +69,8 @@ total_events <- function(dt, treat, label){
 #' @export
 #'
 #' @examples x
-multi_event_true <- function(dt, event_vars, patient, treat, label = NULL, .total_dt = NULL,
-                        indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
+multi_event_true <- function(dt, event_vars, patient, treat, heading, label = NULL,
+                             .total_dt = NULL, indent = '&nbsp;&nbsp;&nbsp;&nbsp;') {
 
   dt <- check_table(dt)
   event_filters <- paste0(event_vars, ' == T')
@@ -82,6 +83,9 @@ multi_event_true <- function(dt, event_vars, patient, treat, label = NULL, .tota
                   MoreArgs = list(dt = dt, patient = patient, treat = treat,
                                   .total_dt = .total_dt))
   event <- data.table::rbindlist(event, use.names = T, fill = 0)
+  target_rows <- event[,events]
+  event <- rbind(rep(list(''),times=ncol(event)),event)
+  event[, events := c(heading, paste0(indent, target_rows))]
   return(list(event))
 }
 

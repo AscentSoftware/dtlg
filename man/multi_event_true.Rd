@@ -9,6 +9,7 @@ multi_event_true(
   event_vars,
   patient,
   treat,
+  heading,
   label = NULL,
   .total_dt = NULL,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -22,6 +23,8 @@ multi_event_true(
 \item{patient}{string, column for unique patient identifier}
 
 \item{treat}{string, treatment population to use as row headers}
+
+\item{heading}{string, title row to add to the returned table}
 
 \item{label}{row name to be displayed, if NULL then column name or label is used}
 
