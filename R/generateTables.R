@@ -67,6 +67,8 @@ summary_table_by <- function(dt, target, treat, rows_by,
   }
   summary_split <- mapply(calc_stats, dt = dt, target = target, target_name = label,
                           treat = treat, indent = indent)
+  #For rows_by of > 2, this method does not work as it lists like follows a:a, b:a, a:b, b:b
+  # and not a:a, a:b, b:a, b:b
   x <- 0
   y <- length(summary_split)/length(heading)
   for (i in 1:length(heading)) {
