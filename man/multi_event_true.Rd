@@ -40,13 +40,14 @@ calculate the event statistics for T/F columns
 }
 \examples{
 set.seed(99)
-adae <- random.cdisc.data::cadae |> dplyr::mutate(
-AEDECOD = with_label(as.character(AEDECOD), "Dictionary-Derived Term"),
-AESDTH = with_label(
+adae <- random.cdisc.data::cadae
+adae <- adae |> dplyr::mutate(
+AEDECOD = formatters::with_label(as.character(AEDECOD), "Dictionary-Derived Term"),
+AESDTH = formatters::with_label(
   sample(c("N", "Y"), size = nrow(adae), replace = TRUE, prob = c(0.99, 0.01)),
   "Results in Death"
 ),
-AEACN = with_label(
+AEACN = formatters::with_label(
   sample(
     c("DOSE NOT CHANGED", "DOSE INCREASED", "DRUG INTERRUPTED", "DRUG WITHDRAWN"),
     size = nrow(adae),
@@ -73,7 +74,7 @@ RELDSM = formatters::with_label(
  AEREL == "Y" & AEACN \%in\% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"),
   "Related AE leading to dose modification/interruption"
 )) |> dplyr::filter(ANL01FL == "Y")
-
+adsl <- random.cdisc.data::cadsl
 aesi_vars <- c("FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
 f <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
 }

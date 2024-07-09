@@ -37,7 +37,7 @@ wrapper function to create data.table on target variables using calc_stats
 \examples{
 adsl <- random.cdisc.data::cadsl
 vars<-c('AGE','RACE','ETHNIC','BMRKR1')
-var_labels <- c("Age (yr)","Sex", "Ethnicity", "Race", "Continous Level Biomarker 1")
-DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_lables, indent = '  ')
+var_labels <- c("Age (yr)", "Ethnicity", "Race", "Continous Level Biomarker 1")
+DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels, indent = '  ')
 DMT01_pct<-summary_table(adsl, target = vars, treat = 'ARM', indent = '  ', .total_dt = adsl)
 }

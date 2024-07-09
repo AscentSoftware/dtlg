@@ -15,8 +15,8 @@
 #'
 #' @examples adsl <- random.cdisc.data::cadsl
 #' vars<-c('AGE','RACE','ETHNIC','BMRKR1')
-#' var_labels <- c("Age (yr)","Sex", "Ethnicity", "Race", "Continous Level Biomarker 1")
-#' DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_lables, indent = '  ')
+#' var_labels <- c("Age (yr)", "Ethnicity", "Race", "Continous Level Biomarker 1")
+#' DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels, indent = '  ')
 #' DMT01_pct<-summary_table(adsl, target = vars, treat = 'ARM', indent = '  ', .total_dt = adsl)
 
 summary_table <- function(dt, target, treat, target_name = NULL,
@@ -54,10 +54,14 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 
 summary_table_by <- function(dt, target, treat, rows_by,
                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL){
+  if (length(rows_by)>2){
+    print('rows_by can be no longer than 2 variables currently')
+    return()
+  }
   dt <- check_table(dt)
   dt <- split(droplevels(dt), by = rows_by)
   label <- names(dt)
-  if(length(rows_by>1)){
+  if(length(rows_by)>1){
     label <- strsplit(label, '\\.')
     heading <- lapply(X=label, function(x){x[1]})
     heading <- unique(heading)
@@ -69,11 +73,13 @@ summary_table_by <- function(dt, target, treat, rows_by,
                           treat = treat, indent = indent)
   #For rows_by of > 2, this method does not work as it lists like follows a:a, b:a, a:b, b:b
   # and not a:a, a:b, b:a, b:b
-  x <- 0
-  y <- length(summary_split)/length(heading)
-  for (i in 1:length(heading)) {
-    summary_split<-append(summary_split,list(data.table(stats=heading[[i]])),after = x)
-    x <- x+y+1
+  if(length(rows_by)>1){
+    x <- 0
+    y <- length(summary_split)/length(heading)
+    for (i in 1:length(heading)) {
+      summary_split<-append(summary_split,list(data.table(stats=heading[[i]])),after = x)
+      x <- x+y+1
+    }
   }
   summary_split <- rbindlist(summary_split, use.names = T, fill = T)
   return(summary_split)

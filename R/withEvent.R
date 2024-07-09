@@ -78,13 +78,14 @@ total_events <- function(dt, treat, label){
 #' @export
 #'
 #' @examples set.seed(99)
-#' adae <- random.cdisc.data::cadae |> dplyr::mutate(
-#' AEDECOD = with_label(as.character(AEDECOD), "Dictionary-Derived Term"),
-#' AESDTH = with_label(
+#' adae <- random.cdisc.data::cadae
+#' adae <- adae |> dplyr::mutate(
+#' AEDECOD = formatters::with_label(as.character(AEDECOD), "Dictionary-Derived Term"),
+#' AESDTH = formatters::with_label(
 #'   sample(c("N", "Y"), size = nrow(adae), replace = TRUE, prob = c(0.99, 0.01)),
 #'   "Results in Death"
 #' ),
-#' AEACN = with_label(
+#' AEACN = formatters::with_label(
 #'   sample(
 #'     c("DOSE NOT CHANGED", "DOSE INCREASED", "DRUG INTERRUPTED", "DRUG WITHDRAWN"),
 #'     size = nrow(adae),
@@ -111,7 +112,7 @@ total_events <- function(dt, treat, label){
 #'  AEREL == "Y" & AEACN %in% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"),
 #'   "Related AE leading to dose modification/interruption"
 #' )) |> dplyr::filter(ANL01FL == "Y")
-#'
+#' adsl <- random.cdisc.data::cadsl
 #' aesi_vars <- c("FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
 #' f <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
 multi_event_true <- function(dt, event_vars, patient, treat, heading, label = NULL,
@@ -144,7 +145,8 @@ multi_event_true <- function(dt, event_vars, patient, treat, heading, label = NU
 #' @export
 #'
 #' @examples set.seed(99)
-#' adae <- random.cdisc.data::cadae |> dplyr::mutate(
+#' adae <- random.cdisc.data::cadae
+#' adae <- adae |> dplyr::mutate(
 #' AEDECOD = formatters::with_label(as.character(AEDECOD), "Dictionary-Derived Term"),
 #' AESDTH = formatters::with_label(
 #'   sample(c("N", "Y"), size = nrow(adae), replace = TRUE, prob = c(0.99, 0.01)),
@@ -186,7 +188,7 @@ multi_event_true <- function(dt, event_vars, patient, treat, heading, label = NU
 #' aesi_vars <- c("FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
 #' f <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
 #'
-#' AET01 <- merge_table_list()
+#' AET01 <- merge_table_lists(list(d,e,a,b,f))
 merge_table_lists <- function(dt_l){
   dt_l <- lapply(1:length(dt_l), function(x) dt_l[[x]][[1]])
   dt_l <- data.table::rbindlist(dt_l, use.names = T)
@@ -206,8 +208,8 @@ merge_table_lists <- function(dt_l){
 #' @export
 #'
 #' @examples adae <- random.cdisc.data::cadae |> dplyr::filter(ANL01FL == "Y")
-#' adsl <- random.cdisc.data::adsl
-#' event_count_by(dt=adae, patient='USUBJID', treat='ARM', target='AEDECOD',rows_by = 'AEBODSYS',.total_dt = adsl, indent = ' ')
+#' adsl <- random.cdisc.data::cadsl
+#' a <-event_count_by(dt=adae, patient='USUBJID', treat='ARM', target='AEDECOD',rows_by = 'AEBODSYS',.total_dt = adsl, indent = ' ')
 #'
 
 event_count_by <- function(dt, patient, treat, rows_by, target, .total_dt = NULL,

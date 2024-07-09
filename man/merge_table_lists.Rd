@@ -17,7 +17,8 @@ merge a list of tables stored in lists
 }
 \examples{
 set.seed(99)
-adae <- random.cdisc.data::cadae |> dplyr::mutate(
+adae <- random.cdisc.data::cadae
+adae <- adae |> dplyr::mutate(
 AEDECOD = formatters::with_label(as.character(AEDECOD), "Dictionary-Derived Term"),
 AESDTH = formatters::with_label(
   sample(c("N", "Y"), size = nrow(adae), replace = TRUE, prob = c(0.99, 0.01)),
@@ -59,5 +60,5 @@ e <- total_events(adae, 'ARM', 'Total number of AEs')
 aesi_vars <- c("FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
 f <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
 
-AET01 <- merge_table_list()
+AET01 <- merge_table_lists(list(d,e,a,b,f))
 }
