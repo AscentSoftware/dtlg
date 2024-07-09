@@ -48,7 +48,7 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 #'
 #' @import data.table
 #'
-#' @examples adlb <- random.cdisc.data::cadlb
+#' @examples adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
 #' labs <- summary_table_by(adlb, 'AVAL', 'ARM', c('PARAM','AVISIT'), '  ', NULL)
 #'
 

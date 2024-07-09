@@ -33,7 +33,7 @@ a data.table containing summary information on target variables specified
 Create a summary table using multiple rows for grouping, only works for 2 row groups currently.
 }
 \examples{
-adlb <- random.cdisc.data::cadlb
+adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
 labs <- summary_table_by(adlb, 'AVAL', 'ARM', c('PARAM','AVISIT'), '  ', NULL)
 
 }
