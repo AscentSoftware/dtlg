@@ -206,6 +206,7 @@ merge_table_lists <- function(dt_l){
 #' @export
 #'
 #' @examples adae <- random.cdisc.data::cadae |> dplyr::filter(ANL01FL == "Y")
+#' adsl <- random.cdisc.data::adsl
 #' event_count_by(dt=adae, patient='USUBJID', treat='ARM', target='AEDECOD',rows_by = 'AEBODSYS',.total_dt = adsl, indent = ' ')
 #'
 
@@ -218,7 +219,7 @@ event_count_by <- function(dt, patient, treat, rows_by, target, .total_dt = NULL
   } else {
     .total_dt <- dt
   }
-  event_split <- split(event, by = rows_by)
+  event_split <- split(droplevels(event), by = rows_by)
   event_patient <- mapply(event_count, dt = event_split, treat = treat,
                           label = 'Total number of patients with at least one event',
                          MoreArgs = list(.total_dt=.total_dt,

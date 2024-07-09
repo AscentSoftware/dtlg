@@ -37,6 +37,7 @@ count total, at least one and splits on the treatment, grouping and target varia
 }
 \examples{
 adae <- random.cdisc.data::cadae |> dplyr::filter(ANL01FL == "Y")
+adsl <- random.cdisc.data::adsl
 event_count_by(dt=adae, patient='USUBJID', treat='ARM', target='AEDECOD',rows_by = 'AEBODSYS',.total_dt = adsl, indent = ' ')
 
 }

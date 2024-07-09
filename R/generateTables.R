@@ -33,3 +33,46 @@ summary_table <- function(dt, target, treat, target_name = NULL,
   table_summary <- data.table::rbindlist(summary_list,use.names = T)
   return(table_summary)
 }
+
+#' Create a summary table using multiple rows for grouping, only works for 2 row groups currently.
+#'
+#' @param dt table to perform function on
+#' @param target vector of column names desired to obtain information on
+#' @param treat string of treatment variable used for splitting / grouping data
+#' @param rows_by string, grouping variable to split events by.
+#' @param indent indent to be used for display and formatting purposes
+#' @param .total_dt optional table for total counts to be derived
+#'
+#' @return a data.table containing summary information on target variables specified
+#' @export
+#'
+#' @import data.table
+#'
+#' @examples adlb <- random.cdisc.data::cadlb
+#' labs <- summary_table_by(adlb, 'AVAL', 'ARM', c('PARAM','AVISIT'), '  ', NULL)
+#'
+
+summary_table_by <- function(dt, target, treat, rows_by,
+                             indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL){
+  dt <- check_table(dt)
+  dt <- split(droplevels(dt), by = rows_by)
+  label <- names(dt)
+  if(length(rows_by>1)){
+    label <- strsplit(label, '\\.')
+    heading <- lapply(X=label, function(x){x[1]})
+    heading <- unique(heading)
+    label <- lapply(label,function(x){paste(x[2:length(x)],collapse='.')})
+    label <- paste0(indent, label)
+    indent <- paste0(indent,indent)
+  }
+  summary_split <- mapply(calc_stats, dt = dt, target = target, target_name = label,
+                          treat = treat, indent = indent)
+  x <- 0
+  y <- length(summary_split)/length(heading)
+  for (i in 1:length(heading)) {
+    summary_split<-append(summary_split,list(data.table(stats=heading[[i]])),after = x)
+    x <- x+y+1
+  }
+  summary_split <- rbindlist(summary_split, use.names = T, fill = T)
+  return(summary_split)
+}
