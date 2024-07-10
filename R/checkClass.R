@@ -5,7 +5,7 @@
 #' @return table converted to data.table
 #'
 #' @examples a <- data.frame(a=1,b=2)
-#' a <- check_table(a)
+#' #a <- check_table(a)
 check_table <- function(x) {
   UseMethod('check_table')
 }
