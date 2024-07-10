@@ -23,4 +23,4 @@ check_table.default <- function(x){
 check_table.data.table <- function(x) {
   return(x)
 }
-#a
+
