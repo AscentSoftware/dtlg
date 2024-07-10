@@ -22,5 +22,6 @@ table converted to data.table
 check_table
 }
 \examples{
-check_table(x)
+a <- data.frame(a=1,b=2)
+a <- check_table(a)
 }

@@ -4,7 +4,8 @@
 #'
 #' @return table converted to data.table
 #'
-#' @examples check_table(x)
+#' @examples a <- data.frame(a=1,b=2)
+#' a <- check_table(a)
 check_table <- function(x) {
   UseMethod('check_table')
 }
