@@ -1,30 +1,37 @@
 ---
 title: "benchmarks"
-output: rmarkdown::html_vignette
+output: rmarkdown:::html_vignette
 vignette: >
   %\VignetteIndexEntry{benchmarks}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr:::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
+knitr:::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
 ```{r setup}
-library(dtlg)
+#library(dtlg)
+```
+
+## All data is generated using file in data_raw and stored internally for use within vignettes.
+
+Following tables are created
+
+```{r echo=TRUE}
+load(url('https://raw.github.com/Max-Ebenezer-Brown/dtlg_data/main/adsl_large.rda'))
+load(url('https://raw.github.com/Max-Ebenezer-Brown/dtlg_data/main/adsl_small.rda'))
+load(url('https://raw.github.com/Max-Ebenezer-Brown/dtlg_data/main/adae.rda'))
+print('adsl for demog',c(nrow(adsl_large), ncol(adsl_large)))
+print('adsl for adae',c(nrow(adsl_small), ncol(adsl_small)))
+print('adae', c(nrow(adae), ncol(adae)))
 ```
 
 # Benchmarking Demography table
-
-### Generating ADSL data
-
-```{r, echo=TRUE}
-adsl <- random.cdisc.data::radsl(N=1000000)
-```
 
 ### Benchmarking Tern package
 
@@ -38,7 +45,7 @@ result <- basic_table(show_colcounts = TRUE) |>
     vars = c('AGE','SEX','RACE','ETHNIC','COUNTRY','DTHFL','BMRKR1','REGION1','BMRKR2'),
     var_labels = c('AGE','SEX','RACE','ETHNIC','COUNTRY','DTHFL','BMRKR1','REGION1','BMRKR2')
   ) |>
-  build_table(adsl)
+  build_table(adsl_large)
 tern_b <- Sys.time()
 rm(result)
 difftime(tern_b,tern_a,units = 'secs')
@@ -48,7 +55,7 @@ difftime(tern_b,tern_a,units = 'secs')
 
 ```{r echo=TRUE}
 dtlg_a <- Sys.time()
-DMT01_pct<-summary_table(adsl, target = c('AGE','SEX','RACE','ETHNIC','COUNTRY','DTHFL','BMRKR1','REGION1','BMRKR2'), treat = 'ARM', indent = '  ', .total_dt = adsl)
+DMT01_pct<-summary_table(adsl_large, target = c('AGE','SEX','RACE','ETHNIC','COUNTRY','DTHFL','BMRKR1','REGION1','BMRKR2'), treat = 'ARM', indent = '  ', .total_dt = adsl_large)
 dtlg_b <- Sys.time()
 rm(DMT01_pct)
 difftime(dtlg_b, dtlg_a)
@@ -56,65 +63,6 @@ difftime(dtlg_b, dtlg_a)
 ```
 
 # Benchmarking Adverse events, AET01
-
-### Generating ADSL and ADAE
-
-```{r echo=TRUE}
-library(dplyr)
-library(formatters)
-adsl <- random.cdisc.data::radsl(N=20000)
-adae<-random.cdisc.data::radae(adsl, 10L)
-adsl <- df_explicit_na(adsl)
-adae <- df_explicit_na(
-  adae,
-  omit_columns = c("SMQ01NAM", "SMQ01SC", "SMQ02NAM", "SMQ02SC", "CQ01NAM", "STUDYID", "USUBJID")
-)
-
-set.seed(99)
-
-adae <- adae %>%
-  mutate(
-    AEDECOD = with_label(as.character(AEDECOD), "Dictionary-Derived Term"),
-    AESDTH = with_label(
-      sample(c("N", "Y"), size = nrow(adae), replace = TRUE, prob = c(0.99, 0.01)),
-      "Results in Death"
-    ),
-    AEACN = with_label(
-      sample(
-        c("DOSE NOT CHANGED", "DOSE INCREASED", "DRUG INTERRUPTED", "DRUG WITHDRAWN"),
-        size = nrow(adae),
-        replace = TRUE, prob = c(0.68, 0.02, 0.25, 0.05)
-      ),
-      "Action Taken with Study Treatment"
-    ),
-    FATAL = with_label(AESDTH == "Y", "AE with fatal outcome"),
-    SEV = with_label(AESEV == "SEVERE", "Severe AE (at greatest intensity)"),
-    SER = with_label(AESER == "Y", "Serious AE"),
-    SERWD = with_label(AESER == "Y" & AEACN == "DRUG WITHDRAWN", "Serious AE leading to withdrawal from treatment"),
-    SERDSM = with_label(
-      AESER == "Y" & AEACN %in% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"),
-      "Serious AE leading to dose modification/interruption"
-    ),
-    RELSER = with_label(AESER == "Y" & AEREL == "Y", "Related Serious AE"),
-    WD = with_label(AEACN == "DRUG WITHDRAWN", "AE leading to withdrawal from treatment"),
-    DSM = with_label(
-      AEACN %in% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"), "AE leading to dose modification/interruption"
-    ),
-    REL = with_label(AEREL == "Y", "Related AE"),
-    RELWD = with_label(AEREL == "Y" & AEACN == "DRUG WITHDRAWN", "Related AE leading to withdrawal from treatment"),
-    RELDSM = with_label(
-      AEREL == "Y" & AEACN %in% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"),
-      "Related AE leading to dose modification/interruption"
-    ),
-    CTC35 = with_label(AETOXGR %in% c("3", "4", "5"), "Grade 3-5 AE"),
-    CTC45 = with_label(AETOXGR %in% c("4", "5"), "Grade 4/5 AE"),
-    SMQ01 = with_label(SMQ01NAM != "", aesi_label(adae$SMQ01NAM, adae$SMQ01SC)),
-    SMQ02 = with_label(SMQ02NAM != "", aesi_label(adae$SMQ02NAM, adae$SMQ02SC)),
-    CQ01 = with_label(CQ01NAM != "", aesi_label(adae$CQ01NAM)),
-    USUBJID_AESEQ = paste(USUBJID, AESEQ, sep = "@@") # Create unique ID per AE in dataset.
-  ) %>%
-  filter(ANL01FL == "Y")
-```
 
 ### Benchmarking tern
 
@@ -139,7 +87,7 @@ lyt_adsl <- basic_table(show_colcounts = TRUE) %>%
     table_names = "tot_wd"
   )
 
-result_adsl <- build_table(lyt_adsl, df = adsl, alt_counts_df = adsl)
+result_adsl <- build_table(lyt_adsl, df = adsl_small, alt_counts_df = adsl_small)
 
 # Layout for variables from adae dataset.
 lyt_adae <- basic_table(show_colcounts = TRUE) %>%
@@ -162,7 +110,7 @@ lyt_adae <- basic_table(show_colcounts = TRUE) %>%
     show_labels = "visible"
   )
 
-result_adae <- build_table(lyt_adae, df = adae, alt_counts_df = adsl)
+result_adae <- build_table(lyt_adae, df = adae, alt_counts_df = adsl_small)
 
 # Combine tables.
 col_info(result_adsl) <- col_info(result_adae)
@@ -183,16 +131,82 @@ difftime(tern_d,tern_c,units='secs')
 
 ```{r echo=TRUE}
 dtlg_c <- Sys.time()
-ev1<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of deaths", .filters = "DTHFL == 'Y'", .total_dt = NULL)
-ev2<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of patients withdrawn from study due to an AE", .filters = "DCSREAS == 'ADVERSE EVENT'", .total_dt = NULL)
-ev3<-event_count(adae, patient = "USUBJID", treat = "ARM", label = "Total number of patients with at least one AE",.total_dt = adsl)
+ev1<-event_count(adsl_small,patient = "USUBJID",treat = "ARM", label = "Total number of deaths", .filters = "DTHFL == 'Y'", .total_dt = NULL)
+ev2<-event_count(adsl_small,patient = "USUBJID",treat = "ARM", label = "Total number of patients withdrawn from study due to an AE", .filters = "DCSREAS == 'ADVERSE EVENT'", .total_dt = NULL)
+ev3<-event_count(adae, patient = "USUBJID", treat = "ARM", label = "Total number of patients with at least one AE",.total_dt = adsl_small)
 
 ev4 <- total_events(adae, 'ARM', 'Total number of AEs')
 aesi_vars <- c("FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
-ev5 <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
+ev5 <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl_small, indent = "  ")
 
 AET01 <- merge_table_lists(list(ev3,ev4,ev1,ev2,ev5))
 dtlg_d<-Sys.time()
 rm(ev1,ev2,ev3,ev4,ev5,AET01)
 difftime(dtlg_d,dtlg_c,units = 'secs')
+```
+
+# Benchmarking AET02
+
+### Benchmarking tern
+
+```{r}
+split_fun <- drop_split_levels
+adae <- df_explicit_na(adae) |>
+  var_relabel(
+    AEBODSYS = "MedDRA System Organ Class",
+    AEDECOD = "MedDRA Preferred Term"
+  )
+tern_e <- Sys.time()
+lyt <- basic_table(show_colcounts = TRUE) %>%
+  split_cols_by(var = "ACTARM") %>%
+  add_overall_col(label = "All Patients") %>%
+  analyze_num_patients(
+    vars = "USUBJID",
+    .stats = c("unique", "nonunique"),
+    .labels = c(
+      unique = "Total number of patients with at least one adverse event",
+      nonunique = "Overall total number of events"
+    )
+  ) %>%
+  split_rows_by(
+    "AEBODSYS",
+    child_labels = "visible",
+    nested = FALSE,
+    split_fun = split_fun,
+    label_pos = "topleft",
+    split_label = obj_label(adae$AEBODSYS)
+  ) %>%
+  summarize_num_patients(
+    var = "USUBJID",
+    .stats = c("unique", "nonunique"),
+    .labels = c(
+      unique = "Total number of patients with at least one adverse event",
+      nonunique = "Total number of events"
+    )
+  ) %>%
+  count_occurrences(
+    vars = "AEDECOD",
+    .indent_mods = -1L
+  ) %>%
+  append_varlabels(adae, "AEDECOD", indent = 1L)
+
+result <- build_table(lyt, df = adae, alt_counts_df = adsl_small)
+tern_f <- Sys.time()
+rm(result)
+difftime(tern_f, tern_e)
+```
+
+### Benchmarking dtplyr
+
+```{r}
+dtlg_e <-Sys.time()
+ev1<-event_count(adae, patient = "USUBJID", treat = "ARM", label = "Total number of patients with at least one AE",.total_dt = adsl_small)
+
+ev2 <- total_events(adae, 'ARM', 'Total number of AEs')
+ev3 <-list(event_count_by(dt=adae, patient='USUBJID', treat='ARM', target='AEDECOD',rows_by = 'AEBODSYS',.total_dt = adsl_small, indent = ' '))
+
+result <- merge_table_lists(list(ev1,ev2,ev3))
+dtlg_f <- Sys.time()
+rm(ev1,ev2,ev3,result)
+difftime(dtlg_f,dtlg_e)
 ```
