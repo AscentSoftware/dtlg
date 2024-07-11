@@ -34,7 +34,7 @@ summary_table <- function(dt, target, treat, target_name = NULL,
   return(table_summary)
 }
 
-#' Create a summary table using multiple rows for grouping, only works for 2 row groups currently.
+#' Create a summary table using multiple rows for grouping on one target column
 #'
 #' @param dt table to perform function on
 #' @param target vector of column names desired to obtain information on
@@ -54,29 +54,25 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 
 summary_table_by <- function(dt, target, treat, rows_by,
                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL){
-  if (length(rows_by)>2){
-    print('rows_by can be no longer than 2 variables currently')
-    return()
-  }
+
   dt <- check_table(dt)
-  dt <- split(droplevels(dt), by = rows_by)
+  dt <- split(droplevels(dt), by = rows_by, drop = T,sorted=T)
   label <- names(dt)
   if(length(rows_by)>1){
     label <- strsplit(label, '\\.')
-    heading <- lapply(X=label, function(x){x[1]})
-    heading <- unique(heading)
+    heading_full <- lapply(X=label, function(x){x[1]})
+    heading <- unique(heading_full)
     label <- lapply(label,function(x){paste(x[2:length(x)],collapse='.')})
     label <- paste0(indent, label)
     indent <- paste0(indent,indent)
   }
   summary_split <- mapply(calc_stats, dt = dt, target = target, target_name = label,
                           treat = treat, indent = indent)
-  #For rows_by of > 2, this method does not work as it lists like follows a:a, b:a, a:b, b:b
-  # and not a:a, a:b, b:a, b:b
+
   if(length(rows_by)>1){
     x <- 0
-    y <- length(summary_split)/length(heading)
     for (i in 1:length(heading)) {
+      y = sum(heading_full%in%heading[i])
       summary_split<-append(summary_split,list(data.table(stats=heading[[i]])),after = x)
       x <- x+y+1
     }

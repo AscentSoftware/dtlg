@@ -2,7 +2,7 @@
 % Please edit documentation in R/generateTables.R
 \name{summary_table_by}
 \alias{summary_table_by}
-\title{Create a summary table using multiple rows for grouping, only works for 2 row groups currently.}
+\title{Create a summary table using multiple rows for grouping on one target column}
 \usage{
 summary_table_by(
   dt,
@@ -30,7 +30,7 @@ summary_table_by(
 a data.table containing summary information on target variables specified
 }
 \description{
-Create a summary table using multiple rows for grouping, only works for 2 row groups currently.
+Create a summary table using multiple rows for grouping on one target column
 }
 \examples{
 adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
