@@ -15,7 +15,7 @@ knitr:::opts_chunk$set(
 ```
 
 ```{r setup}
-#library(dtlg)
+library(dtlg)
 ```
 
 ## All data is generated using file in data_raw and stored internally for use within vignettes.
@@ -26,9 +26,9 @@ Following tables are created
 load(url('https://raw.github.com/Max-Ebenezer-Brown/dtlg_data/main/adsl_large.rda'))
 load(url('https://raw.github.com/Max-Ebenezer-Brown/dtlg_data/main/adsl_small.rda'))
 load(url('https://raw.github.com/Max-Ebenezer-Brown/dtlg_data/main/adae.rda'))
-print('adsl for demog',c(nrow(adsl_large), ncol(adsl_large)))
-print('adsl for adae',c(nrow(adsl_small), ncol(adsl_small)))
-print('adae', c(nrow(adae), ncol(adae)))
+print(c('adsl for demog',nrow(adsl_large), ncol(adsl_large)))
+print(c('adsl for adae',nrow(adsl_small), ncol(adsl_small)))
+print(c('adae', nrow(adae), ncol(adae)))
 ```
 
 # Benchmarking Demography table
