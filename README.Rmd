@@ -1,0 +1,74 @@
+---
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# dtlg
+
+The goal of dtlg is to create pharmaceutical tables, listings and graphs for use at scale by utilising data.table as a back-end for processing. Currently only tables can be created but the functions should encompass a large number of possibilities for pharma tables.
+
+The package was created using TLGcatalog to create examples.
+
+Advance formatting options to follow in future.
+
+## Installation
+
+You can install the development version of dtlg from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("AscentSoftware/dtlg")
+```
+
+## Example
+
+#### This is a basic example which shows you how to create the demography table:
+
+Carrying out data prep from TLG catalog DMT01
+
+```{r example, echo=TRUE}
+library(dtlg)
+#Recreating data prep from TLG Catalog DMT01
+adsl <- random.cdisc.data::cadsl
+adsl <- adsl|>
+  dplyr::mutate(adsl,
+    SEX = factor(dplyr::case_when(
+      SEX == "M" ~ "Male",
+      SEX == "F" ~ "Female",
+      SEX == "U" ~ "Unknown",
+      SEX == "UNDIFFERENTIATED" ~ "Undifferentiated"
+    )),
+    AGEGR1 = factor(
+      dplyr::case_when(
+        dplyr::between(AGE, 18, 40) ~ "18-40",
+        dplyr::between(AGE, 41, 64) ~ "41-64",
+        AGE > 64 ~ ">=65"
+      ),
+      levels = c("18-40", "41-64", ">=65")
+    ))
+
+```
+
+#### Creating DMT01 table
+
+```{r}
+vars <- c("AGE", "AGEGR1", "SEX", "ETHNIC", "RACE", "BMRKR1")
+var_labels <- c(
+  "Age (yr)",
+  "Age Group",
+  "Sex",
+  "Ethnicity",
+  "Race",
+  "Continous Level Biomarker 1"
+)
+DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels)
+knitr::kable(DMT01)
+```
