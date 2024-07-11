@@ -43,7 +43,7 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 #' @param indent indent to be used for display and formatting purposes
 #' @param .total_dt optional table for total counts to be derived
 #'
-#' @return a data.table containing summary information on target variables specified
+#' @return list containing a data.table containing summary information on target variables specified
 #' @export
 #'
 #' @import data.table
@@ -78,5 +78,41 @@ summary_table_by <- function(dt, target, treat, rows_by,
     }
   }
   summary_split <- rbindlist(summary_split, use.names = T, fill = T)
-  return(summary_split)
+    return(list(summary_split))
 }
+
+#' Create a summary table using multiple rows for grouping on two target column
+#' ideal for creating change from baseline tables
+#'
+#' @param dt table to perform function on
+#' @param target vector of column names desired to obtain information on
+#' @param treat string of treatment variable used for splitting / grouping data
+#' @param rows_by string, grouping variable to split events by.
+#' @param indent indent to be used for display and formatting purposes
+#' @param .total_dt optional table for total counts to be derived
+#'
+#' @return data.table
+#' @export
+#'
+#' @examples adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
+#' labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'), '  ', NULL)
+summary_table_by_targets <- function(dt, target, treat, rows_by,
+                                     indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL){
+  if(length(target)!=2){
+    print('target needs to be length 2')
+  }
+  dt <- check_table(dt)
+  summary_tables <- mapply(summary_table_by, target = target,
+                           MoreArgs = list(dt = dt, treat = treat, rows_by = rows_by,
+                                           indent = indent, .total_dt = .total_dt))
+  x <- summary_tables[[1]]
+  y <- summary_tables[[2]]
+  full <- x[,1]
+  names(x) <- paste(names(x),target[1],sep = '.')
+  names(y) <- paste(names(y),target[2],sep = '.')
+   for (i in 2:ncol(x)){
+     full<- data.table(full,x[,..i],y[,..i])
+   }
+  return(full)
+}
+
