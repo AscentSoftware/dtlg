@@ -30,7 +30,7 @@ devtools::install_github("AscentSoftware/dtlg")
 
 ## Example
 
-#### This is a basic example which shows you how to create the demography table:
+#### This example shows you how to create a demography table:
 
 Carrying out data prep from TLG catalog DMT01
 
@@ -57,7 +57,7 @@ adsl <- adsl|>
 
 ```
 
-#### Creating DMT01 table
+Creating DMT01
 
 ```{r}
 vars <- c("AGE", "AGEGR1", "SEX", "ETHNIC", "RACE", "BMRKR1")
@@ -72,3 +72,12 @@ var_labels <- c(
 DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels)
 knitr::kable(DMT01)
 ```
+
+#### This example shows how to create a labs table like LBT01
+
+```{r echo=TRUE}
+adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
+labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'))
+knitr::kable(labs)
+```
+
