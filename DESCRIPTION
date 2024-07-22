@@ -7,8 +7,7 @@ Authors@R:
 Description: This package main function is to create pharmacutical tables,
     listing and graphs at high performance by using data.table as a
     backend.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: use_mit_license()
 Imports: 
     data.table,
     rlang
