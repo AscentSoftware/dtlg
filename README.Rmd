@@ -88,7 +88,7 @@ knitr::kable(labs) |>
 
 **This example shows how to create AET01**
 
-Follow example in merge_table_lists to get the relevant tables created
+Follow example in merge_table_lists to get the relevant tables created. This mirrors the set up in the TLGcatalog.
 
 ```{r echo=FALSE}
 set.seed(99)

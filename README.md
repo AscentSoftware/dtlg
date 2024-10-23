@@ -2998,7 +2998,8 @@ NA
 
 **This example shows how to create AET01**
 
-Follow example in merge_table_lists to get the relevant tables created
+Follow example in merge_table_lists to get the relevant tables created.
+This mirrors the set up in the TLGcatalog.
 
 ``` r
 a<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of deaths", .filters = "DTHFL == 'Y'", .total_dt = NULL)
