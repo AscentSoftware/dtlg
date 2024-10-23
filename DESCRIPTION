@@ -16,7 +16,8 @@ Suggests:
     knitr,
     random.cdisc.data,
     rmarkdown,
-    tern
+    tern,
+    kableExtra
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
