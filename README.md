@@ -20,6 +20,42 @@ You can install the development version of dtlg from
 devtools::install_github("AscentSoftware/dtlg")
 ```
 
+## Benchmarks
+
+The following benchmarks compare dtlg with tern and use the TLGcatalog
+to get table code for tern.
+
+#### DMT01
+
+DMT01 was benchmarked using an ADSL table at 20 row intervals between
+1,000 and 1,000,000 with a minimum of 10 iterations carried out for each
+interval. The results are as follows.
+
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/DMT01_min.png" alt="caption" width="49%" height="20%" /><img src="man/figures/DMT01_median.png" alt="caption" width="49%" height="20%" />
+<p class="caption">
+caption
+</p>
+
+</div>
+
+#### AET01
+
+AET01 was benchmarked using an ADAEtable at 20 row intervals between
+1,000 and 746,082 with a minimum of 10 iterations carried out for each
+interval. The ADSL table used for totals contained 20,000 rows. The
+results are as follows.
+
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/AET01_min.png" alt="caption" width="49%" height="20%" /><img src="man/figures/AET01_median.png" alt="caption" width="49%" height="20%" />
+<p class="caption">
+caption
+</p>
+
+</div>
+
 ## Example
 
 #### This example shows you how to create a demography table:
@@ -61,9 +97,6 @@ var_labels <- c(
   "Continous Level Biomarker 1"
 )
 DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels)
-knitr::kable(DMT01) |>
-  kableExtra::kable_styling() |>
-  kableExtra::scroll_box(width = '100%', height = '500px')
 ```
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
@@ -509,12 +542,11 @@ Continous Level Biomarker 1
 
 #### This example shows how to create a labs table like LBT01
 
+*Change from baseline is not currently available*
+
 ``` r
 adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
 labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'))
-knitr::kable(labs) |>
-  kableExtra::kable_styling() |>
-  kableExtra::scroll_box(width = '100%', height = '500px')
 ```
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
@@ -2996,7 +3028,7 @@ NA
 
 </div>
 
-**This example shows how to create AET01**
+#### **This example shows how to create AET01**
 
 Follow example in merge_table_lists to get the relevant tables created.
 This mirrors the set up in the TLGcatalog.
@@ -3011,9 +3043,6 @@ aesi_vars <- c("FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", 
 f <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
 
 AET01 <- merge_table_lists(list(d,e,a,b,f))
-knitr::kable(AET01) |>
-  kableExtra::kable_styling() |>
-  kableExtra::scroll_box(width = '100%', height = '500px')
 ```
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">

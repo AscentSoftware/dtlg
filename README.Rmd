@@ -29,6 +29,29 @@ You can install the development version of dtlg from [GitHub](https://github.com
 devtools::install_github("AscentSoftware/dtlg")
 ```
 
+## Benchmarks
+
+The following benchmarks compare dtlg with tern and use the TLGcatalog to get table code for tern.
+
+#### DMT01
+
+DMT01 was benchmarked using an ADSL table at 20 row intervals between 1,000 and 1,000,000 with a minimum of 10 iterations carried out for each interval. The results are as follows.
+
+```{r, echo=FALSE,out.width="49%", out.height="20%",fig.cap="caption",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics(c("man/figures/DMT01_min.png","man/figures/DMT01_median.png"))
+
+```
+
+#### AET01
+
+AET01 was benchmarked using an ADAEtable at 20 row intervals between 1,000 and 746,082 with a minimum of 10 iterations carried out for each interval. The ADSL table used for totals contained 20,000 rows. The results are as follows.
+
+```{r, echo=FALSE,out.width="49%", out.height="20%",fig.cap="caption",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics(c("man/figures/AET01_min.png","man/figures/AET01_median.png"))
+```
+
 ## Example
 
 #### This example shows you how to create a demography table:
@@ -71,6 +94,9 @@ var_labels <- c(
   "Continous Level Biomarker 1"
 )
 DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels)
+```
+
+```{r echo=FALSE}
 knitr::kable(DMT01) |>
   kableExtra::kable_styling() |>
   kableExtra::scroll_box(width = '100%', height = '500px')
@@ -78,15 +104,20 @@ knitr::kable(DMT01) |>
 
 #### This example shows how to create a labs table like LBT01
 
+*Change from baseline is not currently available*
+
 ```{r echo=TRUE}
 adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
 labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'))
+```
+
+```{r echo=FALSE}
 knitr::kable(labs) |>
   kableExtra::kable_styling() |>
   kableExtra::scroll_box(width = '100%', height = '500px')
 ```
 
-**This example shows how to create AET01**
+#### **This example shows how to create AET01**
 
 Follow example in merge_table_lists to get the relevant tables created. This mirrors the set up in the TLGcatalog.
 
@@ -139,6 +170,10 @@ aesi_vars <- c("FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", 
 f <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
 
 AET01 <- merge_table_lists(list(d,e,a,b,f))
+
+```
+
+```{r echo=FALSE}
 knitr::kable(AET01) |>
   kableExtra::kable_styling() |>
   kableExtra::scroll_box(width = '100%', height = '500px')
