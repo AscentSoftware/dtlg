@@ -33,9 +33,9 @@ interval. The results are as follows.
 
 <div class="figure" style="text-align: center">
 
-<img src="man/figures/DMT01_min.png" alt="caption" width="49%" height="20%" /><img src="man/figures/DMT01_median.png" alt="caption" width="49%" height="20%" />
+<img src="man/figures/DMT01_min.png" alt="Min and Median benchmark times" width="49%" height="20%" /><img src="man/figures/DMT01_median.png" alt="Min and Median benchmark times" width="49%" height="20%" />
 <p class="caption">
-caption
+Min and Median benchmark times
 </p>
 
 </div>
@@ -49,9 +49,9 @@ results are as follows.
 
 <div class="figure" style="text-align: center">
 
-<img src="man/figures/AET01_min.png" alt="caption" width="49%" height="20%" /><img src="man/figures/AET01_median.png" alt="caption" width="49%" height="20%" />
+<img src="man/figures/AET01_min.png" alt="Min and Median benchmark times" width="49%" height="20%" /><img src="man/figures/AET01_median.png" alt="Min and Median benchmark times" width="49%" height="20%" />
 <p class="caption">
-caption
+Min and Median benchmark times
 </p>
 
 </div>

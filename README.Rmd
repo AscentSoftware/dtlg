@@ -37,7 +37,7 @@ The following benchmarks compare dtlg with tern and use the TLGcatalog to get ta
 
 DMT01 was benchmarked using an ADSL table at 20 row intervals between 1,000 and 1,000,000 with a minimum of 10 iterations carried out for each interval. The results are as follows.
 
-```{r, echo=FALSE,out.width="49%", out.height="20%",fig.cap="caption",fig.show='hold',fig.align='center'}
+```{r, echo=FALSE,out.width="49%", out.height="20%",fig.cap="Min and Median benchmark times",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics(c("man/figures/DMT01_min.png","man/figures/DMT01_median.png"))
 
@@ -47,7 +47,7 @@ knitr::include_graphics(c("man/figures/DMT01_min.png","man/figures/DMT01_median.
 
 AET01 was benchmarked using an ADAEtable at 20 row intervals between 1,000 and 746,082 with a minimum of 10 iterations carried out for each interval. The ADSL table used for totals contained 20,000 rows. The results are as follows.
 
-```{r, echo=FALSE,out.width="49%", out.height="20%",fig.cap="caption",fig.show='hold',fig.align='center'}
+```{r, echo=FALSE,out.width="49%", out.height="20%",fig.cap="Min and Median benchmark times",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics(c("man/figures/AET01_min.png","man/figures/AET01_median.png"))
 ```
