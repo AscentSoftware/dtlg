@@ -18,7 +18,7 @@
 #'
 
 calc_desc <- function(dt, target, target_name, treat,
-                     indent = '&nbsp;&nbsp;&nbsp;&nbsp;'){
+                      indent = '&nbsp;&nbsp;&nbsp;&nbsp;'){
   dt <- check_table(dt)
   stat_names <- c(paste0(indent,'n'),
                   paste0(indent,'Mean (SD)'),
@@ -37,7 +37,10 @@ calc_desc <- function(dt, target, target_name, treat,
   if (nrow(dt_missing)==0) {
     dt_stats[,Missing := 0]
   } else {
-    dt_stats[dt_missing, on=.(treat=treat)]
+
+    # Merge stats data.table with missing data.table
+    dt_stats <- dt_missing[dt_stats, on=treat][, Missing := data.table::fifelse(is.na(Missing), 0, Missing)]
+    data.table::setcolorder(dt_stats, c(setdiff(names(dt_stats), "Missing"), "Missing"))
   }
   dt_stats <- dt_stats[,.(treatment = get(treat),x = '', dt_stats[,2:ncol(dt_stats)])]
   dt_stats <- data.table::transpose(dt_stats, keep.names = 'stats', make.names = 'treatment')
