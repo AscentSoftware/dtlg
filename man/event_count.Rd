@@ -6,7 +6,15 @@
 Functionality to count the number of distinct occurrences of an 'event', defined using .filters,
 using patient as the identifier.}
 \usage{
-event_count(dt, patient, treat, label, .filters = NULL, .total_dt = NULL)
+event_count(
+  dt,
+  patient,
+  treat,
+  label,
+  .filters = NULL,
+  .total_dt = NULL,
+  pct_dec = 2
+)
 }
 \arguments{
 \item{dt}{table to perform function on}
@@ -20,6 +28,8 @@ event_count(dt, patient, treat, label, .filters = NULL, .total_dt = NULL)
 \item{.filters}{filter variables for event written as single string e.g. "DTHFL == 'Y' & SEX == 'M'}
 
 \item{.total_dt}{optional table for total counts to be derived}
+
+\item{pct_dec}{decimal places for percentages}
 }
 \value{
 list containing data.table of event

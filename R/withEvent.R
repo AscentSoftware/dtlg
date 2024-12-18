@@ -8,6 +8,7 @@
 #' @param label row name to be displayed
 #' @param .filters filter variables for event written as single string e.g. "DTHFL == 'Y' & SEX == 'M'
 #' @param .total_dt optional table for total counts to be derived
+#' @param pct_dec decimal places for percentages
 #'
 #' @return list containing data.table of event
 #' @export
@@ -73,6 +74,7 @@ total_events <- function(dt, treat, label){
 #' @param label row name to be displayed, if NULL then column name or label is used
 #' @param .total_dt optional table for total counts to be derived
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
+#' @param pct_dec decimal places for percentages
 #'
 #' @return list of data.table containing events
 #' @export
@@ -232,7 +234,8 @@ event_count_by <- function(dt, patient, treat, rows_by, target, .total_dt = NULL
   event_total <- mapply(total_events, event_split, treat = treat,
                         label = 'Total number of events')
   event_target <- mapply(calc_stats, dt = event_split, target = target, treat = treat,
-                         indent=indent, target_name = names(event_split), MoreArgs = list(.total_dt=.total_dt))
+                         indent=indent, target_name = names(event_split),
+                         MoreArgs = list(.total_dt=.total_dt, pct_dec = pct_dec))
   event_table <- mapply(list, event_target, event_total, event_patient)
   event_table <- rbindlist(event_table, use.names=T)
  return(event_table)

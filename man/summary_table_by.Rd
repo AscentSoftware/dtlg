@@ -10,7 +10,8 @@ summary_table_by(
   treat,
   rows_by,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
-  .total_dt = NULL
+  .total_dt = NULL,
+  pct_dec = 2
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ summary_table_by(
 \item{indent}{indent to be used for display and formatting purposes}
 
 \item{.total_dt}{optional table for total counts to be derived}
+
+\item{pct_dec}{decimal places for percentages}
 }
 \value{
 list containing a data.table containing summary information on target variables specified

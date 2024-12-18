@@ -7,7 +7,6 @@
 #' @param target_name string, how to display column name when new table is create, if null then target column name is used
 #' @param treat string, treatment population to use as row headers
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
-#' @param pct_dec decimal places for percentages
 #'
 #' @return a list containing a data.table
 #' @export
@@ -58,6 +57,7 @@ calc_desc <- function(dt, target, target_name, treat,
 #' @param treat string, treatment population to use as row headers
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
 #' @param .total_dt optional table for total counts to be derived
+#' @param pct_dec decimal places for percentages
 #'
 #' @return a list containing a data.table
 #' @export
@@ -100,6 +100,7 @@ calc_counts <- function(dt, target, target_name, treat,
 #' @param treat string, treatment population to use as row headers
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
 #' @param .total_dt optional table for total counts to be derived, works for character, logical and factor
+#' @param pct_dec decimal places for percentages
 #'
 #' @return a list containing a data.table
 #' @export
