@@ -12,7 +12,7 @@ summary_table(
   target_name = NULL,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
   .total_dt = NULL,
-  pct_dec = 2
+  pct_dec = 1
 )
 }
 \arguments{

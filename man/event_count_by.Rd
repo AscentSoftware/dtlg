@@ -12,7 +12,7 @@ event_count_by(
   target,
   .total_dt = NULL,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
-  pct_dec = 2
+  pct_dec = 1
 )
 }
 \arguments{

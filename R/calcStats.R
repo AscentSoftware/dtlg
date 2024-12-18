@@ -69,7 +69,7 @@ calc_desc <- function(dt, target, target_name, treat,
 
 calc_counts <- function(dt, target, target_name, treat,
                        indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
-                       pct_dec = 2) {
+                       pct_dec = 1) {
   dt <- check_table(dt)
 
   dt_count <- dt[,.(n = .N), by = list(treatment = get(treat),stats = get(target))]
@@ -110,7 +110,7 @@ calc_counts <- function(dt, target, target_name, treat,
 
 calc_stats <- function(dt, target, target_name, treat,
                        indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                       .total_dt = NULL, pct_dec = 2){
+                       .total_dt = NULL, pct_dec = 1){
   dt <- check_table(dt)
   UseMethod('calc_stats', dt[,(get(target))])
 }
@@ -133,7 +133,7 @@ calc_stats.numeric <- function(dt, target, target_name=NULL, treat,
 
 calc_stats.character <- function(dt, target, target_name=NULL, treat,
                                indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL,
-                               pct_dec = 2) {
+                               pct_dec = 1) {
   if (is.null(target_name)){
     target_name <- target
   }
@@ -147,7 +147,7 @@ calc_stats.character <- function(dt, target, target_name=NULL, treat,
 
 calc_stats.factor <- function(dt, target, target_name=NULL, treat,
                                  indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                              .total_dt=NULL, pct_dec = 2) {
+                              .total_dt=NULL, pct_dec = 1) {
   if (is.null(target_name)){
     target_name <- target
   }
@@ -161,7 +161,7 @@ calc_stats.factor <- function(dt, target, target_name=NULL, treat,
 
 calc_stats.logical <- function(dt, target, target_name=NULL, treat,
                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                              .total_dt=NULL, pct_dec = 2) {
+                              .total_dt=NULL, pct_dec = 1) {
   if (is.null(target_name)){
     target_name <- target
   }

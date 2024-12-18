@@ -22,7 +22,7 @@
 
 summary_table <- function(dt, target, treat, target_name = NULL,
                          indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
-                         pct_dec = 2) {
+                         pct_dec = 1) {
   dt <- check_table(dt)
   if (is.null(target_name)){
     target_name <- target
@@ -58,7 +58,7 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 
 summary_table_by <- function(dt, target, treat, rows_by,
                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                             .total_dt = NULL, pct_dec = 2){
+                             .total_dt = NULL, pct_dec = 1){
 
   dt <- check_table(dt)
   dt <- split(droplevels(dt), by = rows_by, drop = T,sorted=T)
@@ -105,7 +105,7 @@ summary_table_by <- function(dt, target, treat, rows_by,
 #' labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'), '  ', NULL)
 summary_table_by_targets <- function(dt, target, treat, rows_by,
                                      indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                     .total_dt = NULL, pct_dec = 2){
+                                     .total_dt = NULL, pct_dec = 1){
   if(length(target)!=2){
     print('target needs to be length 2')
   }
