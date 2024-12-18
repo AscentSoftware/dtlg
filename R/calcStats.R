@@ -7,6 +7,7 @@
 #' @param target_name string, how to display column name when new table is create, if null then target column name is used
 #' @param treat string, treatment population to use as row headers
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
+#' @param pct_dec decimal places for percentages
 #'
 #' @return a list containing a data.table
 #' @export
@@ -108,7 +109,7 @@ calc_counts <- function(dt, target, target_name, treat,
 
 calc_stats <- function(dt, target, target_name, treat,
                        indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                       .total_dt = NULL){
+                       .total_dt = NULL, pct_dec = 2){
   dt <- check_table(dt)
   UseMethod('calc_stats', dt[,(get(target))])
 }
@@ -130,12 +131,13 @@ calc_stats.numeric <- function(dt, target, target_name=NULL, treat,
 #' @export
 
 calc_stats.character <- function(dt, target, target_name=NULL, treat,
-                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL,
+                               pct_dec = 2) {
   if (is.null(target_name)){
     target_name <- target
   }
   x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-            indent = indent, .total_dt = .total_dt)
+            indent = indent, .total_dt = .total_dt, pct_dec = pct_dec)
   return(x)
 }
 
@@ -143,12 +145,13 @@ calc_stats.character <- function(dt, target, target_name=NULL, treat,
 #' @export
 
 calc_stats.factor <- function(dt, target, target_name=NULL, treat,
-                                 indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+                                 indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                              .total_dt=NULL, pct_dec = 2) {
   if (is.null(target_name)){
     target_name <- target
   }
   x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-              indent = indent, .total_dt = .total_dt)
+              indent = indent, .total_dt = .total_dt, pct_dec = pct_dec)
   return(x)
 }
 
@@ -156,11 +159,12 @@ calc_stats.factor <- function(dt, target, target_name=NULL, treat,
 #' @export
 
 calc_stats.logical <- function(dt, target, target_name=NULL, treat,
-                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                              .total_dt=NULL, pct_dec = 2) {
   if (is.null(target_name)){
     target_name <- target
   }
   x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-              indent = indent, .total_dt = .total_dt)
+              indent = indent, .total_dt = .total_dt, pct_dec = pct_dec)
   return(x)
 }
