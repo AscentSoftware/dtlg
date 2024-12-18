@@ -12,7 +12,8 @@ multi_event_true(
   heading,
   label = NULL,
   .total_dt = NULL,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;"
+  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  pct_dec = 2
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ multi_event_true(
 \item{.total_dt}{optional table for total counts to be derived}
 
 \item{indent}{indentation to use for statistic row names, used for formatting outputs for shiny}
+
+\item{pct_dec}{decimal places for percentages}
 }
 \value{
 list of data.table containing events

@@ -7,6 +7,7 @@
 #' @param target_name names to be displayed for target columns either NULL, which uses target, of vector of desired names for all target columns
 #' @param indent indent to be used for display and formatting purposes
 #' @param .total_dt optional table for total counts to be derived
+#' @param pct_dec decimal places for percentages
 #'
 #' @return a data.table containing summary information on target variables specified
 #' @export
@@ -20,7 +21,8 @@
 #' DMT01_pct<-summary_table(adsl, target = vars, treat = 'ARM', indent = '  ', .total_dt = adsl)
 
 summary_table <- function(dt, target, treat, target_name = NULL,
-                         indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL) {
+                         indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
+                         pct_dec = 2) {
   dt <- check_table(dt)
   if (is.null(target_name)){
     target_name <- target
@@ -28,7 +30,8 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 
   summary_list <- mapply(calc_stats, target = target, target_name = target_name,
                          treat = list(treat), indent = list(indent),
-                         MoreArgs = list(dt = dt, .total_dt = .total_dt))
+                         MoreArgs = list(dt = dt, .total_dt = .total_dt,
+                                         pct_dec = pct_dec))
 
   table_summary <- data.table::rbindlist(summary_list,use.names = T)
   return(table_summary)
@@ -42,6 +45,7 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 #' @param rows_by string, grouping variable to split events by.
 #' @param indent indent to be used for display and formatting purposes
 #' @param .total_dt optional table for total counts to be derived
+#' @param pct_dec decimal places for percentages
 #'
 #' @return list containing a data.table containing summary information on target variables specified
 #' @export
@@ -53,7 +57,8 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 #'
 
 summary_table_by <- function(dt, target, treat, rows_by,
-                             indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL){
+                             indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                             .total_dt = NULL, pct_dec = 2){
 
   dt <- check_table(dt)
   dt <- split(droplevels(dt), by = rows_by, drop = T,sorted=T)
@@ -67,7 +72,8 @@ summary_table_by <- function(dt, target, treat, rows_by,
     indent <- paste0(indent,indent)
   }
   summary_split <- mapply(calc_stats, dt = dt, target = target, target_name = label,
-                          treat = treat, indent = indent)
+                          treat = treat, indent = indent, .total_dt = .total_dt,
+                          pct_dec = pct_dec)
 
   if(length(rows_by)>1){
     x <- 0
@@ -90,6 +96,7 @@ summary_table_by <- function(dt, target, treat, rows_by,
 #' @param rows_by string, grouping variable to split events by.
 #' @param indent indent to be used for display and formatting purposes
 #' @param .total_dt optional table for total counts to be derived
+#' @param pct_dec decimal places for percentages
 #'
 #' @return data.table
 #' @export
@@ -97,14 +104,16 @@ summary_table_by <- function(dt, target, treat, rows_by,
 #' @examples adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
 #' labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'), '  ', NULL)
 summary_table_by_targets <- function(dt, target, treat, rows_by,
-                                     indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL){
+                                     indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                                     .total_dt = NULL, pct_dec = 2){
   if(length(target)!=2){
     print('target needs to be length 2')
   }
   dt <- check_table(dt)
   summary_tables <- mapply(summary_table_by, target = target,
                            MoreArgs = list(dt = dt, treat = treat, rows_by = rows_by,
-                                           indent = indent, .total_dt = .total_dt))
+                                           indent = indent, .total_dt = .total_dt,
+                                           pct_dec = pct_dec))
   x <- summary_tables[[1]]
   y <- summary_tables[[2]]
   full <- x[,1]

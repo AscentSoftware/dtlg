@@ -57,6 +57,7 @@ calc_desc <- function(dt, target, target_name, treat,
 #' @param treat string, treatment population to use as row headers
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
 #' @param .total_dt optional table for total counts to be derived
+#' @param pct_dec decimal places for percentages
 #'
 #' @return a list containing a data.table
 #' @export
@@ -67,7 +68,8 @@ calc_desc <- function(dt, target, target_name, treat,
 #' RACE<-calc_counts(dt = adsl, 'RACE', target_name = 'RACE', treat = 'ARM', indent = '')
 
 calc_counts <- function(dt, target, target_name, treat,
-                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL) {
+                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
+                       pct_dec = 2) {
   dt <- check_table(dt)
 
   dt_count <- dt[,.(n = .N), by = list(treatment = get(treat),stats = get(target))]
@@ -75,7 +77,7 @@ calc_counts <- function(dt, target, target_name, treat,
     .total_dt <- check_table(.total_dt)
     .total_dt <- .total_dt[,.(total=.N), by=list(treatment = get(treat))]
     dt_count <- dt_count[.total_dt, on = 'treatment']
-    dt_count <- dt_count[, .(treatment, stats, n=paste0(n, ' (', round((n/total)*100, 2),'%)'))]
+    dt_count <- dt_count[, .(treatment, stats, n=paste0(n, ' (', round((n/total)*100, digits = pct_dec),'%)'))]
   }
 
   dt_count <- data.table::dcast(dt_count, stats ~ treatment, value.var = 'n', fill = 0)
@@ -98,6 +100,7 @@ calc_counts <- function(dt, target, target_name, treat,
 #' @param treat string, treatment population to use as row headers
 #' @param indent indentation to use for statistic row names, used for formatting outputs for shiny
 #' @param .total_dt optional table for total counts to be derived, works for character, logical and factor
+#' @param pct_dec decimal places for percentages
 #'
 #' @return a list containing a data.table
 #' @export
@@ -107,7 +110,7 @@ calc_counts <- function(dt, target, target_name, treat,
 
 calc_stats <- function(dt, target, target_name, treat,
                        indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                       .total_dt = NULL){
+                       .total_dt = NULL, pct_dec = 2){
   dt <- check_table(dt)
   UseMethod('calc_stats', dt[,(get(target))])
 }
@@ -129,12 +132,13 @@ calc_stats.numeric <- function(dt, target, target_name=NULL, treat,
 #' @export
 
 calc_stats.character <- function(dt, target, target_name=NULL, treat,
-                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL,
+                               pct_dec = 2) {
   if (is.null(target_name)){
     target_name <- target
   }
   x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-            indent = indent, .total_dt = .total_dt)
+            indent = indent, .total_dt = .total_dt, pct_dec = pct_dec)
   return(x)
 }
 
@@ -142,12 +146,13 @@ calc_stats.character <- function(dt, target, target_name=NULL, treat,
 #' @export
 
 calc_stats.factor <- function(dt, target, target_name=NULL, treat,
-                                 indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+                                 indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                              .total_dt=NULL, pct_dec = 2) {
   if (is.null(target_name)){
     target_name <- target
   }
   x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-              indent = indent, .total_dt = .total_dt)
+              indent = indent, .total_dt = .total_dt, pct_dec = pct_dec)
   return(x)
 }
 
@@ -155,11 +160,12 @@ calc_stats.factor <- function(dt, target, target_name=NULL, treat,
 #' @export
 
 calc_stats.logical <- function(dt, target, target_name=NULL, treat,
-                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                              .total_dt=NULL, pct_dec = 2) {
   if (is.null(target_name)){
     target_name <- target
   }
   x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-              indent = indent, .total_dt = .total_dt)
+              indent = indent, .total_dt = .total_dt, pct_dec = pct_dec)
   return(x)
 }

@@ -15,7 +15,8 @@ calc_stats(
   target_name,
   treat,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
-  .total_dt = NULL
+  .total_dt = NULL,
+  pct_dec = 2
 )
 
 \method{calc_stats}{numeric}(
@@ -33,7 +34,8 @@ calc_stats(
   target_name = NULL,
   treat,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
-  .total_dt = NULL
+  .total_dt = NULL,
+  pct_dec = 2
 )
 
 \method{calc_stats}{factor}(
@@ -42,7 +44,8 @@ calc_stats(
   target_name = NULL,
   treat,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
-  .total_dt = NULL
+  .total_dt = NULL,
+  pct_dec = 2
 )
 
 \method{calc_stats}{logical}(
@@ -51,7 +54,8 @@ calc_stats(
   target_name = NULL,
   treat,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
-  .total_dt = NULL
+  .total_dt = NULL,
+  pct_dec = 2
 )
 }
 \arguments{
@@ -66,6 +70,8 @@ calc_stats(
 \item{indent}{indentation to use for statistic row names, used for formatting outputs for shiny}
 
 \item{.total_dt}{optional table for total counts to be derived, works for character, logical and factor}
+
+\item{pct_dec}{decimal places for percentages}
 }
 \value{
 a list containing a data.table

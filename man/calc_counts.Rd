@@ -11,7 +11,8 @@ calc_counts(
   target_name,
   treat,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
-  .total_dt = NULL
+  .total_dt = NULL,
+  pct_dec = 2
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ calc_counts(
 \item{indent}{indentation to use for statistic row names, used for formatting outputs for shiny}
 
 \item{.total_dt}{optional table for total counts to be derived}
+
+\item{pct_dec}{decimal places for percentages}
 }
 \value{
 a list containing a data.table
