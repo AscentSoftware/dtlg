@@ -1,6 +1,6 @@
 Package: dtlg
 Title: A performance focused package for creating pharma TLGs
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person("Max", "Ebenezer-Brown", , "max.ebenezer-brown@ascent.io", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
