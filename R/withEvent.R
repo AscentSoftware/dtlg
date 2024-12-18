@@ -20,7 +20,7 @@
 #' b<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of patients withdrawn from study due to an AE", .filters = "DCSREAS == 'ADVERSE EVENT'", .total_dt = NULL)
 #' d<-event_count(adae, patient = "USUBJID", treat = "ARM", label = "Total number of patients with at least one AE",.total_dt = adsl)
 
-event_count <- function(dt, patient, treat, label, .filters = NULL, .total_dt = NULL) {
+event_count <- function(dt, patient, treat, label, .filters = NULL, .total_dt = NULL, pct_dec = 2) {
  dt <- check_table(dt)
  event <- dt
  if(!is.null(.total_dt)){
@@ -36,7 +36,7 @@ event_count <- function(dt, patient, treat, label, .filters = NULL, .total_dt = 
  event <- unique(event, by='USUBJID')
  event <- event[,.(n = .N), by = treat]
  event <- event[.total_dt, on = treat]
- event <- event[, .(get(treat), paste0(n, ' (', round((n/total)*100, 2),'%)'))]
+ event <- event[, .(get(treat), paste0(n, ' (', round((n/total)*100, digits = pct_dec),'%)'))]
  event <- data.table::transpose(event,keep.names = 'stats', make.names = 'V1', fill = 0)
  event[, stats := label]
  return(list(event))

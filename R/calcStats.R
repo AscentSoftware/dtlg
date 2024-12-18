@@ -67,7 +67,8 @@ calc_desc <- function(dt, target, target_name, treat,
 #' RACE<-calc_counts(dt = adsl, 'RACE', target_name = 'RACE', treat = 'ARM', indent = '')
 
 calc_counts <- function(dt, target, target_name, treat,
-                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL) {
+                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
+                       pct_dec = 2) {
   dt <- check_table(dt)
 
   dt_count <- dt[,.(n = .N), by = list(treatment = get(treat),stats = get(target))]
@@ -75,7 +76,7 @@ calc_counts <- function(dt, target, target_name, treat,
     .total_dt <- check_table(.total_dt)
     .total_dt <- .total_dt[,.(total=.N), by=list(treatment = get(treat))]
     dt_count <- dt_count[.total_dt, on = 'treatment']
-    dt_count <- dt_count[, .(treatment, stats, n=paste0(n, ' (', round((n/total)*100, 2),'%)'))]
+    dt_count <- dt_count[, .(treatment, stats, n=paste0(n, ' (', round((n/total)*100, digits = pct_dec),'%)'))]
   }
 
   dt_count <- data.table::dcast(dt_count, stats ~ treatment, value.var = 'n', fill = 0)
