@@ -13,7 +13,7 @@ event_count(
   label,
   .filters = NULL,
   .total_dt = NULL,
-  pct_dec = 2
+  pct_dec = 1
 )
 }
 \arguments{

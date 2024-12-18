@@ -16,7 +16,7 @@ calc_stats(
   treat,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
   .total_dt = NULL,
-  pct_dec = 2
+  pct_dec = 1
 )
 
 \method{calc_stats}{numeric}(
@@ -35,7 +35,7 @@ calc_stats(
   treat,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
   .total_dt = NULL,
-  pct_dec = 2
+  pct_dec = 1
 )
 
 \method{calc_stats}{factor}(
@@ -45,7 +45,7 @@ calc_stats(
   treat,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
   .total_dt = NULL,
-  pct_dec = 2
+  pct_dec = 1
 )
 
 \method{calc_stats}{logical}(
@@ -55,7 +55,7 @@ calc_stats(
   treat,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
   .total_dt = NULL,
-  pct_dec = 2
+  pct_dec = 1
 )
 }
 \arguments{

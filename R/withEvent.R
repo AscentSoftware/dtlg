@@ -21,7 +21,7 @@
 #' b<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of patients withdrawn from study due to an AE", .filters = "DCSREAS == 'ADVERSE EVENT'", .total_dt = NULL)
 #' d<-event_count(adae, patient = "USUBJID", treat = "ARM", label = "Total number of patients with at least one AE",.total_dt = adsl)
 
-event_count <- function(dt, patient, treat, label, .filters = NULL, .total_dt = NULL, pct_dec = 2) {
+event_count <- function(dt, patient, treat, label, .filters = NULL, .total_dt = NULL, pct_dec = 1) {
  dt <- check_table(dt)
  event <- dt
  if(!is.null(.total_dt)){
@@ -119,7 +119,7 @@ total_events <- function(dt, treat, label){
 #' f <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
 multi_event_true <- function(dt, event_vars, patient, treat, heading, label = NULL,
                              .total_dt = NULL, indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                             pct_dec = 2) {
+                             pct_dec = 1) {
 
   dt <- check_table(dt)
   event_filters <- paste0(event_vars, ' == T')
@@ -217,7 +217,7 @@ merge_table_lists <- function(dt_l){
 #'
 
 event_count_by <- function(dt, patient, treat, rows_by, target, .total_dt = NULL,
-                           indent = '&nbsp;&nbsp;&nbsp;&nbsp;', pct_dec = 2){
+                           indent = '&nbsp;&nbsp;&nbsp;&nbsp;', pct_dec = 1){
   dt <- check_table(dt)
   event <- dt
   if(!is.null(.total_dt)){

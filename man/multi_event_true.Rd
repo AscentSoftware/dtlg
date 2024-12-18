@@ -13,7 +13,7 @@ multi_event_true(
   label = NULL,
   .total_dt = NULL,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
-  pct_dec = 2
+  pct_dec = 1
 )
 }
 \arguments{

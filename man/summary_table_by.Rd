@@ -11,7 +11,7 @@ summary_table_by(
   rows_by,
   indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
   .total_dt = NULL,
-  pct_dec = 2
+  pct_dec = 1
 )
 }
 \arguments{
