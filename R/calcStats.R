@@ -119,7 +119,8 @@ calc_stats <- function(dt, target, target_name, treat,
 #' @export
 
 calc_stats.numeric <- function(dt, target, target_name=NULL, treat,
-                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL) {
+                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL,
+                               pct_dec = NULL) {
   if (is.null(target_name)){
     target_name <- target
   }
