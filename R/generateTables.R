@@ -22,7 +22,7 @@
 
 summary_table <- function(dt, target, treat, target_name = NULL,
                          indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
-                         pct_dec = 1) {
+                         pct_dec = 1, treat_order = NULL) {
   dt <- check_table(dt)
   if (is.null(target_name)){
     target_name <- target
@@ -34,6 +34,9 @@ summary_table <- function(dt, target, treat, target_name = NULL,
                                          pct_dec = pct_dec))
 
   table_summary <- data.table::rbindlist(summary_list,use.names = T)
+  if (!is.null(treat_order)) {
+    table_summary <- data.table::setcolorder(table_summary, unique(c("stats", treat_order)))
+  }
   return(table_summary)
 }
 
