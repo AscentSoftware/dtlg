@@ -111,7 +111,7 @@ summary_table_by <- function(dt, target, treat, rows_by,
 #' labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'), '  ', NULL)
 summary_table_by_targets <- function(dt, target, treat, rows_by,
                                      indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                     .total_dt = NULL, pct_dec = 1){
+                                     .total_dt = NULL, pct_dec = 1, treat_order = NULL){
   if(length(target)!=2){
     print('target needs to be length 2')
   }
@@ -119,7 +119,7 @@ summary_table_by_targets <- function(dt, target, treat, rows_by,
   summary_tables <- mapply(summary_table_by, target = target,
                            MoreArgs = list(dt = dt, treat = treat, rows_by = rows_by,
                                            indent = indent, .total_dt = .total_dt,
-                                           pct_dec = pct_dec))
+                                           pct_dec = pct_dec, treat_order = treat_order))
   x <- summary_tables[[1]]
   y <- summary_tables[[2]]
   full <- x[,1]
