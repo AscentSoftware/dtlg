@@ -61,7 +61,7 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 
 summary_table_by <- function(dt, target, treat, rows_by,
                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                             .total_dt = NULL, pct_dec = 1){
+                             .total_dt = NULL, pct_dec = 1, treat_order = NULL){
 
   dt <- check_table(dt)
   dt <- split(droplevels(dt), by = rows_by, drop = T,sorted=T)
@@ -87,7 +87,10 @@ summary_table_by <- function(dt, target, treat, rows_by,
     }
   }
   summary_split <- rbindlist(summary_split, use.names = T, fill = T)
-    return(list(summary_split))
+  if (!is.null(treat_order)) {
+    summary_split <- data.table::setcolorder(summary_split, unique(c("stats", treat_order)))
+  }
+  return(list(summary_split))
 }
 
 #' Create a summary table using multiple rows for grouping on two target column
