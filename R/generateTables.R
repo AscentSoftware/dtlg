@@ -36,7 +36,7 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 
   table_summary <- data.table::rbindlist(summary_list,use.names = T)
   if (!is.null(treat_order)) {
-    table_summary <- data.table::setcolorder(table_summary, unique(c("stats", treat_order)))
+    table_summary <- data.table::setcolorder(table_summary, unique(c("stats", treat_order)), skip_absent = TRUE)
   }
   return(table_summary)
 }
@@ -90,7 +90,7 @@ summary_table_by <- function(dt, target, treat, rows_by,
   }
   summary_split <- rbindlist(summary_split, use.names = T, fill = T)
   if (!is.null(treat_order)) {
-    summary_split <- data.table::setcolorder(summary_split, unique(c("stats", treat_order)))
+    summary_split <- data.table::setcolorder(summary_split, unique(c("stats", treat_order)), skip_absent = TRUE)
   }
   return(list(summary_split))
 }
