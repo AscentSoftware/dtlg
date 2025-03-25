@@ -8,6 +8,7 @@
 #' @param indent indent to be used for display and formatting purposes
 #' @param .total_dt optional table for total counts to be derived
 #' @param pct_dec decimal places for percentages
+#' @param treat_order customise the column order of output table
 #'
 #' @return a data.table containing summary information on target variables specified
 #' @export
@@ -49,6 +50,7 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 #' @param indent indent to be used for display and formatting purposes
 #' @param .total_dt optional table for total counts to be derived
 #' @param pct_dec decimal places for percentages
+#' @param treat_order customise the column order of output table
 #'
 #' @return list containing a data.table containing summary information on target variables specified
 #' @export
@@ -103,6 +105,7 @@ summary_table_by <- function(dt, target, treat, rows_by,
 #' @param indent indent to be used for display and formatting purposes
 #' @param .total_dt optional table for total counts to be derived
 #' @param pct_dec decimal places for percentages
+#' @param treat_order customise the column order of output table
 #'
 #' @return data.table
 #' @export
