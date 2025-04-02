@@ -35,13 +35,16 @@ summary_table <- function(dt, target, treat, target_name = NULL,
                          MoreArgs = list(dt = dt, .total_dt = .total_dt,
                                          pct_dec = pct_dec))
 
-  table_summary <- data.table::rbindlist(summary_list,use.names = T)
-  if (isTRUE(all(length(treat_order) > 0, all(treat_order == "stats")))) { # stats is a special /  reserved name and not a treatment
-    treat_order <- NULL
+  table_summary <- data.table::rbindlist(summary_list, use.names = T)
+  if (isTRUE(all( # check validity of treat_order items
+    length(treat_order) > 0, # all(logical(0)) evaluates to TRUE, all(length(logical(0)), all(logical(0))) evaluates to FALSE
+    all(treat_order == "stats") # stats is a special /  reserved name and not a treatment
+  ))) {
+    treat_order <- NULL # set to NULL if all treat_order entries are invalid
     warning("'stats' is not a valid value for treat_order, ignoring.")
   }
   if (!is.null(treat_order)) {
-    cols_missing <- sort(setdiff(colnames(table_summary), treat_order))
+    cols_missing <- sort(setdiff(colnames(table_summary), treat_order)) # alphabetise columns in the data that were not passed in
     table_summary <- data.table::setcolorder(
       table_summary,
       unique(c("stats", treat_order, cols_missing)),
