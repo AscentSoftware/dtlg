@@ -36,12 +36,14 @@ summary_table <- function(dt, target, treat, target_name = NULL,
                                          pct_dec = pct_dec))
 
   table_summary <- data.table::rbindlist(summary_list, use.names = T)
-  cols_missing <- sort(setdiff(colnames(table_summary), treat_order))
-  table_summary <- data.table::setcolorder(
-    table_summary,
-    unique(c("stats", treat_order, cols_missing)),
-    skip_absent = skip_absent
-  )
+  if (!is.null(treat_order)) {
+    cols_missing <- sort(setdiff(colnames(table_summary), treat_order))
+    table_summary <- data.table::setcolorder(
+      table_summary,
+      unique(c("stats", treat_order, cols_missing)),
+      skip_absent = skip_absent
+    )
+  }
   return(table_summary)
 }
 
@@ -95,12 +97,14 @@ summary_table_by <- function(dt, target, treat, rows_by,
     }
   }
   summary_split <- rbindlist(summary_split, use.names = T, fill = T)
-  cols_missing <- sort(setdiff(colnames(summary_split), treat_order))
-  summary_split <- data.table::setcolorder(
-    summary_split,
-    unique(c("stats", treat_order, cols_missing)),
-    skip_absent = skip_absent
-  )
+  if (!is.null(treat_order)) {
+    cols_missing <- sort(setdiff(colnames(summary_split), treat_order))
+    summary_split <- data.table::setcolorder(
+      summary_split,
+      unique(c("stats", treat_order, cols_missing)),
+      skip_absent = skip_absent
+    )
+  }
   return(list(summary_split))
 }
 
