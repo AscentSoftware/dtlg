@@ -8,6 +8,8 @@
 #' @param indent indent to be used for display and formatting purposes
 #' @param .total_dt optional table for total counts to be derived
 #' @param pct_dec decimal places for percentages
+#' @param treat_order customise the column order of output table
+#' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
 #'
 #' @return a data.table containing summary information on target variables specified
 #' @export
@@ -22,7 +24,7 @@
 
 summary_table <- function(dt, target, treat, target_name = NULL,
                          indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
-                         pct_dec = 1) {
+                         pct_dec = 1, treat_order = NULL, skip_absent = TRUE) {
   dt <- check_table(dt)
   if (is.null(target_name)){
     target_name <- target
@@ -33,7 +35,15 @@ summary_table <- function(dt, target, treat, target_name = NULL,
                          MoreArgs = list(dt = dt, .total_dt = .total_dt,
                                          pct_dec = pct_dec))
 
-  table_summary <- data.table::rbindlist(summary_list,use.names = T)
+  table_summary <- data.table::rbindlist(summary_list, use.names = T)
+  if (!is.null(treat_order)) {
+    cols_missing <- sort(setdiff(colnames(table_summary), treat_order))
+    table_summary <- data.table::setcolorder(
+      table_summary,
+      unique(c("stats", treat_order, cols_missing)),
+      skip_absent = skip_absent
+    )
+  }
   return(table_summary)
 }
 
@@ -46,6 +56,8 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 #' @param indent indent to be used for display and formatting purposes
 #' @param .total_dt optional table for total counts to be derived
 #' @param pct_dec decimal places for percentages
+#' @param treat_order customise the column order of output table
+#' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
 #'
 #' @return list containing a data.table containing summary information on target variables specified
 #' @export
@@ -58,7 +70,8 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 
 summary_table_by <- function(dt, target, treat, rows_by,
                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                             .total_dt = NULL, pct_dec = 1){
+                             .total_dt = NULL, pct_dec = 1, treat_order = NULL,
+                             skip_absent = TRUE){
 
   dt <- check_table(dt)
   dt <- split(droplevels(dt), by = rows_by, drop = T,sorted=T)
@@ -84,7 +97,15 @@ summary_table_by <- function(dt, target, treat, rows_by,
     }
   }
   summary_split <- rbindlist(summary_split, use.names = T, fill = T)
-    return(list(summary_split))
+  if (!is.null(treat_order)) {
+    cols_missing <- sort(setdiff(colnames(summary_split), treat_order))
+    summary_split <- data.table::setcolorder(
+      summary_split,
+      unique(c("stats", treat_order, cols_missing)),
+      skip_absent = skip_absent
+    )
+  }
+  return(list(summary_split))
 }
 
 #' Create a summary table using multiple rows for grouping on two target column
@@ -97,6 +118,8 @@ summary_table_by <- function(dt, target, treat, rows_by,
 #' @param indent indent to be used for display and formatting purposes
 #' @param .total_dt optional table for total counts to be derived
 #' @param pct_dec decimal places for percentages
+#' @param treat_order customise the column order of output table
+#' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
 #'
 #' @return data.table
 #' @export
@@ -105,7 +128,8 @@ summary_table_by <- function(dt, target, treat, rows_by,
 #' labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'), '  ', NULL)
 summary_table_by_targets <- function(dt, target, treat, rows_by,
                                      indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
-                                     .total_dt = NULL, pct_dec = 1){
+                                     .total_dt = NULL, pct_dec = 1, treat_order = NULL,
+                                     skip_absent = TRUE){
   if(length(target)!=2){
     print('target needs to be length 2')
   }
@@ -113,7 +137,8 @@ summary_table_by_targets <- function(dt, target, treat, rows_by,
   summary_tables <- mapply(summary_table_by, target = target,
                            MoreArgs = list(dt = dt, treat = treat, rows_by = rows_by,
                                            indent = indent, .total_dt = .total_dt,
-                                           pct_dec = pct_dec))
+                                           pct_dec = pct_dec, treat_order = treat_order,
+                                           skip_absent = skip_absent))
   x <- summary_tables[[1]]
   y <- summary_tables[[2]]
   full <- x[,1]

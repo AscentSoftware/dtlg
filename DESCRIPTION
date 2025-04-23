@@ -17,7 +17,8 @@ Suggests:
     random.cdisc.data,
     rmarkdown,
     tern,
-    kableExtra
+    kableExtra,
+    testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
@@ -25,3 +26,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends: 
     R (>= 2.10)
+Config/testthat/edition: 3
