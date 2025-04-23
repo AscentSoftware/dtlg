@@ -85,7 +85,7 @@ summary_table_by <- function(dt, target, treat, rows_by,
     indent <- paste0(indent,indent)
   }
   summary_split <- mapply(calc_stats, dt = dt, target = target, target_name = label,
-                          treat = treat, indent = indent, .total_dt = .total_dt,
+                          treat = treat, indent = indent,
                           pct_dec = pct_dec)
 
   if(length(rows_by)>1){
