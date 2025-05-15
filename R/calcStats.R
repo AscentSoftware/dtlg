@@ -20,7 +20,6 @@
 calc_desc <- function(dt, target, target_name, treat,
                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
                       pct_dec = 1){
-  browser()
   dt <- check_table(dt)
   stat_names <- c(paste0(indent,'n'),
                   paste0(indent,'Mean (SD)'),
