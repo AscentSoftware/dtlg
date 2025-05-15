@@ -25,11 +25,11 @@
 summary_table <- function(dt, target, treat, target_name = NULL,
                          indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
                          pct_dec = 1, treat_order = NULL, skip_absent = TRUE) {
+  browser()
   dt <- check_table(dt)
   if (is.null(target_name)){
     target_name <- target
   }
-
   summary_list <- mapply(calc_stats, target = target, target_name = target_name,
                          treat = list(treat), indent = list(indent),
                          MoreArgs = list(dt = dt, .total_dt = .total_dt,

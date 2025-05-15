@@ -18,7 +18,9 @@
 #'
 
 calc_desc <- function(dt, target, target_name, treat,
-                      indent = '&nbsp;&nbsp;&nbsp;&nbsp;'){
+                      indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                      pct_dec = 1){
+  browser()
   dt <- check_table(dt)
   stat_names <- c(paste0(indent,'n'),
                   paste0(indent,'Mean (SD)'),
@@ -27,11 +29,11 @@ calc_desc <- function(dt, target, target_name, treat,
                   paste0(indent,'Missing'))
 
   dt_stats <- dt[,.(n = .N,
-                    Mean.SD = paste0(round(mean(get(target), na.rm = T),2),
-                                     ' (',round(sd(get(target), na.rm = T),2),')'),
-                    Median = round(median(get(target), na.rm = T),2),
-                    Min.Max = paste0(round(min(get(target), na.rm = T),2)
-                                     ,', ',round(max(get(target), na.rm = T),2))),
+                    Mean.SD = paste0(round(mean(get(target), na.rm = T), pct_dec),
+                                     ' (',round(sd(get(target), na.rm = T), pct_dec),')'),
+                    Median = round(median(get(target), na.rm = T), pct_dec),
+                    Min.Max = paste0(round(min(get(target), na.rm = T), pct_dec)
+                                     ,', ',round(max(get(target), na.rm = T), pct_dec))),
                  by=treat]
   dt_missing<-dt[is.na(get(target)),.(Missing = .N), by=treat]
   if (nrow(dt_missing)==0) {
@@ -119,13 +121,13 @@ calc_stats <- function(dt, target, target_name, treat,
 #' @export
 
 calc_stats.numeric <- function(dt, target, target_name=NULL, treat,
-                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL,
-                               pct_dec = NULL) {
+                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                               .total_dt = NULL, pct_dec = 1) {
   if (is.null(target_name)){
     target_name <- target
   }
   x <- calc_desc(dt=dt,target=target, target_name = target_name, treat=treat,
-            indent = indent)
+            indent = indent, pct_dec = pct_dec)
   return(x)
 }
 
@@ -133,8 +135,8 @@ calc_stats.numeric <- function(dt, target, target_name=NULL, treat,
 #' @export
 
 calc_stats.character <- function(dt, target, target_name=NULL, treat,
-                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt=NULL,
-                               pct_dec = 1) {
+                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                               .total_dt=NULL, pct_dec = 1) {
   if (is.null(target_name)){
     target_name <- target
   }
