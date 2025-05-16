@@ -29,7 +29,6 @@ summary_table <- function(dt, target, treat, target_name = NULL,
   if (is.null(target_name)){
     target_name <- target
   }
-
   summary_list <- mapply(calc_stats, target = target, target_name = target_name,
                          treat = list(treat), indent = list(indent),
                          MoreArgs = list(dt = dt, .total_dt = .total_dt,

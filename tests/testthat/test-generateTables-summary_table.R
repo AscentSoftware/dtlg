@@ -367,3 +367,33 @@ test_that("summary_table-sort_headers-custom_order-D-error", {
     )
   )
 })
+
+# Assert that decimal places can be controlled via pct_dec
+test_that("summary_table-pct_dec_comparison", {
+  adlb <- random.cdisc.data::cadlb |> dplyr::filter(AVISIT != "SCREENING")
+  out_pct1 <- summary_table(
+    dt = adlb,
+    target = 'AVAL',
+    treat = 'ARM',
+    target_name = c('PARAM','AVISIT'),
+    indent = '  ',
+    .total_dt = adlb,
+    pct_dec = 1,
+    treat_order = NULL,
+    skip_absent = FALSE
+  )
+  out_pct5 <- summary_table(
+    dt = adlb,
+    target = 'AVAL',
+    treat = 'ARM',
+    target_name = c('PARAM','AVISIT'),
+    indent = '  ',
+    .total_dt = adlb,
+    pct_dec = 5,
+    treat_order = NULL,
+    skip_absent = FALSE
+  )
+  val_pct1 <- as.double(unname(unlist(out_pct1[4,2])))
+  val_pct5 <- as.double(unname(unlist(out_pct5[4,2])))
+  testthat::expect_false(val_pct1 == val_pct5)
+})
