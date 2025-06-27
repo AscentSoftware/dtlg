@@ -36,7 +36,8 @@ test_that("summary_table-sort_headers-all_missing-", {
     .total_dt = adlb,
     pct_dec = 1,
     treat_order = treat_order,
-    skip_absent = TRUE
+    skip_absent = TRUE,
+    include_missing_treat = FALSE
   )
   testthat::expect_equal(
     object = colnames(out_df),
@@ -155,7 +156,8 @@ test_that("summary_table-sort_headers-not_in_data-skip", {
     .total_dt = adlb,
     pct_dec = 1,
     treat_order = treat_order,
-    skip_absent = TRUE
+    skip_absent = TRUE,
+    include_missing_treat = FALSE
   )
   testthat::expect_equal(
     object = colnames(out_df),
@@ -176,7 +178,8 @@ test_that("summary_table-sort_headers-not_in_data-error", {
       .total_dt = adlb,
       pct_dec = 1,
       treat_order = treat_order,
-      skip_absent = FALSE
+      skip_absent = FALSE,
+      include_missing_treat = FALSE
     )
   )
 })
@@ -307,7 +310,8 @@ test_that("summary_table-sort_headers-custom_order-stats_D-skip", {
     .total_dt = adlb,
     pct_dec = 1,
     treat_order = treat_order,
-    skip_absent = TRUE
+    skip_absent = TRUE,
+    include_missing_treat = FALSE
   )
   testthat::expect_equal(
     object = colnames(out_df),
@@ -327,7 +331,8 @@ test_that("summary_table-sort_headers-custom_order-stats_D-error", {
       .total_dt = adlb,
       pct_dec = 1,
       treat_order = treat_order,
-      skip_absent = FALSE
+      skip_absent = FALSE,
+      include_missing_treat = FALSE
     )
   )
 })
@@ -343,13 +348,36 @@ test_that("summary_table-sort_headers-custom_order-D-skip", {
     .total_dt = adlb,
     pct_dec = 1,
     treat_order = treat_order,
-    skip_absent = TRUE
+    skip_absent = TRUE,
+    include_missing_treat = FALSE
   )
   testthat::expect_equal(
     object = colnames(out_df),
     expected = c("stats", "A: Drug X", "B: Placebo", "C: Combination")
   )
 })
+
+test_that("summary_table-sort_headers-custom_order-D-Include", {
+  adlb <- random.cdisc.data::cadlb |> dplyr::filter(AVISIT != "SCREENING")
+  treat_order <- c("D: NotInDataSet")
+  out_df <- summary_table(
+    dt = adlb,
+    target = 'AVAL',
+    treat = 'ARM',
+    target_name = c('PARAM','AVISIT'),
+    indent = '  ',
+    .total_dt = adlb,
+    pct_dec = 1,
+    treat_order = treat_order,
+    skip_absent = TRUE,
+    include_missing_treat = TRUE
+  )
+  testthat::expect_equal(
+    object = colnames(out_df),
+    expected = c("stats", "D: NotInDataSet","A: Drug X", "B: Placebo", "C: Combination")
+  )
+})
+
 test_that("summary_table-sort_headers-custom_order-D-error", {
   adlb <- random.cdisc.data::cadlb |> dplyr::filter(AVISIT != "SCREENING")
   treat_order <- c("D: NotInDataSet")
@@ -363,7 +391,8 @@ test_that("summary_table-sort_headers-custom_order-D-error", {
       .total_dt = adlb,
       pct_dec = 1,
       treat_order = treat_order,
-      skip_absent = FALSE
+      skip_absent = FALSE,
+      include_missing_treat = FALSE
     )
   )
 })

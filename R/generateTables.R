@@ -10,6 +10,7 @@
 #' @param pct_dec decimal places for percentages
 #' @param treat_order customise the column order of output table
 #' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
+#' @param include_missing_treat Logical default TRUE to add missing treatment values to table if not present in the data
 #'
 #' @return a data.table containing summary information on target variables specified
 #' @export
@@ -24,7 +25,7 @@
 
 summary_table <- function(dt, target, treat, target_name = NULL,
                          indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
-                         pct_dec = 1, treat_order = NULL, skip_absent = TRUE) {
+                         pct_dec = 1, treat_order = NULL, skip_absent = TRUE, include_missing_treat = TRUE) {
   dt <- check_table(dt)
   if (is.null(target_name)){
     target_name <- target
@@ -35,6 +36,14 @@ summary_table <- function(dt, target, treat, target_name = NULL,
                                          pct_dec = pct_dec))
 
   table_summary <- data.table::rbindlist(summary_list, use.names = T)
+  
+  if (!is.null(treat_order) && include_missing_treat) {
+    missing_cols <- setdiff(treat_order, colnames(table_summary))
+    if (length(missing_cols) > 0) {
+      table_summary[, (missing_cols) := ""]
+    }
+  }  
+  
   if (!is.null(treat_order)) {
     cols_missing <- sort(setdiff(colnames(table_summary), treat_order))
     table_summary <- data.table::setcolorder(
@@ -57,6 +66,7 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 #' @param pct_dec decimal places for percentages
 #' @param treat_order customise the column order of output table
 #' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
+#' @param include_missing_treat Logical default TRUE to add missing treatment values to table if not present in the data
 #'
 #' @return list containing a data.table containing summary information on target variables specified
 #' @export
@@ -70,7 +80,8 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 summary_table_by <- function(dt, target, treat, rows_by,
                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
                              .total_dt = NULL, pct_dec = 1, treat_order = NULL,
-                             skip_absent = TRUE){
+                             skip_absent = TRUE,
+                             include_missing_treat = TRUE){
 
   dt <- check_table(dt)
   dt <- split(droplevels(dt), by = rows_by, drop = T,sorted=T)
@@ -95,6 +106,15 @@ summary_table_by <- function(dt, target, treat, rows_by,
       x <- x+y+1
     }
   }
+  
+  
+  if (!is.null(treat_order) && include_missing_treat) {
+    missing_cols <- setdiff(treat_order, colnames(summary_split))
+    if (length(missing_cols) > 0) {
+      summary_split[, (missing_cols) := ""]
+    }
+  } 
+  
   summary_split <- rbindlist(summary_split, use.names = T, fill = T)
   if (!is.null(treat_order)) {
     cols_missing <- sort(setdiff(colnames(summary_split), treat_order))
@@ -119,7 +139,7 @@ summary_table_by <- function(dt, target, treat, rows_by,
 #' @param pct_dec decimal places for percentages
 #' @param treat_order customise the column order of output table
 #' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
-#'
+#' @param include_missing_treat Logical default TRUE to add missing treatment values to table if not present in the data
 #' @return data.table
 #' @export
 #'
@@ -128,7 +148,8 @@ summary_table_by <- function(dt, target, treat, rows_by,
 summary_table_by_targets <- function(dt, target, treat, rows_by,
                                      indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
                                      .total_dt = NULL, pct_dec = 1, treat_order = NULL,
-                                     skip_absent = TRUE){
+                                     skip_absent = TRUE,
+                                     include_missing_treat = TRUE){
   if(length(target)!=2){
     print('target needs to be length 2')
   }
@@ -137,7 +158,7 @@ summary_table_by_targets <- function(dt, target, treat, rows_by,
                            MoreArgs = list(dt = dt, treat = treat, rows_by = rows_by,
                                            indent = indent, .total_dt = .total_dt,
                                            pct_dec = pct_dec, treat_order = treat_order,
-                                           skip_absent = skip_absent))
+                                           skip_absent = skip_absent, include_missing_treat = include_missing_treat))
   x <- summary_tables[[1]]
   y <- summary_tables[[2]]
   full <- x[,1]
