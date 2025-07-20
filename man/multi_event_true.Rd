@@ -12,7 +12,7 @@ multi_event_true(
   heading,
   label = NULL,
   .total_dt = NULL,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  indent = nbsp(n = 4L),
   pct_dec = 1
 )
 }

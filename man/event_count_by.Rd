@@ -11,7 +11,7 @@ event_count_by(
   rows_by,
   target,
   .total_dt = NULL,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  indent = nbsp(n = 4L),
   pct_dec = 1
 )
 }

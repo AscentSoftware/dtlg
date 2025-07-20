@@ -18,7 +18,7 @@
 #'
 
 calc_desc <- function(dt, target, target_name, treat,
-                      indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                      indent = nbsp(n = 4L),
                       pct_dec = 1){
 
   # Modified by reference.
@@ -72,7 +72,7 @@ calc_desc <- function(dt, target, target_name, treat,
 #' RACE<-calc_counts(dt = adsl, 'RACE', target_name = 'RACE', treat = 'ARM', indent = '')
 
 calc_counts <- function(dt, target, target_name, treat,
-                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
+                       indent = nbsp(n = 4L), .total_dt = NULL,
                        pct_dec = 1) {
   # Modified by reference.
   data.table::setDT(x = dt)
@@ -116,7 +116,7 @@ calc_counts <- function(dt, target, target_name, treat,
 #' age<-calc_stats(adsl,'AGE',treat='ARM')
 
 calc_stats <- function(dt, target, target_name, treat,
-                       indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                       indent = nbsp(n = 4L),
                        .total_dt = NULL, pct_dec = 1){
   # Modified by reference.
   data.table::setDT(x = dt)
@@ -127,7 +127,7 @@ calc_stats <- function(dt, target, target_name, treat,
 #' @export
 
 calc_stats.numeric <- function(dt, target, target_name=NULL, treat,
-                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                               indent = nbsp(n = 4L),
                                .total_dt = NULL, pct_dec = 1) {
   if (is.null(target_name)){
     target_name <- target
@@ -141,7 +141,7 @@ calc_stats.numeric <- function(dt, target, target_name=NULL, treat,
 #' @export
 
 calc_stats.character <- function(dt, target, target_name=NULL, treat,
-                               indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                               indent = nbsp(n = 4L),
                                .total_dt=NULL, pct_dec = 1) {
   if (is.null(target_name)){
     target_name <- target
@@ -155,7 +155,7 @@ calc_stats.character <- function(dt, target, target_name=NULL, treat,
 #' @export
 
 calc_stats.factor <- function(dt, target, target_name=NULL, treat,
-                                 indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                                 indent = nbsp(n = 4L),
                               .total_dt=NULL, pct_dec = 1) {
   if (is.null(target_name)){
     target_name <- target
@@ -169,7 +169,7 @@ calc_stats.factor <- function(dt, target, target_name=NULL, treat,
 #' @export
 
 calc_stats.logical <- function(dt, target, target_name=NULL, treat,
-                              indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                              indent = nbsp(n = 4L),
                               .total_dt=NULL, pct_dec = 1) {
   if (is.null(target_name)){
     target_name <- target

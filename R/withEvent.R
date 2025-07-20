@@ -122,7 +122,7 @@ total_events <- function(dt, treat, label){
 #' aesi_vars <- c("FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
 #' f <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
 multi_event_true <- function(dt, event_vars, patient, treat, heading, label = NULL,
-                             .total_dt = NULL, indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                             .total_dt = NULL, indent = nbsp(n = 4L),
                              pct_dec = 1) {
 
   # Modified by reference.
@@ -222,7 +222,7 @@ merge_table_lists <- function(dt_l){
 #'
 
 event_count_by <- function(dt, patient, treat, rows_by, target, .total_dt = NULL,
-                           indent = '&nbsp;&nbsp;&nbsp;&nbsp;', pct_dec = 1){
+                           indent = nbsp(n = 4L), pct_dec = 1){
   # Modified by reference.
   data.table::setDT(x = dt)
   event <- dt

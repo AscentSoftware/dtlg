@@ -23,7 +23,7 @@
 #' DMT01_pct<-summary_table(adsl, target = vars, treat = 'ARM', indent = '  ', .total_dt = adsl)
 
 summary_table <- function(dt, target, treat, target_name = NULL,
-                         indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
+                         indent = nbsp(n = 4L), .total_dt = NULL,
                          pct_dec = 1, treat_order = NULL, skip_absent = TRUE) {
   # Modified by reference.
   data.table::setDT(x = .total_dt)
@@ -70,7 +70,7 @@ summary_table <- function(dt, target, treat, target_name = NULL,
 #'
 
 summary_table_by <- function(dt, target, treat, rows_by,
-                             indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                             indent = nbsp(n = 4L),
                              .total_dt = NULL, pct_dec = 1, treat_order = NULL,
                              skip_absent = TRUE){
 
@@ -130,7 +130,7 @@ summary_table_by <- function(dt, target, treat, rows_by,
 #' @examples adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
 #' labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'), '  ', NULL)
 summary_table_by_targets <- function(dt, target, treat, rows_by,
-                                     indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
+                                     indent = nbsp(n = 4L),
                                      .total_dt = NULL, pct_dec = 1, treat_order = NULL,
                                      skip_absent = TRUE){
   if(length(target)!=2){

@@ -4,7 +4,7 @@
 \alias{calc_desc}
 \title{calc_desc}
 \usage{
-calc_desc(dt, target, target_name, treat, indent = "&nbsp;&nbsp;&nbsp;&nbsp;")
+calc_desc(dt, target, target_name, treat, indent = nbsp(n = 4L), pct_dec = 1)
 }
 \arguments{
 \item{dt}{table input to use.}

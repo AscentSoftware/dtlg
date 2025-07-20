@@ -10,9 +10,11 @@ summary_table(
   target,
   treat,
   target_name = NULL,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  indent = nbsp(n = 4L),
   .total_dt = NULL,
-  pct_dec = 1
+  pct_dec = 1,
+  treat_order = NULL,
+  skip_absent = TRUE
 )
 }
 \arguments{
@@ -29,6 +31,10 @@ summary_table(
 \item{.total_dt}{optional table for total counts to be derived}
 
 \item{pct_dec}{decimal places for percentages}
+
+\item{treat_order}{customise the column order of output table}
+
+\item{skip_absent}{Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.}
 }
 \value{
 a data.table containing summary information on target variables specified

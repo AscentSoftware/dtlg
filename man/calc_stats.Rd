@@ -14,7 +14,7 @@ calc_stats(
   target,
   target_name,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  indent = nbsp(n = 4L),
   .total_dt = NULL,
   pct_dec = 1
 )
@@ -24,8 +24,9 @@ calc_stats(
   target,
   target_name = NULL,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
-  .total_dt = NULL
+  indent = nbsp(n = 4L),
+  .total_dt = NULL,
+  pct_dec = 1
 )
 
 \method{calc_stats}{character}(
@@ -33,7 +34,7 @@ calc_stats(
   target,
   target_name = NULL,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  indent = nbsp(n = 4L),
   .total_dt = NULL,
   pct_dec = 1
 )
@@ -43,7 +44,7 @@ calc_stats(
   target,
   target_name = NULL,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  indent = nbsp(n = 4L),
   .total_dt = NULL,
   pct_dec = 1
 )
@@ -53,7 +54,7 @@ calc_stats(
   target,
   target_name = NULL,
   treat,
-  indent = "&nbsp;&nbsp;&nbsp;&nbsp;",
+  indent = nbsp(n = 4L),
   .total_dt = NULL,
   pct_dec = 1
 )
