@@ -22,10 +22,12 @@
 #' d<-event_count(adae, patient = "USUBJID", treat = "ARM", label = "Total number of patients with at least one AE",.total_dt = adsl)
 
 event_count <- function(dt, patient, treat, label, .filters = NULL, .total_dt = NULL, pct_dec = 1) {
- dt <- check_table(dt)
+  # Modified by reference.
+  data.table::setDT(x = dt)
  event <- dt
  if(!is.null(.total_dt)){
-   .total_dt <- check_table(.total_dt)
+   # Modified by reference.
+   data.table::setDT(x = .total_dt)
  } else {
    .total_dt <- dt
  }
@@ -57,7 +59,9 @@ event_count <- function(dt, patient, treat, label, .filters = NULL, .total_dt = 
 #' e <- total_events(adae, 'ARM', 'Total number of AEs')
 
 total_events <- function(dt, treat, label){
-  dt <- check_table(dt)
+  # Modified by reference.
+  data.table::setDT(x = dt)
+
   dt <- dt[,.(n = .N), by = treat]
   dt <- transpose(dt,keep.names = 'stats',make.names = treat, fill=0)
   dt[, stats := label]
@@ -121,7 +125,8 @@ multi_event_true <- function(dt, event_vars, patient, treat, heading, label = NU
                              .total_dt = NULL, indent = '&nbsp;&nbsp;&nbsp;&nbsp;',
                              pct_dec = 1) {
 
-  dt <- check_table(dt)
+  # Modified by reference.
+  data.table::setDT(x = dt)
   event_filters <- paste0(event_vars, ' == T')
   if(is.null(label)){
     event_label <- lapply(event_vars, function(x) ifelse(is.null(attr(dt[,get(x)],'label')),x,
@@ -218,10 +223,12 @@ merge_table_lists <- function(dt_l){
 
 event_count_by <- function(dt, patient, treat, rows_by, target, .total_dt = NULL,
                            indent = '&nbsp;&nbsp;&nbsp;&nbsp;', pct_dec = 1){
-  dt <- check_table(dt)
+  # Modified by reference.
+  data.table::setDT(x = dt)
   event <- dt
   if(!is.null(.total_dt)){
-    .total_dt <- check_table(.total_dt)
+    # Modified by reference.
+    data.table::setDT(x = .total_dt)
   } else {
     .total_dt <- dt
   }

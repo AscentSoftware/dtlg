@@ -25,7 +25,9 @@
 summary_table <- function(dt, target, treat, target_name = NULL,
                          indent = '&nbsp;&nbsp;&nbsp;&nbsp;', .total_dt = NULL,
                          pct_dec = 1, treat_order = NULL, skip_absent = TRUE) {
-  dt <- check_table(dt)
+  # Modified by reference.
+  data.table::setDT(x = .total_dt)
+
   if (is.null(target_name)){
     target_name <- target
   }
@@ -72,7 +74,9 @@ summary_table_by <- function(dt, target, treat, rows_by,
                              .total_dt = NULL, pct_dec = 1, treat_order = NULL,
                              skip_absent = TRUE){
 
-  dt <- check_table(dt)
+  # Modified by reference.
+  data.table::setDT(x = .total_dt)
+
   dt <- split(droplevels(dt), by = rows_by, drop = T,sorted=T)
   label <- names(dt)
   if(length(rows_by)>1){
@@ -132,7 +136,10 @@ summary_table_by_targets <- function(dt, target, treat, rows_by,
   if(length(target)!=2){
     print('target needs to be length 2')
   }
-  dt <- check_table(dt)
+
+  # Modified by reference.
+  data.table::setDT(x = .total_dt)
+
   summary_tables <- mapply(summary_table_by, target = target,
                            MoreArgs = list(dt = dt, treat = treat, rows_by = rows_by,
                                            indent = indent, .total_dt = .total_dt,
