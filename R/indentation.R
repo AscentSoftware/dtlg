@@ -20,6 +20,7 @@
 #' nbsp(n = 0)
 #'
 #' @keywords internal
+#' @export
 #'
 nbsp <- function(n = 1L) {
 
@@ -54,6 +55,7 @@ nbsp <- function(n = 1L) {
 #' indent(c("Mean", "Median", "Max, Min", "Missing"))
 #'
 #' @keywords internal
+#' @export
 #'
 indent <- function(x, n = 4L) {
 
