@@ -9,7 +9,7 @@ summary_table(
   dt,
   target,
   treat,
-  target_name = NULL,
+  target_name = target,
   indent = nbsp(n = 4L),
   .total_dt = NULL,
   pct_dec = 1,

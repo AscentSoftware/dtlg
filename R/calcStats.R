@@ -126,55 +126,86 @@ calc_stats <- function(dt, target, target_name, treat,
 #' @rdname calc_stats
 #' @export
 
-calc_stats.numeric <- function(dt, target, target_name=NULL, treat,
+calc_stats.numeric <- function(dt,
+                               target,
+                               target_name = target,
+                               treat,
                                indent = nbsp(n = 4L),
-                               .total_dt = NULL, pct_dec = 1) {
-  if (is.null(target_name)){
-    target_name <- target
-  }
-  x <- calc_desc(dt=dt,target=target, target_name = target_name, treat=treat,
-            indent = indent, pct_dec = pct_dec)
+                               .total_dt = NULL,
+                               pct_dec = 1) {
+  x <- calc_desc(
+    dt = dt,
+    target = target,
+    target_name = target_name,
+    treat = treat,
+    indent = indent,
+    pct_dec = pct_dec
+  )
   return(x)
 }
 
 #' @rdname calc_stats
 #' @export
 
-calc_stats.character <- function(dt, target, target_name=NULL, treat,
-                               indent = nbsp(n = 4L),
-                               .total_dt=NULL, pct_dec = 1) {
-  if (is.null(target_name)){
-    target_name <- target
-  }
-  x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-            indent = indent, .total_dt = .total_dt, pct_dec = pct_dec)
-  return(x)
-}
-
-#' @rdname calc_stats
-#' @export
-
-calc_stats.factor <- function(dt, target, target_name=NULL, treat,
+calc_stats.character <- function(dt,
+                                 target,
+                                 target_name = target,
+                                 treat,
                                  indent = nbsp(n = 4L),
-                              .total_dt=NULL, pct_dec = 1) {
-  if (is.null(target_name)){
-    target_name <- target
-  }
-  x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-              indent = indent, .total_dt = .total_dt, pct_dec = pct_dec)
+                                 .total_dt = NULL,
+                                 pct_dec = 1) {
+  x <- calc_counts(
+    dt = dt,
+    target = target,
+    target_name = target_name,
+    treat = treat,
+    indent = indent,
+    .total_dt = .total_dt,
+    pct_dec = pct_dec
+  )
   return(x)
 }
 
 #' @rdname calc_stats
 #' @export
 
-calc_stats.logical <- function(dt, target, target_name=NULL, treat,
+calc_stats.factor <- function(dt,
+                              target,
+                              target_name = target,
+                              treat,
                               indent = nbsp(n = 4L),
-                              .total_dt=NULL, pct_dec = 1) {
-  if (is.null(target_name)){
-    target_name <- target
-  }
-  x <- calc_counts(dt=dt,target=target, target_name = target_name, treat=treat,
-              indent = indent, .total_dt = .total_dt, pct_dec = pct_dec)
+                              .total_dt = NULL,
+                              pct_dec = 1) {
+  x <- calc_counts(
+    dt = dt,
+    target = target,
+    target_name = target_name,
+    treat = treat,
+    indent = indent,
+    .total_dt = .total_dt,
+    pct_dec = pct_dec
+  )
+  return(x)
+}
+
+#' @rdname calc_stats
+#' @export
+
+calc_stats.logical <- function(dt,
+                               target,
+                               target_name = target,
+                               treat,
+                               indent = nbsp(n = 4L),
+                               .total_dt = NULL,
+                               pct_dec = 1) {
+  x <- calc_counts(
+    dt = dt,
+    target = target,
+    target_name = target_name,
+    treat = treat,
+    indent = indent,
+    .total_dt = .total_dt,
+    pct_dec = pct_dec
+  )
   return(x)
 }

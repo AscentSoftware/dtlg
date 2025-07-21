@@ -22,28 +22,35 @@
 #' DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels, indent = '  ')
 #' DMT01_pct<-summary_table(adsl, target = vars, treat = 'ARM', indent = '  ', .total_dt = adsl)
 
-summary_table <- function(dt, target, treat, target_name = NULL,
-                         indent = nbsp(n = 4L), .total_dt = NULL,
-                         pct_dec = 1, treat_order = NULL, skip_absent = TRUE) {
+summary_table <- function(dt,
+                          target,
+                          treat,
+                          target_name = target,
+                          indent = nbsp(n = 4L),
+                          .total_dt = NULL,
+                          pct_dec = 1,
+                          treat_order = NULL,
+                          skip_absent = TRUE) {
   # Modified by reference.
   data.table::setDT(x = .total_dt)
 
-  if (is.null(target_name)){
-    target_name <- target
-  }
-  summary_list <- mapply(calc_stats, target = target, target_name = target_name,
-                         treat = list(treat), indent = list(indent),
-                         MoreArgs = list(dt = dt, .total_dt = .total_dt,
-                                         pct_dec = pct_dec))
+  summary_list <- mapply(
+    calc_stats,
+    target = target,
+    target_name = target_name,
+    treat = list(treat),
+    indent = list(indent),
+    MoreArgs = list(
+      dt = dt,
+      .total_dt = .total_dt,
+      pct_dec = pct_dec
+    )
+  )
 
   table_summary <- data.table::rbindlist(summary_list, use.names = T)
   if (!is.null(treat_order)) {
     cols_missing <- sort(setdiff(colnames(table_summary), treat_order))
-    table_summary <- data.table::setcolorder(
-      table_summary,
-      unique(c("stats", treat_order, cols_missing)),
-      skip_absent = skip_absent
-    )
+    table_summary <- data.table::setcolorder(table_summary, unique(c("stats", treat_order, cols_missing)), skip_absent = skip_absent)
   }
   return(table_summary)
 }

@@ -22,7 +22,7 @@ calc_stats(
 \method{calc_stats}{numeric}(
   dt,
   target,
-  target_name = NULL,
+  target_name = target,
   treat,
   indent = nbsp(n = 4L),
   .total_dt = NULL,
@@ -32,7 +32,7 @@ calc_stats(
 \method{calc_stats}{character}(
   dt,
   target,
-  target_name = NULL,
+  target_name = target,
   treat,
   indent = nbsp(n = 4L),
   .total_dt = NULL,
@@ -42,7 +42,7 @@ calc_stats(
 \method{calc_stats}{factor}(
   dt,
   target,
-  target_name = NULL,
+  target_name = target,
   treat,
   indent = nbsp(n = 4L),
   .total_dt = NULL,
@@ -52,7 +52,7 @@ calc_stats(
 \method{calc_stats}{logical}(
   dt,
   target,
-  target_name = NULL,
+  target_name = target,
   treat,
   indent = nbsp(n = 4L),
   .total_dt = NULL,
