@@ -20,6 +20,7 @@
 #' nbsp(n = 0)
 #'
 #' @keywords internal
+#'
 nbsp <- function(n = 1L) {
 
   stopifnot(
@@ -28,4 +29,39 @@ nbsp <- function(n = 1L) {
   )
 
   strrep("&nbsp;", times = n)
+}
+
+#' Add indentation to strings
+#'
+#' [indent()] prefixes a string with a sequence of HTML non-breaking spaces,
+#' to effectively work as indentation.
+#'
+#' @param x A character vector of strings to be _indented_.
+#'
+#' @param n Number of non-breaking spaces to use as indentation. If `n = 0` then
+#' no indentation is performed.
+#'
+#' @returns A character vector of the same length as `x`.
+#'
+#' @examples
+#' # Default is to indent by four non-breaking spaces.
+#' indent("Mean")
+#'
+#' # Choose a different indentation level.
+#' indent("Mean", n = 2L)
+#'
+#' # `indent()` is vectorised over `x`
+#' indent(c("Mean", "Median", "Max, Min", "Missing"))
+#'
+#' @keywords internal
+#'
+indent <- function(x, n = 4L) {
+
+  stopifnot(
+    is.character(x),
+    n >= 0L
+  )
+
+  indentation <- nbsp(n = n)
+  paste0(indentation, x)
 }
