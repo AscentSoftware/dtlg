@@ -1,9 +1,33 @@
 Package: dtlg
 Title: A performance focused package for creating pharma TLGs
 Version: 0.0.1
-Authors@R: 
-    person("Max", "Ebenezer-Brown", , "max.ebenezer-brown@ascent.io", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+Authors@R: c(
+    person(
+        given = "Max", family = "Ebenezer-Brown",
+        email = "max.ebenezer-brown@ascent.io",
+        role = c("aut", "cre")
+        ),
+    person(
+        given = "Max", family = "Norman",
+        email = "max.norman@ascent.io",
+        role = "aut"
+        ),
+    person(
+        given = "Xinye", family = "Li",
+        email = "xinye.li@ascent.io",
+        role = "aut"
+        ),
+    person(
+        given = "Anja", family = "Peebles-Brown",
+        email = "anna.peebles-brown@ascent.io",
+        role = "aut"
+        ),
+    person(
+        given = "Ramiro", family = "Magno",
+        email = "ramiro.morgado@ascent.io",
+        role = "ctb"
+        )
+    )
 Description: This package main function is to create pharmacutical tables,
     listing and graphs at high performance by using data.table as a
     backend.
