@@ -17,9 +17,12 @@
 #' age<-calc_desc(adsl, 'AGE', 'AGE', treat='ARM')
 #'
 
-calc_desc <- function(dt, target, target_name, treat,
+calc_desc <- function(dt,
+                      target,
+                      target_name = target,
+                      treat,
                       indent = nbsp(n = 4L),
-                      pct_dec = 1){
+                      pct_dec = 1) {
 
   # Modified by reference.
   data.table::setDT(x = dt)
@@ -71,9 +74,14 @@ calc_desc <- function(dt, target, target_name, treat,
 #' @examples adsl <- random.cdisc.data::cadsl
 #' RACE<-calc_counts(dt = adsl, 'RACE', target_name = 'RACE', treat = 'ARM', indent = '')
 
-calc_counts <- function(dt, target, target_name, treat,
-                       indent = nbsp(n = 4L), .total_dt = NULL,
-                       pct_dec = 1) {
+calc_counts <- function(dt,
+                        target,
+                        target_name = target,
+                        treat,
+                        indent = nbsp(n = 4L),
+                        .total_dt = NULL,
+                        pct_dec = 1) {
+
   # Modified by reference.
   data.table::setDT(x = dt)
 
@@ -115,12 +123,16 @@ calc_counts <- function(dt, target, target_name, treat,
 #' @examples adsl <- random.cdisc.data::cadsl
 #' age<-calc_stats(adsl,'AGE',treat='ARM')
 
-calc_stats <- function(dt, target, target_name, treat,
+calc_stats <- function(dt,
+                       target,
+                       target_name = target,
+                       treat,
                        indent = nbsp(n = 4L),
-                       .total_dt = NULL, pct_dec = 1){
+                       .total_dt = NULL,
+                       pct_dec = 1) {
   # Modified by reference.
   data.table::setDT(x = dt)
-  UseMethod('calc_stats', dt[,(get(target))])
+  UseMethod('calc_stats', dt[, (get(target))])
 }
 
 #' @rdname calc_stats

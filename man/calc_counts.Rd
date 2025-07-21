@@ -8,7 +8,7 @@ generate counts of a column}
 calc_counts(
   dt,
   target,
-  target_name,
+  target_name = target,
   treat,
   indent = nbsp(n = 4L),
   .total_dt = NULL,
