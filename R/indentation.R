@@ -42,6 +42,11 @@ nbsp <- function(n = 1L) {
 #' @param n Number of non-breaking spaces to use as indentation. If `n = 0` then
 #' no indentation is performed.
 #'
+#' @param indentation As an alternative to the number of spaces `n` you may
+#' pass the actual sequence of HTML non-breaking spaces as a string to this
+#' parameter, or any other string for that matter. Defaults to an indentation
+#' of four spaces (`n = 4`).
+#'
 #' @returns A character vector of the same length as `x`.
 #'
 #' @examples
@@ -57,13 +62,12 @@ nbsp <- function(n = 1L) {
 #' @keywords internal
 #' @export
 #'
-indent <- function(x, n = 4L) {
+indent <- function(x, n = 4L, indentation = nbsp(n = n)) {
 
   stopifnot(
     is.character(x),
     n >= 0L
   )
 
-  indentation <- nbsp(n = n)
   paste0(indentation, x)
 }

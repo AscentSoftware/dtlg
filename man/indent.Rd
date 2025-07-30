@@ -4,13 +4,18 @@
 \alias{indent}
 \title{Add indentation to strings}
 \usage{
-indent(x, n = 4L)
+indent(x, n = 4L, indentation = nbsp(n = n))
 }
 \arguments{
 \item{x}{A character vector of strings to be \emph{indented}.}
 
 \item{n}{Number of non-breaking spaces to use as indentation. If \code{n = 0} then
 no indentation is performed.}
+
+\item{indentation}{As an alternative to the number of spaces \code{n} you may
+pass the actual sequence of HTML non-breaking spaces as a string to this
+parameter, or any other string for that matter. Defaults to an indentation
+of four spaces (\code{n = 4}).}
 }
 \value{
 A character vector of the same length as \code{x}.
