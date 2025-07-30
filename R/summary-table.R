@@ -1,3 +1,13 @@
+reorder_cols <- function(dt, cols, before_cols = "stats", skip_absent = TRUE) {
+
+  cols %||% return(dt)
+
+  all_cols <- colnames(dt)
+  cols_missing <- sort(setdiff(all_cols, cols))
+  new_cols <- unique(c(before_cols, cols, cols_missing))
+  data.table::setcolorder(dt, new_cols, skip_absent = skip_absent)[]
+}
+
 #' summary_table
 #' wrapper function to create data.table on target variables using calc_stats
 #'
@@ -16,12 +26,12 @@
 #'
 #' @import data.table
 #'
-#' @examples adsl <- random.cdisc.data::cadsl
+#' @examples
 #' vars<-c('AGE','RACE','ETHNIC','BMRKR1')
 #' var_labels <- c("Age (yr)", "Race", "Ethnicity", "Continous Level Biomarker 1")
 #' DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels, indent = '  ')
 #' DMT01_pct<-summary_table(adsl, target = vars, treat = 'ARM', indent = '  ', .total_dt = adsl)
-
+#'
 summary_table <- function(dt,
                           target,
                           treat,
@@ -31,28 +41,26 @@ summary_table <- function(dt,
                           pct_dec = 1,
                           treat_order = NULL,
                           skip_absent = TRUE) {
-  # Modified by reference.
-  data.table::setDT(x = .total_dt)
 
-  summary_list <- mapply(
-    calc_stats,
-    target = target,
-    target_name = target_name,
-    treat = list(treat),
-    indent = list(indent),
-    MoreArgs = list(
-      dt = dt,
-      .total_dt = .total_dt,
-      pct_dec = pct_dec
+  stopifnot(length(target) >= length(target_name), length(target) >= length(indent))
+  vct_args <- vctrs::vec_recycle_common(target = target, target_name = target_name, indent = indent)
+  scl_args <- list(dt = dt, treat = treat, .total_dt = .total_dt, pct_dec = pct_dec)
+
+  summaries <-
+    with(
+      vct_args,
+      expr = mapply(
+        FUN = calc_stats,
+        target = target,
+        target_name = target_name,
+        indent = indent,
+        MoreArgs = scl_args
+      )
     )
-  )
 
-  table_summary <- data.table::rbindlist(summary_list, use.names = T)
-  if (!is.null(treat_order)) {
-    cols_missing <- sort(setdiff(colnames(table_summary), treat_order))
-    table_summary <- data.table::setcolorder(table_summary, unique(c("stats", treat_order, cols_missing)), skip_absent = skip_absent)
-  }
-  return(table_summary)
+  summaries |>
+    data.table::rbindlist(use.names = TRUE) |>
+    reorder_cols(cols = treat_order, skip_absent = skip_absent)
 }
 
 #' Create a summary table using multiple rows for grouping on one target column
@@ -68,54 +76,65 @@ summary_table <- function(dt,
 #' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
 #'
 #' @return list containing a data.table containing summary information on target variables specified
-#' @export
 #'
-#' @import data.table
-#'
-#' @examples adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
+#' @examples
+#' adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
 #' labs <- summary_table_by(adlb, 'AVAL', 'ARM', c('PARAM','AVISIT'), '  ', NULL)
 #'
-
-summary_table_by <- function(dt, target, treat, rows_by,
+#' @export
+#'
+summary_table_by <- function(dt,
+                             target,
+                             treat,
+                             rows_by,
                              indent = nbsp(n = 4L),
-                             .total_dt = NULL, pct_dec = 1, treat_order = NULL,
-                             skip_absent = TRUE){
-
+                             .total_dt = NULL,
+                             pct_dec = 1,
+                             treat_order = NULL,
+                             skip_absent = TRUE) {
   # Modified by reference.
-  data.table::setDT(x = .total_dt)
+  data.table::setDT(x = dt)
 
-  dt <- split(droplevels(dt), by = rows_by, drop = T,sorted=T)
+  dt <- split(droplevels(dt),
+              by = rows_by,
+              drop = T,
+              sorted = T)
   label <- names(dt)
-  if(length(rows_by)>1){
+  if (length(rows_by) > 1) {
     label <- strsplit(label, '\\.')
-    heading_full <- lapply(X=label, function(x){x[1]})
+    heading_full <- lapply(X = label, function(x) {
+      x[1]
+    })
     heading <- unique(heading_full)
-    label <- lapply(label,function(x){paste(x[2:length(x)],collapse='.')})
+    label <- lapply(label, function(x) {
+      paste(x[2:length(x)], collapse = '.')
+    })
     label <- paste0(indent, label)
-    indent <- paste0(indent,indent)
+    indent <- paste0(indent, indent)
   }
-  summary_split <- mapply(calc_stats, dt = dt, target = target, target_name = label,
-                          treat = treat, indent = indent,
-                          pct_dec = pct_dec)
+  summary_split <- mapply(
+    calc_stats,
+    dt = dt,
+    target = target,
+    target_name = label,
+    treat = treat,
+    indent = indent,
+    pct_dec = pct_dec
+  )
 
-  if(length(rows_by)>1){
+  if (length(rows_by) > 1) {
     x <- 0
     for (i in 1:length(heading)) {
-      y = sum(heading_full%in%heading[i])
-      summary_split<-append(summary_split,list(data.table(stats=heading[[i]])),after = x)
-      x <- x+y+1
+      y = sum(heading_full %in% heading[i])
+      summary_split <- append(summary_split, list(data.table(stats = heading[[i]])), after = x)
+      x <- x + y + 1
     }
   }
-  summary_split <- rbindlist(summary_split, use.names = T, fill = T)
-  if (!is.null(treat_order)) {
-    cols_missing <- sort(setdiff(colnames(summary_split), treat_order))
-    summary_split <- data.table::setcolorder(
-      summary_split,
-      unique(c("stats", treat_order, cols_missing)),
-      skip_absent = skip_absent
-    )
-  }
-  return(list(summary_split))
+
+  summary_split |>
+    data.table::rbindlist(use.names = TRUE, fill = TRUE) |>
+    reorder_cols(cols = treat_order, skip_absent = skip_absent) |>
+    list()
 }
 
 #' Create a summary table using multiple rows for grouping on two target column
@@ -136,30 +155,44 @@ summary_table_by <- function(dt, target, treat, rows_by,
 #'
 #' @examples adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
 #' labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'), '  ', NULL)
-summary_table_by_targets <- function(dt, target, treat, rows_by,
+summary_table_by_targets <- function(dt,
+                                     target,
+                                     treat,
+                                     rows_by,
                                      indent = nbsp(n = 4L),
-                                     .total_dt = NULL, pct_dec = 1, treat_order = NULL,
-                                     skip_absent = TRUE){
-  if(length(target)!=2){
+                                     .total_dt = NULL,
+                                     pct_dec = 1,
+                                     treat_order = NULL,
+                                     skip_absent = TRUE) {
+  if (length(target) != 2) {
     print('target needs to be length 2')
   }
 
   # Modified by reference.
   data.table::setDT(x = .total_dt)
 
-  summary_tables <- mapply(summary_table_by, target = target,
-                           MoreArgs = list(dt = dt, treat = treat, rows_by = rows_by,
-                                           indent = indent, .total_dt = .total_dt,
-                                           pct_dec = pct_dec, treat_order = treat_order,
-                                           skip_absent = skip_absent))
+  summary_tables <- mapply(
+    summary_table_by,
+    target = target,
+    MoreArgs = list(
+      dt = dt,
+      treat = treat,
+      rows_by = rows_by,
+      indent = indent,
+      .total_dt = .total_dt,
+      pct_dec = pct_dec,
+      treat_order = treat_order,
+      skip_absent = skip_absent
+    )
+  )
   x <- summary_tables[[1]]
   y <- summary_tables[[2]]
-  full <- x[,1]
-  names(x) <- paste(names(x),target[1],sep = '.')
-  names(y) <- paste(names(y),target[2],sep = '.')
-   for (i in 2:ncol(x)){
-     full<- data.table(full,x[,..i],y[,..i])
-   }
+  full <- x[, 1]
+  names(x) <- paste(names(x), target[1], sep = '.')
+  names(y) <- paste(names(y), target[2], sep = '.')
+  for (i in 2:ncol(x)) {
+    full <- data.table(full, x[, i, with = FALSE], y[, i, with = FALSE])
+  }
   return(full)
 }
 
