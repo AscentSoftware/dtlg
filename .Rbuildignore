@@ -3,3 +3,5 @@
 ^README\.Rmd$
 ^tmp$
 ^LICENSE\.md$
+^data-raw$
+^vignettes/articles$
