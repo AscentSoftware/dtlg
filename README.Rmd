@@ -1,6 +1,5 @@
 ---
 output: github_document
-always_allow_html: true
 ---
 
 ```{r, include = FALSE}
@@ -14,7 +13,14 @@ knitr::opts_chunk$set(
 
 # dtlg
 
-The goal of dtlg is to create pharmaceutical tables, listings and graphs for use at scale by utilising data.table as a back-end for processing. Currently only tables can be created but the functions should encompass a large number of possibilities for pharma tables.
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/AscentSoftware/dtlg/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AscentSoftware/dtlg/actions/workflows/R-CMD-check.yaml)
+  <!-- badges: end -->
+
+The goal of dtlg is to create pharmaceutical tables, listings and graphs for use
+at scale by utilising data.table as a back-end for processing. Currently only
+tables can be created but the functions should encompass a large number of
+possibilities for pharma tables.
 
 The package was created using TLGcatalog to create examples.
 
@@ -22,159 +28,35 @@ Advance formatting options to follow in future.
 
 ## Installation
 
-You can install the development version of dtlg from [GitHub](https://github.com/) with:
+You can install the development version of `{dtlg}` from
+[GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("AscentSoftware/dtlg")
-```
-
-## Benchmarks
-
-The following benchmarks compare dtlg with tern and use the TLGcatalog to get table code for tern.
-
-#### DMT01
-
-DMT01 was benchmarked using an ADSL table at 20 row intervals between 1,000 and 1,000,000 with a minimum of 10 iterations carried out for each interval. The results are as follows.
-
-```{r, echo=FALSE,out.width="49%", out.height="20%",fig.cap="Min and Median benchmark times",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics(c("man/figures/DMT01_min.png","man/figures/DMT01_median.png"))
-
-```
-
-#### AET01
-
-AET01 was benchmarked using an ADAEtable at 20 row intervals between 1,000 and 746,082 with a minimum of 10 iterations carried out for each interval. The ADSL table used for totals contained 20,000 rows. The results are as follows.
-
-```{r, echo=FALSE,out.width="49%", out.height="20%",fig.cap="Min and Median benchmark times",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics(c("man/figures/AET01_min.png","man/figures/AET01_median.png"))
+# install.packages("pak")
+pak::pak("AscentSoftware/dtlg")
 ```
 
 ## Example
 
-#### This example shows you how to create a demography table:
-
-Carrying out data prep from TLG catalog DMT01
-
-```{r example, echo=TRUE}
-library(dtlg)
-#Recreating data prep from TLG Catalog DMT01
-adsl <- random.cdisc.data::cadsl
-adsl <- adsl|>
-  dplyr::mutate(adsl,
-    SEX = factor(dplyr::case_when(
-      SEX == "M" ~ "Male",
-      SEX == "F" ~ "Female",
-      SEX == "U" ~ "Unknown",
-      SEX == "UNDIFFERENTIATED" ~ "Undifferentiated"
-    )),
-    AGEGR1 = factor(
-      dplyr::case_when(
-        dplyr::between(AGE, 18, 40) ~ "18-40",
-        dplyr::between(AGE, 41, 64) ~ "41-64",
-        AGE > 64 ~ ">=65"
-      ),
-      levels = c("18-40", "41-64", ">=65")
-    ))
-
-```
-
-Creating DMT01
+Creating an AET01 table:
 
 ```{r}
-vars <- c("AGE", "AGEGR1", "SEX", "ETHNIC", "RACE", "BMRKR1")
-var_labels <- c(
-  "Age (yr)",
-  "Age Group",
-  "Sex",
-  "Ethnicity",
-  "Race",
-  "Continous Level Biomarker 1"
-)
-DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels)
+library(dtlg)
+
+head(adsl[, c("USUBJID", "ARM")])
+
+head(aesi[, c("USUBJID", "ARM", "FATAL")])
+
+AET01 <-
+  AET01_table(
+    adsl = adsl,
+    adae = aesi,
+    patient_var = "USUBJID",
+    treat_var = "ARM",
+    aesi_vars = c("FATAL", "SER", "SERWD", "SERDSM", "RELSER",
+                  "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
+  )
+
+AET01[, stats := strtrim(stats, 35)][]
 ```
 
-```{r echo=FALSE}
-knitr::kable(DMT01) |>
-  kableExtra::kable_styling() |>
-  kableExtra::scroll_box(width = '100%', height = '500px')
-```
-
-#### This example shows how to create a labs table like LBT01
-
-*Change from baseline is not currently available*
-
-```{r echo=TRUE}
-adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
-labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'))
-```
-
-```{r echo=FALSE}
-knitr::kable(labs) |>
-  kableExtra::kable_styling() |>
-  kableExtra::scroll_box(width = '100%', height = '500px')
-```
-
-#### **This example shows how to create AET01**
-
-Follow example in merge_table_lists to get the relevant tables created. This mirrors the set up in the TLGcatalog.
-
-```{r echo=FALSE}
-set.seed(99)
-adae <- random.cdisc.data::cadae
-adae <- adae |> dplyr::mutate(
-    AEDECOD = formatters::with_label(as.character(AEDECOD), "Dictionary-Derived Term"),
-    AESDTH = formatters::with_label(
-        sample(c("N", "Y"), size = nrow(adae), replace = TRUE, prob = c(0.99, 0.01)),
-        "Results in Death"
-    ),
-    AEACN = formatters::with_label(
-        sample(
-            c("DOSE NOT CHANGED", "DOSE INCREASED", "DRUG INTERRUPTED", "DRUG WITHDRAWN"),
-            size = nrow(adae),
-            replace = TRUE, prob = c(0.68, 0.02, 0.25, 0.05)
-        ),
-        "Action Taken with Study Treatment"
-    ),
-    FATAL = formatters::with_label(AESDTH == "Y", "AE with fatal outcome"),
-    SEV = formatters::with_label(AESEV == "SEVERE", "Severe AE (at greatest intensity)"),
-    SER = formatters::with_label(AESER == "Y", "Serious AE"),
-    SERWD = formatters::with_label(AESER == "Y" & AEACN == "DRUG WITHDRAWN", "Serious AE leading to withdrawal from treatment"),
-    SERDSM = formatters::with_label(
-        AESER == "Y" & AEACN %in% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"),
-        "Serious AE leading to dose modification/interruption"
-    ),
-    RELSER = formatters::with_label(AESER == "Y" & AEREL == "Y", "Related Serious AE"),
-    WD = formatters::with_label(AEACN == "DRUG WITHDRAWN", "AE leading to withdrawal from treatment"),
-    DSM = formatters::with_label(
-        AEACN %in% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"), "AE leading to dose modification/interruption"
-    ),
-    REL = formatters::with_label(AEREL == "Y", "Related AE"),
-    RELWD = formatters::with_label(AEREL == "Y" & AEACN == "DRUG WITHDRAWN", "Related AE leading to withdrawal from treatment"),
-    RELDSM = formatters::with_label(
-        AEREL == "Y" & AEACN %in% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"),
-        "Related AE leading to dose modification/interruption"
-    )) |> dplyr::filter(ANL01FL == "Y")
-adsl <- random.cdisc.data::cadsl
-```
-
-```{r echo=TRUE}
-a<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of deaths", .filters = "DTHFL == 'Y'", .total_dt = NULL)
-b<-event_count(adsl,patient = "USUBJID",treat = "ARM", label = "Total number of patients withdrawn from study due to an AE", .filters = "DCSREAS == 'ADVERSE EVENT'", .total_dt = NULL)
-d<-event_count(adae, patient = "USUBJID", treat = "ARM", label = "Total number of patients with at least one AE",.total_dt = adsl)
-
-e <- total_events(adae, 'ARM', 'Total number of AEs')
-aesi_vars <- c("FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
-f <- multi_event_true(adae, event_vars = aesi_vars, patient = "USUBJID", treat = "ARM", heading = "Total number of patients with at least one", .total_dt = adsl, indent = "  ")
-
-AET01 <- merge_table_lists(list(d,e,a,b,f))
-
-```
-
-```{r echo=FALSE}
-knitr::kable(AET01) |>
-  kableExtra::kable_styling() |>
-  kableExtra::scroll_box(width = '100%', height = '500px')
-```
