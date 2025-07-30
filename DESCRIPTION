@@ -1,6 +1,6 @@
 Package: dtlg
 Title: A Performance-Focused Package for Clinical Trial Tables
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person(
         given = "Max", family = "Ebenezer-Brown",
@@ -36,7 +36,6 @@ Imports:
     vctrs
 Suggests: 
     dplyr,
-    knitr,
     random.cdisc.data,
     rmarkdown,
     tern,
@@ -44,9 +43,8 @@ Suggests:
     testthat (>= 3.0.0),
     bench,
     tidyr,
-    rtables
-VignetteBuilder: 
-    knitr
+    rtables,
+    dtlg.data (>= 0.1.9000)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
@@ -55,3 +53,5 @@ Depends:
 Config/testthat/edition: 3
 Config/Needs/website: rmarkdown
 LazyData: true
+Remotes:  
+    ascentsoftware/dtlg.data
