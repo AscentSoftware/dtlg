@@ -1,5 +1,5 @@
 Package: dtlg
-Title: A performance focused package for creating pharma TLGs
+Title: A Performance-Focused Package for Clinical Trial Tables
 Version: 0.0.1
 Authors@R: c(
     person(
@@ -25,16 +25,15 @@ Authors@R: c(
     person(
         given = "Ramiro", family = "Magno",
         email = "ramiro.morgado@ascent.io",
-        role = "ctb"
+        role = "aut"
         )
     )
-Description: This package main function is to create pharmacutical tables,
-    listing and graphs at high performance by using data.table as a
-    backend.
+Description: This package main goal is to create pharmaceutical tables by
+    using data.table as backend.
 License: MIT + file LICENSE
 Imports: 
     data.table,
-    rlang
+    vctrs
 Suggests: 
     dplyr,
     knitr,
@@ -42,12 +41,17 @@ Suggests:
     rmarkdown,
     tern,
     kableExtra,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    bench,
+    tidyr,
+    rtables
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0)
 Config/testthat/edition: 3
+Config/Needs/website: rmarkdown
+LazyData: true
