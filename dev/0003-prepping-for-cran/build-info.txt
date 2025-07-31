@@ -1,0 +1,5 @@
+branch: 0003-prepping-for-cran
+build_time: 2025-07-31T18:45:14+01:00
+git_sha: 6531c4b
+git_commit: Update url
+preview_url: https://AscentSoftware.github.io/dtlg/dev/0003-prepping-for-cran
