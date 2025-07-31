@@ -53,5 +53,6 @@ Depends:
 Config/testthat/edition: 3
 Config/Needs/website: rmarkdown
 LazyData: true
-Remotes:  
+Remotes: 
     ascentsoftware/dtlg.data
+URL: https://ascentsoftware.github.io/dtlg/
