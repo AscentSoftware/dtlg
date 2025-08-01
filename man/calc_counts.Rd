@@ -54,6 +54,6 @@ another (\code{treat}) and reports summary statistics in clinical trial reportin
 format.
 }
 \examples{
-calc_counts(dt = adsl, "RACE", treat = "ARM")
+calc_counts(dt = adsl, "RACE", treat = "ARM")[[1]]
 
 }

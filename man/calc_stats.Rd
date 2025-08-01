@@ -52,9 +52,9 @@ is a generic function; note that it dispatches based on the class of
 }
 \examples{
 # Calculate summary statistics of a numeric variable, e.g. `AGE`.
-calc_stats(dt = adsl, "AGE", treat = "ARM")
+calc_stats(dt = adsl, "AGE", treat = "ARM")[[1]]
 
 # Calculate summary statistics of a categorical variable, e.g. `SEX`.
-calc_stats(dt = adsl, "SEX", treat = "ARM")
+calc_stats(dt = adsl, "SEX", treat = "ARM")[[1]]
 
 }

@@ -48,7 +48,7 @@ event_count(
   treat = "ARM",
   label = "Total number of deaths",
   .filters = "DTHFL == 'Y'"
-)
+)[[1]]
 
 # Count patients withdraw from study due to an adverse event.
 withdrawn_lbl <- "Total number of patients withdrawn from study due to an AE"
@@ -58,7 +58,7 @@ event_count(
   treat = "ARM",
   label = withdrawn_lbl,
   .filters = "DCSREAS == 'ADVERSE EVENT'"
-)
+)[[1]]
 
 # Count patients with at least one adverse event.
 # NB: When `.filters` is `NULL` (i.e., omitted), all records in `dt` are used
@@ -70,6 +70,6 @@ event_count(
   label = "Total number of patients with at least one AE",
   .filters = "ANL01FL == 'Y'",
   .total_dt = adsl
-)
+)[[1]]
 
 }
