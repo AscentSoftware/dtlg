@@ -8,6 +8,13 @@
 \description{
 This package main goal is to create pharmaceutical tables by using data.table as backend.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://AscentSoftware.github.io/dtlg}
+}
+
+}
 \author{
 \strong{Maintainer}: Max Ebenezer-Brown \email{max.ebenezer-brown@ascent.io}
 
