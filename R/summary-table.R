@@ -85,21 +85,14 @@ summary_table <- function(dt,
 
 #' Create a summary table using multiple rows for grouping on one target column
 #'
-#' @param dt table to perform function on
-#' @param target vector of column names desired to obtain information on
-#' @param treat string of treatment variable used for splitting / grouping data
+#' @inheritParams summary_table
 #' @param rows_by string, grouping variable to split events by.
-#' @param indent indent to be used for display and formatting purposes
-#' @param .total_dt optional table for total counts to be derived
-#' @param pct_dec decimal places for percentages
-#' @param treat_order customise the column order of output table
-#' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
 #'
-#' @return list containing a data.table containing summary information on target variables specified
+#' @returns The same output as [summary_table()] except that folded by variables
+#' indicated in `rows_by`.
 #'
 #' @examples
-#' adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
-#' labs <- summary_table_by(adlb, 'AVAL', 'ARM', c('PARAM','AVISIT'), '  ', NULL)
+#' summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM","AVISIT"))
 #'
 #' @export
 #'
@@ -108,7 +101,7 @@ summary_table_by <- function(dt,
                              treat,
                              rows_by,
                              indent = nbsp(n = 4L),
-                             .total_dt = NULL,
+                             .total_dt = dt,
                              pct_dec = 1,
                              treat_order = NULL,
                              skip_absent = TRUE) {

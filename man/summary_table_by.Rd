@@ -10,39 +10,46 @@ summary_table_by(
   treat,
   rows_by,
   indent = nbsp(n = 4L),
-  .total_dt = NULL,
+  .total_dt = dt,
   pct_dec = 1,
   treat_order = NULL,
   skip_absent = TRUE
 )
 }
 \arguments{
-\item{dt}{table to perform function on}
+\item{dt}{A \code{data.frame} containing, at least, the variables indicated in
+\code{target} and \code{treat}.}
 
-\item{target}{vector of column names desired to obtain information on}
+\item{target}{Target variable passed as a string for which summary
+statistics are to be calculated.}
 
-\item{treat}{string of treatment variable used for splitting / grouping data}
+\item{treat}{A string indicating the grouping variable, e.g. the variable
+specifying the treatment population.}
 
 \item{rows_by}{string, grouping variable to split events by.}
 
-\item{indent}{indent to be used for display and formatting purposes}
+\item{indent}{A string to be used as indentation of summary statistics
+labels. Defaults to four HTML non-breaking spaces (\verb{&nbsp;}).}
 
-\item{.total_dt}{optional table for total counts to be derived}
+\item{.total_dt}{Separate table from \code{dt} from which to derive total counts
+per group.}
 
-\item{pct_dec}{decimal places for percentages}
+\item{pct_dec}{Decimal places for reported figures.}
 
-\item{treat_order}{customise the column order of output table}
+\item{treat_order}{Customise the column order of the output table.}
 
-\item{skip_absent}{Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.}
+\item{skip_absent}{Whether to ignore variables passed in \code{treat_order} that
+are absent from \code{dt}. Default is \code{TRUE}; \code{FALSE} will throw an error in
+case there are missing variables.}
 }
 \value{
-list containing a data.table containing summary information on target variables specified
+The same output as \code{\link[=summary_table]{summary_table()}} except that folded by variables
+indicated in \code{rows_by}.
 }
 \description{
 Create a summary table using multiple rows for grouping on one target column
 }
 \examples{
-adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
-labs <- summary_table_by(adlb, 'AVAL', 'ARM', c('PARAM','AVISIT'), '  ', NULL)
+summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM","AVISIT"))
 
 }
