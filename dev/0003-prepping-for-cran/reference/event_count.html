@@ -104,12 +104,10 @@ compatibility reasons.</p></dd>
 <span class="r-in"><span>  treat <span class="op">=</span> <span class="st">"ARM"</span>,</span></span>
 <span class="r-in"><span>  label <span class="op">=</span> <span class="st">"Total number of deaths"</span>,</span></span>
 <span class="r-in"><span>  .filters <span class="op">=</span> <span class="st">"DTHFL == 'Y'"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-in"><span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     stats  A: Drug X B: Placebo C: Combination</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    &lt;char&gt;     &lt;char&gt;     &lt;char&gt;         &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: Total number of deaths 25 (18.7%) 23 (17.2%)     22 (16.7%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Count patients withdraw from study due to an adverse event.</span></span></span>
 <span class="r-in"><span><span class="va">withdrawn_lbl</span> <span class="op">&lt;-</span> <span class="st">"Total number of patients withdrawn from study due to an AE"</span></span></span>
@@ -119,15 +117,13 @@ compatibility reasons.</p></dd>
 <span class="r-in"><span>  treat <span class="op">=</span> <span class="st">"ARM"</span>,</span></span>
 <span class="r-in"><span>  label <span class="op">=</span> <span class="va">withdrawn_lbl</span>,</span></span>
 <span class="r-in"><span>  .filters <span class="op">=</span> <span class="st">"DCSREAS == 'ADVERSE EVENT'"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-in"><span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                         stats A: Drug X</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                        &lt;char&gt;    &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: Total number of patients withdrawn from study due to an AE  3 (2.2%)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    B: Placebo C: Combination</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;         &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:   6 (4.5%)       5 (3.8%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Count patients with at least one adverse event.</span></span></span>
 <span class="r-in"><span><span class="co"># NB: When `.filters` is `NULL` (i.e., omitted), all records in `dt` are used</span></span></span>
@@ -139,15 +135,13 @@ compatibility reasons.</p></dd>
 <span class="r-in"><span>  label <span class="op">=</span> <span class="st">"Total number of patients with at least one AE"</span>,</span></span>
 <span class="r-in"><span>  .filters <span class="op">=</span> <span class="st">"ANL01FL == 'Y'"</span>,</span></span>
 <span class="r-in"><span>  .total_dt <span class="op">=</span> <span class="va">adsl</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-in"><span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            stats   A: Drug X B: Placebo</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           &lt;char&gt;      &lt;char&gt;     &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: Total number of patients with at least one AE 100 (74.6%) 98 (73.1%)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    C: Combination</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:    103 (78.0%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

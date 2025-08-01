@@ -108,8 +108,7 @@ or <code>logical</code> then the output is that of <code><a href="calc_counts.ht
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Calculate summary statistics of a numeric variable, e.g. `AGE`.</span></span></span>
-<span class="r-in"><span><span class="fu">calc_stats</span><span class="op">(</span>dt <span class="op">=</span> <span class="va">adsl</span>, <span class="st">"AGE"</span>, treat <span class="op">=</span> <span class="st">"ARM"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-in"><span><span class="fu">calc_stats</span><span class="op">(</span>dt <span class="op">=</span> <span class="va">adsl</span>, <span class="st">"AGE"</span>, treat <span class="op">=</span> <span class="st">"ARM"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                stats  A: Drug X B: Placebo C: Combination</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                               &lt;char&gt;     &lt;char&gt;     &lt;char&gt;         &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                               AGE                                     </span>
@@ -118,17 +117,14 @@ or <code>logical</code> then the output is that of <code><a href="calc_counts.ht
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Median         33         35             35</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Min, Max 21.0, 50.0 21.0, 62.0     20.0, 69.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:   &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Missing          0          0              0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate summary statistics of a categorical variable, e.g. `SEX`.</span></span></span>
-<span class="r-in"><span><span class="fu">calc_stats</span><span class="op">(</span>dt <span class="op">=</span> <span class="va">adsl</span>, <span class="st">"SEX"</span>, treat <span class="op">=</span> <span class="st">"ARM"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-in"><span><span class="fu">calc_stats</span><span class="op">(</span>dt <span class="op">=</span> <span class="va">adsl</span>, <span class="st">"SEX"</span>, treat <span class="op">=</span> <span class="st">"ARM"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                        stats A: Drug X B: Placebo C: Combination</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                       &lt;char&gt;    &lt;char&gt;     &lt;char&gt;         &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                       SEX                                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;F        79         82             70</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;M        55         52             62</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
