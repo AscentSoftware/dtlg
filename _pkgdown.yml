@@ -53,3 +53,4 @@ reference:
   - round_sum
   - merge_table_lists
   - cross_tab_to_obsv_tab
+  - print_dtlg
