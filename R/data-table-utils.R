@@ -5,5 +5,5 @@ dot_wrap <- function(x) {
 }
 
 drop_keys <- function(dt) {
-  setkey(x = dt, NULL)[]
+  data.table::setkey(x = dt, NULL)[]
 }

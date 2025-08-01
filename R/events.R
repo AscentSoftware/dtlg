@@ -329,6 +329,6 @@ event_count_by <- function(dt,
     MoreArgs = list(.total_dt = .total_dt, pct_dec = pct_dec)
   )
   event_table <- mapply(list, event_target, event_total, event_patient)
-  event_table <- rbindlist(event_table, use.names = TRUE)
+  event_table <- data.table::rbindlist(event_table, use.names = TRUE)
   event_table
 }
