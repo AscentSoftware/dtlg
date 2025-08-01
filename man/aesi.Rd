@@ -41,6 +41,10 @@ with tabulation functions.
 This dataset is included in \code{{dtlg}} to support function testing, usage
 examples, and reproducible safety analyses.
 }
+\examples{
+aesi
+
+}
 \seealso{
 \link[random.cdisc.data:cadae]{random.cdisc.data::cadae}, \code{\link[=multi_event_true]{multi_event_true()}}
 }

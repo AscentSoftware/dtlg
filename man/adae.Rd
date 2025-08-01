@@ -14,4 +14,8 @@ adae
 \link{adae} is a re-export of the \link[random.cdisc.data:cadae]{random.cdisc.data::cadae} dataset, included in
 \code{{dtlg}} for function usage illustration and testing.
 }
+\examples{
+adae
+
+}
 \keyword{datasets}

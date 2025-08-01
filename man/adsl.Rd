@@ -14,4 +14,8 @@ adsl
 \link{adsl} is a re-export of the \link[random.cdisc.data:cadsl]{random.cdisc.data::cadsl} dataset, included in
 \code{{dtlg}} for function usage illustration and testing.
 }
+\examples{
+adsl
+
+}
 \keyword{datasets}

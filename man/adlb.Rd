@@ -14,4 +14,8 @@ adlb
 \link{adlb} is a re-export of the \link[random.cdisc.data:cadlb]{random.cdisc.data::cadlb} dataset, included in
 \code{{dtlg}} for function usage illustration and testing.
 }
+\examples{
+adlb
+
+}
 \keyword{datasets}

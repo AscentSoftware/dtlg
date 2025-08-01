@@ -5,6 +5,9 @@
 #'
 #' @inherit random.cdisc.data::cadsl format
 #'
+#' @examples
+#' adsl
+#'
 "adsl"
 
 #' ADaM Basic Data Structure (BDS) example dataset
@@ -14,6 +17,9 @@
 #'
 #' @inherit random.cdisc.data::cadlb format
 #'
+#' @examples
+#' adlb
+#'
 "adlb"
 
 #' Adverse Event Analysis Dataset example dataset
@@ -22,6 +28,9 @@
 #' `{dtlg}` for function usage illustration and testing.
 #'
 #' @inherit random.cdisc.data::adae format
+#'
+#' @examples
+#' adae
 #'
 "adae"
 
@@ -59,5 +68,8 @@
 #' }
 #'
 #' @seealso [random.cdisc.data::cadae], [dtlg::multi_event_true()]
+#'
+#' @examples
+#' aesi
 #'
 "aesi"
