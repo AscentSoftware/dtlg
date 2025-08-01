@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   articles/benchmarks: benchmarks.html
-last_built: 2025-08-01T11:31Z
+last_built: 2025-08-01T16:46Z
 urls:
   reference: https://AscentSoftware.github.io/dtlg/dev/0003-prepping-for-cran/reference
   article: https://AscentSoftware.github.io/dtlg/dev/0003-prepping-for-cran/articles
