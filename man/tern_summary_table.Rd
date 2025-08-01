@@ -7,16 +7,27 @@
 tern_summary_table(dt, target, treat, target_name = target)
 }
 \arguments{
-\item{dt}{table to perform function on}
+\item{dt}{A \code{data.frame} containing, at least, the variables indicated in
+\code{target} and \code{treat}.}
 
-\item{target}{vector of column names desired to obtain information on}
+\item{target}{Target variable passed as a string for which summary
+statistics are to be calculated.}
 
-\item{treat}{string of treatment variable used for splitting / grouping data}
+\item{treat}{A string indicating the grouping variable, e.g. the variable
+specifying the treatment population.}
 
-\item{target_name}{names to be displayed for target columns either NULL, which uses target, of vector of desired names for all target columns}
+\item{target_name}{Heading for the target variable as a string. Defaults to
+\code{target}.}
 }
 \value{
-a data.table containing summary information on target variables specified
+A \code{data.table} of summary statistics. The format depends on the
+type of the \code{target} variable:
+\itemize{
+\item If the \code{target} variable is categorical, i.e. type \code{character}, \code{factor}
+or \code{logical} then the output is that of \code{\link[=calc_counts]{calc_counts()}}.
+\item If the \code{target} variable is numeric, then the output is that of
+\code{\link[=calc_desc]{calc_desc()}}.
+}
 }
 \description{
 \code{\link[=tern_summary_table]{tern_summary_table()}} is a convenience wrapper around \code{{rtables}} and
@@ -25,15 +36,26 @@ whilst using a similar interface as \code{\link[=summary_table]{summary_table()}
 for side by side comparisons of the two functions.
 }
 \examples{
-vars <- c('AGE', 'RACE', 'ETHNIC', 'BMRKR1')
-var_labels <- c("Age (yr)", "Race", "Ethnicity", "Continous Level Biomarker 1")
+dmg_vars <- c("AGE", "RACE", "ETHNIC")
+dmg_var_lbls <- c("Age (yr)", "Race", "Ethnicity")
 
-# Summary statistics table split by ARM with custom labels.
+# Demographics table (DMT01)
 tern_summary_table(
   adsl,
-  target = vars,
+  target = dmg_vars,
   treat = 'ARM',
-  target_name = var_labels
+  target_name = dmg_var_lbls
 )
 
+# Demographics table (DMT01) with continuous variable (e.g., BMRKR1)
+tern_summary_table(
+  adsl,
+  target = c(dmg_vars, "BMRKR1"),
+  treat = 'ARM',
+  target_name = c(dmg_var_lbls, "Biomarker 1")
+)
+
+}
+\seealso{
+\code{\link[=summary_table]{summary_table()}}
 }

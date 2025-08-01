@@ -8,36 +8,56 @@ reorder_cols <- function(dt, cols, before_cols = "stats", skip_absent = TRUE) {
   data.table::setcolorder(dt, new_cols, skip_absent = skip_absent)[]
 }
 
-#' summary_table
-#' wrapper function to create data.table on target variables using calc_stats
+#' Summary Table
 #'
-#' @param dt table to perform function on
-#' @param target vector of column names desired to obtain information on
-#' @param treat string of treatment variable used for splitting / grouping data
-#' @param target_name names to be displayed for target columns either NULL, which uses target, of vector of desired names for all target columns
-#' @param indent indent to be used for display and formatting purposes
-#' @param .total_dt optional table for total counts to be derived
-#' @param pct_dec decimal places for percentages
-#' @param treat_order customise the column order of output table
-#' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
+#' [summary_table()] summarises clinical variables into a report table using
+#' `data.table` as backend.
 #'
-#' @return a data.table containing summary information on target variables specified
-#' @export
+#' @inheritParams calc_stats
+#' @param treat_order Customise the column order of the output table.
+#' @param skip_absent Whether to ignore variables passed in `treat_order` that
+#'   are absent from `dt`. Default is `TRUE`; `FALSE` will throw an error in
+#'   case there are missing variables.
 #'
-#' @import data.table
+#' @returns A `data.table` of summary statistics. The format depends on the
+#' type of the `target` variable:
+#'
+#' - If the `target` variable is categorical, i.e. type `character`, `factor`
+#' or `logical` then the output is that of [calc_counts()].
+#'
+#' - If the `target` variable is numeric, then the output is that of
+#' [calc_desc()].
+#'
+#' @seealso [tern_summary_table()]
 #'
 #' @examples
-#' vars<-c('AGE','RACE','ETHNIC','BMRKR1')
-#' var_labels <- c("Age (yr)", "Race", "Ethnicity", "Continous Level Biomarker 1")
-#' DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels, indent = '  ')
-#' DMT01_pct<-summary_table(adsl, target = vars, treat = 'ARM', indent = '  ', .total_dt = adsl)
+#' dmg_vars <- c("AGE", "RACE", "ETHNIC")
+#' dmg_var_lbls <- c("Age (yr)", "Race", "Ethnicity")
+#'
+#' # Demographics table (DMT01)
+#' summary_table(
+#'   adsl,
+#'   target = dmg_vars,
+#'   treat = 'ARM',
+#'   target_name = dmg_var_lbls
+#' )
+#'
+#' # Demographics table (DMT01) with continuous variable (e.g., BMRKR1)
+#' summary_table(
+#'   adsl,
+#'   target = c(dmg_vars, "BMRKR1"),
+#'   treat = 'ARM',
+#'   target_name = c(dmg_var_lbls, "Biomarker 1")
+#' )
+#'
+#' @export
 #'
 summary_table <- function(dt,
                           target,
                           treat,
                           target_name = target,
                           indent = nbsp(n = 4L),
-                          .total_dt = NULL,
+                          .total_dt = dt,
                           pct_dec = 1,
                           treat_order = NULL,
                           skip_absent = TRUE) {
@@ -126,7 +146,7 @@ summary_table_by <- function(dt,
     x <- 0
     for (i in 1:length(heading)) {
       y = sum(heading_full %in% heading[i])
-      summary_split <- append(summary_split, list(data.table(stats = heading[[i]])), after = x)
+      summary_split <- append(summary_split, list(data.table::data.table(stats = heading[[i]])), after = x)
       x <- x + y + 1
     }
   }
@@ -191,7 +211,7 @@ summary_table_by_targets <- function(dt,
   names(x) <- paste(names(x), target[1], sep = '.')
   names(y) <- paste(names(y), target[2], sep = '.')
   for (i in 2:ncol(x)) {
-    full <- data.table(full, x[, i, with = FALSE], y[, i, with = FALSE])
+    full <- data.table::data.table(full, x[, i, with = FALSE], y[, i, with = FALSE])
   }
   return(full)
 }

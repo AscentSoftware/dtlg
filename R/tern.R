@@ -7,16 +7,26 @@
 #'
 #' @inherit summary_table
 #'
-#' @examples
-#' vars <- c('AGE', 'RACE', 'ETHNIC', 'BMRKR1')
-#' var_labels <- c("Age (yr)", "Race", "Ethnicity", "Continous Level Biomarker 1")
+#' @seealso [summary_table()]
 #'
-#' # Summary statistics table split by ARM with custom labels.
+#' @examples
+#' dmg_vars <- c("AGE", "RACE", "ETHNIC")
+#' dmg_var_lbls <- c("Age (yr)", "Race", "Ethnicity")
+#'
+#' # Demographics table (DMT01)
 #' tern_summary_table(
 #'   adsl,
-#'   target = vars,
+#'   target = dmg_vars,
 #'   treat = 'ARM',
-#'   target_name = var_labels
+#'   target_name = dmg_var_lbls
+#' )
+#'
+#' # Demographics table (DMT01) with continuous variable (e.g., BMRKR1)
+#' tern_summary_table(
+#'   adsl,
+#'   target = c(dmg_vars, "BMRKR1"),
+#'   treat = 'ARM',
+#'   target_name = c(dmg_var_lbls, "Biomarker 1")
 #' )
 #'
 #' @export

@@ -2,8 +2,7 @@
 % Please edit documentation in R/summary-table.R
 \name{summary_table}
 \alias{summary_table}
-\title{summary_table
-wrapper function to create data.table on target variables using calc_stats}
+\title{Summary Table}
 \usage{
 summary_table(
   dt,
@@ -11,42 +10,74 @@ summary_table(
   treat,
   target_name = target,
   indent = nbsp(n = 4L),
-  .total_dt = NULL,
+  .total_dt = dt,
   pct_dec = 1,
   treat_order = NULL,
   skip_absent = TRUE
 )
 }
 \arguments{
-\item{dt}{table to perform function on}
+\item{dt}{A \code{data.frame} containing, at least, the variables indicated in
+\code{target} and \code{treat}.}
 
-\item{target}{vector of column names desired to obtain information on}
+\item{target}{Target variable passed as a string for which summary
+statistics are to be calculated.}
 
-\item{treat}{string of treatment variable used for splitting / grouping data}
+\item{treat}{A string indicating the grouping variable, e.g. the variable
+specifying the treatment population.}
 
-\item{target_name}{names to be displayed for target columns either NULL, which uses target, of vector of desired names for all target columns}
+\item{target_name}{Heading for the target variable as a string. Defaults to
+\code{target}.}
 
-\item{indent}{indent to be used for display and formatting purposes}
+\item{indent}{A string to be used as indentation of summary statistics
+labels. Defaults to four HTML non-breaking spaces (\verb{&nbsp;}).}
 
-\item{.total_dt}{optional table for total counts to be derived}
+\item{.total_dt}{Separate table from \code{dt} from which to derive total counts
+per group.}
 
-\item{pct_dec}{decimal places for percentages}
+\item{pct_dec}{Decimal places for reported figures.}
 
-\item{treat_order}{customise the column order of output table}
+\item{treat_order}{Customise the column order of the output table.}
 
-\item{skip_absent}{Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.}
+\item{skip_absent}{Whether to ignore variables passed in \code{treat_order} that
+are absent from \code{dt}. Default is \code{TRUE}; \code{FALSE} will throw an error in
+case there are missing variables.}
 }
 \value{
-a data.table containing summary information on target variables specified
+A \code{data.table} of summary statistics. The format depends on the
+type of the \code{target} variable:
+\itemize{
+\item If the \code{target} variable is categorical, i.e. type \code{character}, \code{factor}
+or \code{logical} then the output is that of \code{\link[=calc_counts]{calc_counts()}}.
+\item If the \code{target} variable is numeric, then the output is that of
+\code{\link[=calc_desc]{calc_desc()}}.
+}
 }
 \description{
-summary_table
-wrapper function to create data.table on target variables using calc_stats
+\code{\link[=summary_table]{summary_table()}} summarises clinical variables into a report table using
+\code{data.table} as backend.
 }
 \examples{
-vars<-c('AGE','RACE','ETHNIC','BMRKR1')
-var_labels <- c("Age (yr)", "Race", "Ethnicity", "Continous Level Biomarker 1")
-DMT01<-summary_table(adsl, target = vars, treat = 'ARM', target_name = var_labels, indent = '  ')
-DMT01_pct<-summary_table(adsl, target = vars, treat = 'ARM', indent = '  ', .total_dt = adsl)
+dmg_vars <- c("AGE", "RACE", "ETHNIC")
+dmg_var_lbls <- c("Age (yr)", "Race", "Ethnicity")
 
+# Demographics table (DMT01)
+summary_table(
+  adsl,
+  target = dmg_vars,
+  treat = 'ARM',
+  target_name = dmg_var_lbls
+)
+
+# Demographics table (DMT01) with continuous variable (e.g., BMRKR1)
+summary_table(
+  adsl,
+  target = c(dmg_vars, "BMRKR1"),
+  treat = 'ARM',
+  target_name = c(dmg_var_lbls, "Biomarker 1")
+)
+
+}
+\seealso{
+\code{\link[=tern_summary_table]{tern_summary_table()}}
 }
