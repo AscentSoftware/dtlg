@@ -2,3 +2,54 @@ url: https://AscentSoftware.github.io/dtlg
 template:
   bootstrap: 5
 
+reference:
+
+- title: Tabulation
+- subtitle: Statistics
+  contents:
+  - calc_counts
+  - calc_desc
+  - calc_stats
+
+- subtitle: Events
+  contents:
+  - event_count
+  - event_count_by
+  - total_events
+  - multi_event_true
+
+- subtitle: Summary Tables
+  contents:
+  - summary_table
+  - summary_table_by
+  - summary_table_by_targets
+
+- subtitle: Clinical Tables
+  contents:
+  - AET01_table
+  - AET02_table
+
+- title: tern
+  desc: >
+    Wrappers for generating tern-compatible tables to enable structured side-by-side comparison
+  contents:
+  - as_dtlg_table
+  - tern_summary_table
+  - tern_AET01_table
+  - tern_AET02_table
+
+- title: Built in datasets
+  contents:
+  - adsl
+  - adlb
+  - adae
+  - aesi
+
+- title: Miscellanea
+  contents:
+  - label
+  - with_label
+  - round_pct
+  - round_sum
+  - merge_table_lists
+  - cross_tab_to_obsv_tab
