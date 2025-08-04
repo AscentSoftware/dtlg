@@ -121,7 +121,7 @@ calc_desc <- function(dt,
 #' This table is structured for easy integration with Shiny output widgets.
 #'
 #' @examples
-#' calc_counts(dt = adsl, "RACE", treat = "ARM")[[1]]
+#' calc_counts(dt = adsl, "RACE", treat = "ARM", indent = "  ")[[1]]
 #'
 #' @export
 #'

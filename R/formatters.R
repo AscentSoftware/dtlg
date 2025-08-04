@@ -1,3 +1,59 @@
+dbl_fmt <- function(n) {
+  stopifnot(is.integer(n), n >= 0L)
+  if (identical(n, 0L)) return("\\d+")
+  sprintf("\\d+\\.\\d{%d}", n)
+}
+
+int_fmt <- function() {
+  dbl_fmt(n = 0L)
+}
+
+n_pct_fmt <- function(n, support_zero = TRUE) {
+  zero_fmt <- `if`(support_zero, "^0$|", "")
+  sprintf("%s^%s \\(%s%%\\)$", zero_fmt, int_fmt(), dbl_fmt(n = n))
+}
+
+mean_sd_fmt <- function(n) {
+  sprintf("^%s \\(%s\\)$", dbl_fmt(n = n), dbl_fmt(n = n))
+}
+
+min_max_fmt <- function(n) {
+  sprintf("^%s, \\(%s\\)$", dbl_fmt(n = n), dbl_fmt(n = n))
+}
+
+detect_n_pct <- function(str, .pct_digits = 1L) {
+  stopifnot(
+    is.character(str),
+    is_scalar_number(.pct_digits),
+    .pct_digits >= 0L
+  )
+
+  regex <- n_pct_fmt(as.integer(.pct_digits))
+  grepl(regex, str)
+}
+
+detect_mean_sd <- function(str, .pct_digits = 1L) {
+  stopifnot(
+    is.character(str),
+    is_scalar_number(.pct_digits),
+    .pct_digits >= 0L
+  )
+
+  regex <- mean_sd_fmt(as.integer(.pct_digits))
+  grepl(regex, str)
+}
+
+detect_min_max <- function(str, .pct_digits = 1L) {
+  stopifnot(
+    is.character(str),
+    is_scalar_number(.pct_digits),
+    .pct_digits >= 0L
+  )
+
+  regex <- min_max_fmt(as.integer(.pct_digits))
+  grepl(regex, str)
+}
+
 #' Format count(s) and percentage(s) (`n (pct%)`)
 #'
 #' [format_n_pct()] formats counts (`n`) and respective percentages (`pct`) as
