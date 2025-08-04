@@ -1,5 +1,6 @@
 url: https://AscentSoftware.github.io/dtlg
 template:
+  package: ascentdown
   bootstrap: 5
 
 reference:
