@@ -155,7 +155,7 @@ test_that("calc_counts() formats percentages correctly with pct_dec = 0", {
   )[[1]]
 
   values <- unlist(tbl[-1, -1, drop = FALSE])
-  expect_true(all(detect_n_pct(values, .pct_digits = 0)))
+  expect_true(all(detect_fmt(values, n_pct_fmt(n = 0L))))
 })
 
 test_that("calc_counts() formats percentages correctly with pct_dec = 1", {
@@ -170,7 +170,7 @@ test_that("calc_counts() formats percentages correctly with pct_dec = 1", {
   )[[1]]
 
   values <- unlist(tbl[-1, -1, drop = FALSE])
-  expect_true(all(detect_n_pct(values, .pct_digits = 1)))
+  expect_true(all(detect_fmt(values, n_pct_fmt(n = 1L))))
 })
 
 test_that("calc_counts() formats percentages correctly with pct_dec = 5", {
@@ -185,5 +185,5 @@ test_that("calc_counts() formats percentages correctly with pct_dec = 5", {
   )[[1]]
 
   values <- unlist(tbl[-1, -1, drop = FALSE])
-  expect_true(all(detect_n_pct(values, .pct_digits = 5)))
+  expect_true(all(detect_fmt(values, n_pct_fmt(n = 5L))))
 })
