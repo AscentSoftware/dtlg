@@ -2,7 +2,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom data.table :=
-#' @importFrom data.table .N
+#' @importFrom data.table := .N .SD
 ## usethis namespace: end
 NULL
