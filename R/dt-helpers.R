@@ -1,3 +1,41 @@
+#' Expand grid as data.table from named vectors
+#'
+#' @description
+#' `dt_expand_grid()` creates the Cartesian product of the named vectors
+#' supplied via `...`, preserving their type, values, and order.
+#' If `.include_na = TRUE`, `NA` is appended to each vector if it is not
+#' already present.
+#'
+#' @param ... Named vectors. Each name becomes a column name in the result.
+#' @param .include_na Logical, default `FALSE`. If `TRUE`, append `NA` to each
+#'   input vector if it is not already present.
+#'
+#' @returns A `data.table` with one column per input and all combinations of
+#' values.
+#'
+#' @noRd
+#' @keywords internal
+dt_expand_grid <- function(..., .include_na = FALSE) {
+  args <- list(...)
+  if (length(args) == 0L) return(data.table::data.table())
+  if (is.null(nms <- names(args)) || any(!nzchar(nms))) {
+    stop("All arguments to dt_expand_grid() must be *named*.")
+  }
+
+  if (.include_na) {
+    args <- lapply(args, function(v) {
+      if (!anyNA(v)) c(v, NA) else v
+    })
+  }
+
+  grid <- do.call(
+    data.table::CJ,
+    c(args, list(sorted = FALSE, unique = FALSE))
+  )
+  data.table::setnames(grid, nms)
+  grid[]
+}
+
 #' Count the observations in each group
 #'
 #' [dt_count()] is a simple wrapper around `data.table` commands to perform
@@ -9,6 +47,11 @@
 #' are passed, then those names become the new variable names.
 #' @param .name The name of the new column in the output.
 #' If omitted, it will default to `n`.
+#' @param .fct_levels One of `"used"` or `"all"` (default `"all"`). Controls
+#'   whether factor columns return only levels that appear in the data or all
+#'   declared levels. The order of returned factor levels always follows the
+#'   factor's level order.
+#' @param .include_na Whether to include `NA` as unobserved levels.
 #'
 #' @returns A `data.table` with summarised counts per group.
 #'
@@ -35,15 +78,44 @@
 #'
 #' @noRd
 #' @keywords internal
-dt_count <- function(dt, ..., .name = "n") {
+dt_count <- function(dt,
+                     ...,
+                     .name = "n",
+                     .fct_levels = c("all", "used"),
+                     .include_na = FALSE) {
 
+  .fct_levels <- match.arg(.fct_levels)
   group_vars <- list(...)
-  data.table::setDT(x = dt, key = unlist(group_vars))
+  data.table::setDT(dt)
 
-  j <- as.call(c(quote(.), lapply(stats::setNames(".N", .name), as.name)))
-  by <- as.call(c(quote(list), lapply(group_vars, as.name)))
+  # Original vs output names (support renaming)
+  orig <- unlist(group_vars)
+  out_names <- names(group_vars)
+  if (is.null(out_names)) out_names <- rep("", length(orig))
+  out_names[out_names == ""] <- orig[out_names == ""]
 
-  drop_keys(dt[ , j, by = by, env = list(j = j)])
+  if (.name %in% out_names) {
+    stop("`.name` ('", .name, "') conflicts with a grouping column name.", call. = FALSE)
+  }
+
+  # Fast count of observed groups
+  by <- dot_wrap(unname(orig))
+  out <- dt[, .N, by = by, env = list(by = by)]
+  data.table::setnames(out, old = orig, new = out_names)
+  data.table::setnames(out, "N", .name)
+
+  vals_list <- level_set(df = dt, cols = orig, .sort = TRUE, .fct_levels = .fct_levels)
+  names(vals_list) <- out_names
+
+  # Full key space via dt_expand_grid(); optionally append NA per column
+  key_space <- do.call(
+    dt_expand_grid,
+    c(vals_list, list(.include_na = .include_na))
+  )
+
+  # Left join counts into full key space; fill missing with 0
+  res <- out[key_space, on = out_names]
+  res[is.na(get(.name)), (.name) := 0L][]
 }
 
 #' Summarise each group down to one row
@@ -81,3 +153,6 @@ dt_filter <- function(dt, ..., .env = parent.frame()) {
   i <- substitute_q(as.call(c(quote(and), filters)), env = .env)
   dt[i, , env = list(i = i)]
 }
+
+
+

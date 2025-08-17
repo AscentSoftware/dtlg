@@ -15,7 +15,8 @@ format_n_pct(n, pct, .pct_digits = 1L)
 Defaults to \code{1}.}
 }
 \value{
-A character vector of strings following the format \code{"n (pct\%)"}.
+A character vector of strings following the format \code{"n (pct\%)"},
+except if \code{n} is zero, then the format is simply \code{"0"}.
 }
 \description{
 \code{\link[=format_n_pct]{format_n_pct()}} formats counts (\code{n}) and respective percentages (\code{pct}) as
@@ -25,6 +26,8 @@ A character vector of strings following the format \code{"n (pct\%)"}.
 # Simple cases.
 format_n_pct(n = 25, pct = 18.66)
 format_n_pct(n = 25, pct = 18.66, .pct_digits = 2)
+
+# If both `n` and `pct` are zero then the format is special, i.e. simply "0".
 format_n_pct(n = 0, pct = 0)
 
 # `format_n_pct()` is vectorised over `n` and `pct` but their length must

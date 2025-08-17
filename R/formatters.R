@@ -168,12 +168,15 @@ detect_fmt <- function(x, fmt) {
 #' @param .pct_digits Number of decimal places to format percentage values.
 #'   Defaults to `1`.
 #'
-#' @returns A character vector of strings following the format `"n (pct%)"`.
+#' @returns A character vector of strings following the format `"n (pct%)"`,
+#' except if `n` is zero, then the format is simply `"0"`.
 #'
 #' @examples
 #' # Simple cases.
 #' format_n_pct(n = 25, pct = 18.66)
 #' format_n_pct(n = 25, pct = 18.66, .pct_digits = 2)
+#'
+#' # If both `n` and `pct` are zero then the format is special, i.e. simply "0".
 #' format_n_pct(n = 0, pct = 0)
 #'
 #' # `format_n_pct()` is vectorised over `n` and `pct` but their length must
@@ -196,12 +199,17 @@ format_n_pct <- function(n, pct, .pct_digits = 1L) {
     identical(length(n), length(pct))
   )
 
+  is_zero <- n == 0L & is_zero(pct)
+
   n_fmt <- "%d"
   pct_fmt <- paste0("(%2.", .pct_digits, "f%%)")
 
   n_str <- sprintf(fmt = n_fmt, n)
   pct_str <- sprintf(fmt = pct_fmt, pct)
+  pct_str <- ifelse(is_zero, "", pct_str)
+
   ws_str <- rep_len(" ", length.out = length(n))
+  ws_str <- ifelse(is_zero, "", ws_str)
 
   n_str[is.na(n)] <- ""
   pct_str[is.na(pct)] <- ""
