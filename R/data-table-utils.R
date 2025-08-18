@@ -17,8 +17,7 @@ drop_keys <- function(dt) {
 #' state is preserved; otherwise, the result is an unordered factor. Values not
 #' present in `levels` are silently converted to `NA` (base R behaviour).
 #'
-#' @param dt A `data.table` or an object coercible to one via
-#'   `data.table::setDT()`. Modified by reference when `copy = FALSE`.
+#' @param dt A `data.table` or an object coercible to one.
 #'
 #' @param col A single column name (string) to relevel.
 #'
@@ -26,14 +25,7 @@ drop_keys <- function(dt) {
 #'   duplicates are ignored (first occurrence kept). Levels not listed are
 #'   dropped; observed values outside this set become `NA`.
 #'
-#' @param copy Logical. If `TRUE` (default), operate on a shallow copy and
-#'   return it. If `FALSE`, modify `dt` by reference and return it invisibly.
-#'
-#' @returns
-#'
-#' A `data.table`. When `copy = TRUE`, the modified copy is returned.
-#' When `copy = FALSE`, the input `dt` is modified by reference and returned
-#' invisibly.
+#' @returns A `data.table`.
 #'
 #' @examples
 #'
@@ -47,21 +39,19 @@ drop_keys <- function(dt) {
 #' levels(res$grp)
 #'
 #' # In-place modification
-#' invisible(dt_relevel_col_(dt, col = "band", levels = c("high","low"), copy = FALSE))
+#' invisible(dt_relevel_col_(dt, col = "band", levels = c("high","low")))
 #' levels(dt$band)
 #'
 #' @noRd
 #' @keywords internal
 #'
-dt_relevel_col_ <- function(dt, col, levels, copy = TRUE) {
+dt_relevel_col_ <- function(dt, col, levels) {
   stopifnot(length(col) == 1L, is.character(col), !is.na(col))
   stopifnot(is.character(levels))
 
-  data.table::setDT(dt)
-  out <- if (copy)
-    data.table::copy(dt)
-  else
-    dt
+  # out <- maybe_copy_dt(x = dt)
+  out <- dt
+
   if (!col %in% names(out))
     stop(sprintf("Column '%s' not found in data.", col))
 
@@ -73,12 +63,13 @@ dt_relevel_col_ <- function(dt, col, levels, copy = TRUE) {
   if (is.factor(cur) &&
       identical(levels(cur), target_levels) &&
       identical(is.ordered(cur), ord_flag)) {
-    return(if (copy) out else invisible(out))
+    return(out)
   }
 
+  # out[[col]] <- factor(out[[col]], levels = target_levels, ordered = ord_flag)
   out[, (col) := factor(.SD[[1L]], levels = target_levels, ordered = ord_flag), .SDcols = col]
 
-  if (copy) out else invisible(out)
+  out
 }
 
 #' Relevel multiple columns in a data.table
@@ -88,22 +79,18 @@ dt_relevel_col_ <- function(dt, col, levels, copy = TRUE) {
 #' @param levels Named list: each name is a column; each value is a
 #'   character vector with the desired target level order for that column.
 #'
-#' @param copy Logical. If `TRUE` (default) return a modified copy; if `FALSE`,
-#'   modify `dt` by reference and return invisibly.
-#'
 #' @returns A `data.table` (copy or modified in place).
 #' @noRd
 #' @keywords internal
-dt_relevel_col <- function(dt, levels, copy = TRUE) {
+dt_relevel_col <- function(dt, levels) {
   stopifnot(is.list(levels), length(levels) > 0L, !is.null(names(levels)))
-  data.table::setDT(dt)
+  out <- maybe_copy_dt(x = dt)
 
-  out <- if (copy) data.table::copy(dt) else dt
   cols <- names(levels)
 
   for (c in cols) {
-    dt_relevel_col_(out, col = c, levels = levels[[c]], copy = FALSE)
+    dt_relevel_col_(out, col = c, levels = levels[[c]])
   }
 
-  if (copy) out else invisible(out)
+  out
 }

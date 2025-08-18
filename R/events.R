@@ -56,8 +56,8 @@ event_count <- function(dt,
                         .total_dt = dt,
                         pct_dec = 1) {
 
-  data.table::setDT(x = dt)
-  data.table::setDT(x = .total_dt)
+  dt <- maybe_copy_dt(x = dt)
+  .total_dt <- maybe_copy_dt(x = .total_dt)
 
   df_filtered <-
     if (isFALSE(is.null(.filters))) {
@@ -115,7 +115,7 @@ event_count <- function(dt,
 #' @export
 #'
 total_events <- function(dt, treat, label) {
-  data.table::setDT(x = dt)
+  dt <- maybe_copy_dt(x = dt)
 
   j <- dot_wrap(c(n = ".N"))
   by <- as.call(c(quote(list), as.name(treat)))
@@ -205,7 +205,7 @@ multi_event_true <- function(dt,
                              .total_dt = NULL,
                              indent = nbsp(n = 4L),
                              pct_dec = 1) {
-  data.table::setDT(x = dt)
+  dt <- maybe_copy_dt(x = dt)
   event_filters <- paste0(event_vars, ' == TRUE')
   event_label <- label %||% lapply(event_vars, \(x) label(dt[[x]]) %||% x)
 
@@ -300,8 +300,8 @@ event_count_by <- function(dt,
                            indent = nbsp(n = 4L),
                            pct_dec = 1) {
 
-  data.table::setDT(x = dt)
-  data.table::setDT(x = .total_dt)
+  dt <- maybe_copy_dt(x = dt)
+  .total_dt <- maybe_copy_dt(x = .total_dt)
 
   event <- dt
 

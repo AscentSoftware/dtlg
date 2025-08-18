@@ -32,12 +32,22 @@ reference:
 
 - title: tern
   desc: >
-    Wrappers for generating tern-compatible tables to enable structured side-by-side comparison
+    Wrappers for generating tern-compatible tables to enable structured
+    side-by-side comparison
   contents:
   - as_dtlg_table
   - tern_summary_table
   - tern_AET01_table
   - tern_AET02_table
+
+- title: Copy semantics
+  desc: >
+    Control how objects are returned as `data.table`s: by reference (in place)
+    or by value (deep copy).
+  contents:
+  - dt_copy_semantics
+  - set_dt_copy_semantics
+  - maybe_copy_dt
 
 - title: Built in datasets
   contents:

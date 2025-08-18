@@ -86,7 +86,7 @@ dt_count <- function(dt,
 
   .fct_levels <- match.arg(.fct_levels)
   group_vars <- list(...)
-  data.table::setDT(dt)
+  dt <- maybe_copy_dt(x = dt)
 
   # Original vs output names (support renaming)
   orig <- unlist(group_vars)
@@ -142,7 +142,9 @@ dt_count <- function(dt,
 dt_summarise <- function(dt, .by, ..., .env = parent.frame()) {
 
   summarising_mappings <- as.list(substitute(...()))
-  data.table::setDT(x = dt, key = .by)
+  dt <- maybe_copy_dt(x = dt)
+  data.table::setkeyv(x = dt, cols = .by)
+
   j <- substitute_q(as.call(c(quote(.), summarising_mappings)), env = .env)
   by <- as.call(c(quote(.), lapply(.by, as.name)))
   drop_keys(dt[, j = j, by = by, env = list(j = j, by = by)])

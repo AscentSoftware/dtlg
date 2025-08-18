@@ -63,7 +63,7 @@ calc_desc <- function(dt,
     is.numeric(pct_dec)
   )
 
-  data.table::setDT(x = dt)
+  dt <- maybe_copy_dt(x = dt)
 
   n_stats <- 5L
   dt_stats <-
@@ -142,14 +142,13 @@ calc_counts <- function(dt,
     is.null(.total_dt) || is.data.frame(.total_dt)
   )
 
-
-  data.table::setDT(x = dt)
+  dt <- maybe_copy_dt(x = dt)
   counts_by_grp <- dt_count(dt = dt,
                             treatment = treat,
                             stats = target)
 
   if (!is.null(.total_dt)) {
-    data.table::setDT(x = .total_dt)
+    .total_dt <- maybe_copy_dt(x = .total_dt)
     counts_by_trt <- dt_count(.total_dt, treatment = treat, .name = "total")
     counts_by_grp <- counts_by_grp[counts_by_trt, on = 'treatment']
     counts_by_grp$n <- format_n_pct(
@@ -210,7 +209,7 @@ calc_stats <- function(dt,
                        indent = nbsp(n = 4L),
                        .total_dt = NULL,
                        pct_dec = 1) {
-  data.table::setDT(x = dt)
+  dt <- maybe_copy_dt(x = dt)
   UseMethod('calc_stats', dt[[target]])
 }
 

@@ -35,24 +35,15 @@ test_that("duplicate levels in argument are de-duplicated", {
   expect_identical(levels(res$g), c("b","a"))
 })
 
-test_that("copy = TRUE returns a modified copy and leaves input unchanged", {
+test_that("dt_relevel_col_() always modifies by reference", {
 
   dt <- data.table::data.table(g = factor(c("a","b","a"), levels = c("a","b","c")))
-  res <- dt_relevel_col_(dt, col = "g", levels = c("b","a"), copy = TRUE)
+  res <- dt_relevel_col_(dt, col = "g", levels = c("b","a"))
 
-  # original unchanged
-  expect_identical(levels(dt$g), c("a","b","c"))
+  # original changed
+  expect_identical(levels(dt$g), c("b","a"))
   # result changed
   expect_identical(levels(res$g), c("b","a"))
-})
-
-test_that("copy = FALSE modifies by reference and returns invisibly", {
-
-  dt <- data.table::data.table(g = factor(c("a","b","a"), levels = c("a","b","c")))
-  expect_invisible(dt_relevel_col_(dt, col = "g", levels = c("b","a"), copy = FALSE))
-
-  # dt is modified in place
-  expect_identical(levels(dt$g), c("b","a"))
 })
 
 test_that("idempotent when levels already match and order preserved", {
@@ -74,13 +65,14 @@ test_that("errors when column is missing", {
 
 test_that("augmented level set: extra levels are added but data unchanged", {
 
+  set_dt_copy_semantics("value")
   # original factor (unordered), observed levels: a, b
   dt <- data.table::data.table(g = factor(c("a","b","a"), levels = c("a","b")))
   before_na <- sum(is.na(dt$g))
 
   # provide augmented target levels (includes 'c' and 'd', not present in data)
   target <- c("b", "a", "c", "d")
-  res <- dt_relevel_col_(dt, col = "g", levels = target, copy = TRUE)
+  res <- dt_relevel_col_(dt, col = "g", levels = target)
 
   # levels now match augmented set, in the requested order
   expect_identical(levels(res$g), target)
@@ -97,13 +89,16 @@ test_that("augmented level set: extra levels are added but data unchanged", {
 
 test_that("augmented level set preserves ordered flag for ordered factors", {
 
+
   # ordered factor, observed levels: low, high
+  set_dt_copy_semantics("reference")
   x <- factor(c("low","high","low"), levels = c("low","high"), ordered = TRUE)
   dt <- data.table::data.table(h = x)
 
   # augmented levels include 'medium' and 'very_high' (not observed)
+  set_dt_copy_semantics("value")
   target <- c("high", "low", "medium", "very_high")
-  res <- dt_relevel_col_(dt, col = "h", levels = target, copy = TRUE)
+  res <- dt_relevel_col_(dt, col = "h", levels = target)
 
   # levels updated to augmented set in requested order
   expect_identical(levels(res$h), target)
@@ -114,12 +109,6 @@ test_that("augmented level set preserves ordered flag for ordered factors", {
   # ordered flag preserved
   expect_true(is.ordered(res$h))
 })
-
-#
-#
-#
-
-# tests/testthat/test-dt_relevel_col.R
 
 test_that("relevels multiple columns with specified target levels", {
 
@@ -185,14 +174,15 @@ test_that("coerces non-factor columns and converts out-of-set to NA", {
   expect_equal(as.character(res$h), c("low", "high", NA, "high"))
 })
 
-test_that("copy = TRUE returns a modified copy and leaves input unchanged", {
+test_that("value semantics returns a modified copy and leaves input unchanged", {
 
   dt <- data.table::data.table(
     g = factor(c("a","b","a"), levels = c("a","b","c")),
     h = c("low","high","low")
   )
 
-  res <- dt_relevel_col(dt, levels = list(g = c("b","a"), h = c("high","low")), copy = TRUE)
+  set_dt_copy_semantics("value")
+  res <- dt_relevel_col(dt, levels = list(g = c("b","a"), h = c("high","low")))
 
   # original unchanged
   expect_identical(levels(dt$g), c("a","b","c"))
@@ -203,16 +193,15 @@ test_that("copy = TRUE returns a modified copy and leaves input unchanged", {
   expect_identical(levels(res$h), c("high","low"))
 })
 
-test_that("copy = FALSE modifies in place and returns invisibly", {
+test_that("reference semantics modifies in place and returns invisibly", {
 
   dt <- data.table::data.table(
     g = factor(c("a","b","a"), levels = c("a","b","c")),
     h = c("low","high","low")
   )
 
-  expect_invisible(
-    dt_relevel_col(dt, levels = list(g = c("b","a"), h = c("high","low")), copy = FALSE)
-  )
+  set_dt_copy_semantics("reference")
+  dt_relevel_col(dt, levels = list(g = c("b","a"), h = c("high","low")))
 
   expect_identical(levels(dt$g), c("b","a"))
   expect_identical(levels(dt$h), c("high","low"))

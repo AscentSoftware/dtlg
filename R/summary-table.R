@@ -105,8 +105,7 @@ summary_table_by <- function(dt,
                              pct_dec = 1,
                              treat_order = NULL,
                              skip_absent = TRUE) {
-  # Modified by reference.
-  data.table::setDT(x = dt)
+  dt <- maybe_copy_dt(x = dt)
 
   dt <- split(droplevels(dt),
               by = rows_by,
@@ -181,8 +180,7 @@ summary_table_by_targets <- function(dt,
     print('target needs to be length 2')
   }
 
-  # Modified by reference.
-  data.table::setDT(x = .total_dt)
+  .total_dt <- maybe_copy_dt(x = .total_dt)
 
   summary_tables <- mapply(
     summary_table_by,
