@@ -44,7 +44,7 @@ Suggests:
     bench,
     tidyr,
     rtables,
-    dtlg.data (>= 0.1.9000),
+    dtlg.data (>= 0.2.0),
     withr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -54,6 +54,5 @@ Depends:
 Config/testthat/edition: 3
 Config/Needs/website: rmarkdown, ascentsoftware/ascentdown
 LazyData: true
-Remotes: 
-    ascentsoftware/dtlg.data
 URL: https://AscentSoftware.github.io/dtlg
+Additional_repositories: https://ascentsoftware.r-universe.dev
