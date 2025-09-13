@@ -1,0 +1,79 @@
+---
+title: "benchmarks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{benchmarks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(tern)
+library(dtlg.data)
+library(dtlg)
+library(bench)
+```
+
+## Benchmark data
+
+```{r}
+adsl_large <- dtlg.data::dataset("adsl_large")
+adsl_small <- dtlg.data::dataset("adsl_small")
+adae <- dtlg.data::dataset("adae")
+```
+
+## Benchmarking demographics data
+
+```{r}
+arm_var <- "ARM"
+vars <- c("AGE", "SEX", "RACE", "ETHNIC", "COUNTRY", "DTHFL", "BMRKR1", 
+          "REGION1","BMRKR2")
+
+bench::mark(
+  tern_dmg_tab <- dtlg::tern_summary_table(adsl_large, target = vars, treat = arm_var),
+  dtlg_dmg_tab <- dtlg::summary_table(adsl_large, target = vars, treat = arm_var, indent = '', .total_dt = adsl_large),
+  iterations = 1L,
+  check = FALSE
+)
+dtlg::as_dtlg_table(tt = tern_dmg_tab)
+dtlg_dmg_tab
+```
+
+## Benchmarking AET01
+
+```{r}
+arm_var <- "ARM"
+aesi_vars = c("FATAL", "SER", "SERWD", "SERDSM", "RELSER",
+              "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
+
+bench::mark(
+  
+  tern_safety_tab <- dtlg::tern_AET01_table(
+    adsl = adsl_small,
+    adae = aesi,
+    patient_var = "USUBJID",
+    treat_var = "ARM",
+    aesi_vars = aesi_vars
+  ), 
+  
+  dtlg_safety_tab <- dtlg::AET01_table(
+    adsl = adsl_small,
+    adae = aesi,
+    patient_var = "USUBJID",
+    treat_var = "ARM",
+    aesi_vars = aesi_vars
+  ),
+  iterations = 1L,
+  check = FALSE
+)
+```
+
+
+
+## Benchmarking AET02
+
+TODO

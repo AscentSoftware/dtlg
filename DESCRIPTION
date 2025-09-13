@@ -1,29 +1,59 @@
 Package: dtlg
-Title: A performance focused package for creating pharma TLGs
-Version: 0.0.1
-Authors@R: 
-    person("Max", "Ebenezer-Brown", , "max.ebenezer-brown@ascent.io", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: This package main function is to create pharmacutical tables,
-    listing and graphs at high performance by using data.table as a
-    backend.
-License: use_mit_license()
+Title: A Performance-Focused Package for Clinical Trial Tables
+Version: 0.0.2
+Authors@R: c(
+    person(
+        given = "Max", family = "Ebenezer-Brown",
+        email = "max.ebenezer-brown@ascent.io",
+        role = c("aut", "cre")
+        ),
+    person(
+        given = "Max", family = "Norman",
+        email = "max.norman@ascent.io",
+        role = "aut"
+        ),
+    person(
+        given = "Xinye", family = "Li",
+        email = "xinye.li@ascent.io",
+        role = "aut"
+        ),
+    person(
+        given = "Anja", family = "Peebles-Brown",
+        email = "anna.peebles-brown@ascent.io",
+        role = "aut"
+        ),
+    person(
+        given = "Ramiro", family = "Magno",
+        email = "ramiro.morgado@ascent.io",
+        role = "aut"
+        )
+    )
+Description: This package main goal is to create pharmaceutical tables by
+    using data.table as backend.
+License: MIT + file LICENSE
 Imports: 
     data.table,
-    rlang
+    vctrs
 Suggests: 
     dplyr,
-    knitr,
     random.cdisc.data,
     rmarkdown,
     tern,
     kableExtra,
-    testthat (>= 3.0.0)
-VignetteBuilder: 
-    knitr
+    testthat (>= 3.0.0),
+    bench,
+    tidyr,
+    rtables,
+    dtlg.data (>= 0.1.9000),
+    withr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0)
 Config/testthat/edition: 3
+Config/Needs/website: rmarkdown, ascentsoftware/ascentdown
+LazyData: true
+Remotes: 
+    ascentsoftware/dtlg.data
+URL: https://AscentSoftware.github.io/dtlg

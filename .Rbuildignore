@@ -1,3 +1,11 @@
 ^dtlg\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
+^tmp$
+^LICENSE\.md$
+^data-raw$
+^vignettes/articles$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
