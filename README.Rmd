@@ -22,18 +22,10 @@ at scale by utilising data.table as a back-end for processing. Currently only
 tables can be created but the functions should encompass a large number of
 possibilities for pharma tables.
 
-The package was created using TLGcatalog to create examples.
-
-Advance formatting options to follow in future.
-
 ## Installation
 
-You can install the development version of `{dtlg}` from
-[GitHub](https://github.com/) with:
-
 ``` r
-# install.packages("pak")
-pak::pak("AscentSoftware/dtlg")
+install.packages("dtlg")
 ```
 
 ## Example
