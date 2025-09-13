@@ -5,7 +5,7 @@ Authors@R: c(
     person(
         given = "Max", family = "Ebenezer-Brown",
         email = "max.ebenezer-brown@ascent.io",
-        role = c("aut", "cre")
+        role = "aut"
         ),
     person(
         given = "Max", family = "Norman",
@@ -25,7 +25,7 @@ Authors@R: c(
     person(
         given = "Ramiro", family = "Magno",
         email = "ramiro.morgado@ascent.io",
-        role = "aut"
+        role = c("aut", "cre")
         )
     )
 Description: This package main goal is to create pharmaceutical tables by

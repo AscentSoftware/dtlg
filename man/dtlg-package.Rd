@@ -16,14 +16,14 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Max Ebenezer-Brown \email{max.ebenezer-brown@ascent.io}
+\strong{Maintainer}: Ramiro Magno \email{ramiro.morgado@ascent.io}
 
 Authors:
 \itemize{
+  \item Max Ebenezer-Brown \email{max.ebenezer-brown@ascent.io}
   \item Max Norman \email{max.norman@ascent.io}
   \item Xinye Li \email{xinye.li@ascent.io}
   \item Anja Peebles-Brown \email{anna.peebles-brown@ascent.io}
-  \item Ramiro Magno \email{ramiro.morgado@ascent.io}
 }
 
 }
