@@ -28,8 +28,7 @@ Authors@R: c(
         role = c("aut", "cre")
         )
     )
-Description: This package main goal is to create pharmaceutical tables by
-    using data.table as backend.
+Description: Create pharmaceutical tables by using data.table as backend.
 License: MIT + file LICENSE
 Imports: 
     data.table,
@@ -51,10 +50,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.1.0)
-Remotes: 
-  ascentsoftware/dtlg.data
 Config/testthat/edition: 3
 Config/Needs/website: rmarkdown, ascentsoftware/ascentdown
 LazyData: true
-URL: https://AscentSoftware.github.io/dtlg
+URL: https://AscentSoftware.github.io/dtlg/
 Additional_repositories: https://ascentsoftware.r-universe.dev

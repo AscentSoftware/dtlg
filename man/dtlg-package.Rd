@@ -6,12 +6,12 @@
 \alias{dtlg-package}
 \title{dtlg: A Performance-Focused Package for Clinical Trial Tables}
 \description{
-This package main goal is to create pharmaceutical tables by using data.table as backend.
+Create pharmaceutical tables by using data.table as backend.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://AscentSoftware.github.io/dtlg}
+  \item \url{https://AscentSoftware.github.io/dtlg/}
 }
 
 }
