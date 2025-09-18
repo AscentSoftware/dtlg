@@ -11,6 +11,9 @@ as_dtlg_table(tt, .label_col = "stats")
 
 \item{.label_col}{Label for stats' column.}
 }
+\value{
+A data.table.
+}
 \description{
 \code{\link[=as_dtlg_table]{as_dtlg_table()}} reformats a TableTree object into a format close to that
 of dtlg's \code{data.table}.

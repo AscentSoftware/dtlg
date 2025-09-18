@@ -14,6 +14,8 @@
 #'   should be passed as a `character` vector of expressions to be evaluated in
 #'   the frame of `dt`.
 #'
+#' @returns A one-element list, where the element is a `data.table`.
+#'
 #' @examples
 #' # Count deaths per arm.
 #' event_count(

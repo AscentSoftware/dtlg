@@ -17,10 +17,13 @@ knitr::opts_chunk$set(
   [![R-CMD-check](https://github.com/AscentSoftware/dtlg/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AscentSoftware/dtlg/actions/workflows/R-CMD-check.yaml)
   <!-- badges: end -->
 
-The goal of dtlg is to create pharmaceutical tables, listings and graphs for use
-at scale by utilising data.table as a back-end for processing. Currently only
-tables can be created but the functions should encompass a large number of
-possibilities for pharma tables.
+Create high-performance clinical reporting tables (TLGs) from ADaM-like inputs.
+The package provides a consistent, programmatic API to generate common tables
+such as demographics, adverse event incidence, and laboratory summaries, using
+'data.table' for fast aggregation over large populations. Functions support
+flexible target-variable selection, stratification by treatment, and
+customizable summary statistics, and return tidy, machine-readable results ready
+to render with downstream table/formatting packages in analysis pipelines.
 
 ## Installation
 

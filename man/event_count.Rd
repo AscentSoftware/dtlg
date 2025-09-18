@@ -36,6 +36,9 @@ per group.}
 \item{pct_dec}{This argument is ignored, and is only kept for backward
 compatibility reasons.}
 }
+\value{
+A one-element list, where the element is a \code{data.table}.
+}
 \description{
 \code{\link[=event_count]{event_count()}} counts events defined by predicate expressions passed in
 \code{.filters}.

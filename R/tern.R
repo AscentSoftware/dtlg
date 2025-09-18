@@ -52,6 +52,8 @@ tern_summary_table <- function(dt, target, treat, target_name = target) {
 #'
 #' @param .label_col Label for stats' column.
 #'
+#' @returns A data.table.
+#'
 #' @examples
 #' vars <- c('AGE', 'RACE', 'ETHNIC', 'BMRKR1')
 #' var_labels <- c("Age (yr)", "Race", "Ethnicity", "Continuous Level Biomarker 1")
