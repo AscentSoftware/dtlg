@@ -39,8 +39,8 @@ bench::mark(
   iterations = 1L,
   check = FALSE
 )
-dtlg::as_dtlg_table(tt = tern_dmg_tab)
-dtlg_dmg_tab
+# dtlg::as_dtlg_table(tt = tern_dmg_tab)
+# dtlg_dmg_tab
 ```
 
 ## Benchmarking AET01
@@ -72,8 +72,30 @@ bench::mark(
 )
 ```
 
-
-
 ## Benchmarking AET02
 
-TODO
+```{r}
+arm_var <- "ARM"
+aesi_vars = c("FATAL", "SER", "SERWD", "SERDSM", "RELSER",
+              "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
+
+bench::mark(
+  
+  tern_safety_tab <- dtlg::tern_AET02_table(
+    adsl = adsl_small,
+    adae = aesi,
+    patient = "USUBJID",
+    treat = "ARM"
+  ), 
+  
+  dtlg_safety_tab <- dtlg::AET01_table(
+    adsl = adsl_small,
+    adae = aesi,
+    patient_var = "USUBJID",
+    treat_var = "ARM",
+    aesi_vars = aesi_vars
+  ),
+  iterations = 1L,
+  check = FALSE
+)
+```
