@@ -88,12 +88,11 @@ bench::mark(
     treat = "ARM"
   ), 
   
-  dtlg_safety_tab <- dtlg::AET01_table(
+  dtlg_safety_tab <- dtlg::AET02_table(
     adsl = adsl_small,
     adae = aesi,
-    patient_var = "USUBJID",
-    treat_var = "ARM",
-    aesi_vars = aesi_vars
+    patient = "USUBJID",
+    treat = "ARM"
   ),
   iterations = 1L,
   check = FALSE
