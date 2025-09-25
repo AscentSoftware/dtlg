@@ -14,8 +14,8 @@ knitr::opts_chunk$set(
 # dtlg
 
 <!-- badges: start -->
-  [![R-CMD-check](https://github.com/AscentSoftware/dtlg/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AscentSoftware/dtlg/actions/workflows/R-CMD-check.yaml)
-  <!-- badges: end -->
+[![R-CMD-check](https://github.com/AscentSoftware/dtlg/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AscentSoftware/dtlg/actions/workflows/R-CMD-check.yaml) [![CRAN checks](https://badges.cranchecks.info/summary/dtlg.svg)](https://cran.r-project.org/web/checks/check_results_dtlg.html) [![](http://cranlogs.r-pkg.org/badges/last-month/dtlg)](https://cran.r-project.org/package=dtlg) [![](https://www.r-pkg.org/badges/version/dtlg)](https://cran.r-project.org/package=dtlg)
+<!-- badges: end -->
 
 Create high-performance clinical reporting tables (TLGs) from ADaM-like inputs.
 The package provides a consistent, programmatic API to generate common tables
