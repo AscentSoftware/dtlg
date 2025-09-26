@@ -15,11 +15,8 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![](https://www.r-pkg.org/badges/version/dtlg)](https://cran.r-project.org/package=dtlg)
-
 [![R-CMD-check](https://github.com/AscentSoftware/dtlg/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AscentSoftware/dtlg/actions/workflows/R-CMD-check.yaml)
-
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
-
 [![](http://cranlogs.r-pkg.org/badges/last-month/dtlg)](https://cran.r-project.org/package=dtlg)
 <!-- badges: end -->
 
