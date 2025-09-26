@@ -97,10 +97,10 @@
 <span><span class="co">#&gt; Warning: Some expressions had a GC in every iteration; so filtering is</span></span>
 <span><span class="co">#&gt; disabled.</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
-<span><span class="co">#&gt;   expression                             min median `itr/sec` mem_alloc `gc/sec`</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;bch&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_dmg_tab &lt;- dtlg::tern_summary_…   28s    28s    0.035<span style="text-decoration: underline;">7</span>    7.94GB     1.39</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_dmg_tab &lt;- dtlg::summary_table… 515ms  515ms    1.94    542.09MB     1.94</span></span>
+<span><span class="co">#&gt;   expression                            min  median `itr/sec` mem_alloc `gc/sec`</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_dmg_tab &lt;- dtlg::tern_summa…   28.6s   28.6s    0.035<span style="text-decoration: underline;">0</span>    8.08GB     1.36</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_dmg_tab &lt;- dtlg::summary_ta… 414.8ms 414.8ms    2.41     542.1MB     0</span></span>
 <span><span class="fu">dtlg</span><span class="fu">::</span><span class="fu"><a href="../reference/as_dtlg_table.html">as_dtlg_table</a></span><span class="op">(</span>tt <span class="op">=</span> <span class="va">tern_dmg_tab</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                         stats      A: Drug X     B: Placebo</span></span>
 <span><span class="co">#&gt;                                        &lt;char&gt;         &lt;char&gt;         &lt;char&gt;</span></span>
@@ -377,8 +377,8 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   expression                             min median `itr/sec` mem_alloc `gc/sec`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;bch&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_safety_tab &lt;- dtlg::tern_AET01… 537ms  537ms      1.86   137.5MB     1.86</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_safety_tab &lt;- dtlg::AET01_tabl… 120ms  120ms      8.35    28.8MB     0</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_safety_tab &lt;- dtlg::tern_AET01… 443ms  443ms      2.26   137.5MB     0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_safety_tab &lt;- dtlg::AET01_tabl… 204ms  204ms      4.91    28.9MB     4.91</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="benchmarking-aet02">Benchmarking AET02<a class="anchor" aria-label="anchor" href="#benchmarking-aet02"></a>
