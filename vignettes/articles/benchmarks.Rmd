@@ -1,5 +1,5 @@
 ---
-title: "benchmarks"
+title: "Benchmarks"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{benchmarks}
@@ -73,9 +73,3 @@ bench::mark(
   check = FALSE
 )
 ```
-
-
-
-## Benchmarking AET02
-
-TODO
