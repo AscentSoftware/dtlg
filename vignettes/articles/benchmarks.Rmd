@@ -3,7 +3,7 @@ title: "benchmarks"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{benchmarks}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::rmarkdown_notangle}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 library(tern)
-library(dtlg.data)
+library(random.cdisc.data)
 library(dtlg)
 library(bench)
 ```
@@ -21,9 +21,11 @@ library(bench)
 ## Benchmark data
 
 ```{r}
-adsl_large <- dtlg.data::dataset("adsl_large")
-adsl_small <- dtlg.data::dataset("adsl_small")
-adae <- dtlg.data::dataset("adae")
+seed <- 42
+
+adsl_small <- random.cdisc.data::radsl(N = 20000, seed = seed)
+adsl_large <- random.cdisc.data::radsl(N = 1000000, seed = seed)
+aesi <- dtlg::aesi
 ```
 
 ## Benchmarking demographics data

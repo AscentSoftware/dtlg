@@ -1,6 +1,6 @@
 Package: dtlg
 Title: A Performance-Focused Package for Clinical Trial Tables
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: c(
     person(
         given = "Max", family = "Ebenezer-Brown",
@@ -41,25 +41,23 @@ Imports:
     data.table,
     vctrs
 Suggests: 
-    dplyr,
-    random.cdisc.data,
-    rmarkdown,
-    tern,
-    kableExtra,
-    testthat (>= 3.0.0),
     bench,
-    tidyr,
+    dplyr,
+    kableExtra,
+    rmarkdown,
+    random.cdisc.data,
     rtables,
-    dtlg.data (>= 0.2.0),
+    tern,
+    testthat (>= 3.0.0),
+    tidyr,
     withr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends: 
     R (>= 4.1.0)
 Config/testthat/edition: 3
 Config/Needs/website: rmarkdown, ascentsoftware/ascentdown
-Config/Needs/check: ascentsoftware/dtlg.data
 LazyData: true
 URL: https://AscentSoftware.github.io/dtlg/
 Additional_repositories: https://ascentsoftware.r-universe.dev
