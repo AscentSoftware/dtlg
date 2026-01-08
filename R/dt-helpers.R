@@ -38,7 +38,7 @@ dt_expand_grid <- function(..., .include_na = FALSE) {
 
 #' Count the observations in each group
 #'
-#' [dt_count()] is a simple wrapper around `data.table` commands to perform
+#' `dt_count()` is a simple wrapper around `data.table` commands to perform
 #' a count on observations in each group. Groups are defined by indicating
 #' variables to group by.
 #'
@@ -120,7 +120,7 @@ dt_count <- function(dt,
 
 #' Summarise each group down to one row
 #'
-#' [dt_summarise()] summarises a table using `data.table` as backend. Grouping
+#' `dt_summarise()` summarises a table using `data.table` as backend. Grouping
 #' is indicated with `.by` and aggregations as expressions in `...`, evaluated
 #' in the frame of `dt`.
 #'
