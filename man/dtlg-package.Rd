@@ -24,6 +24,7 @@ Authors:
   \item Max Norman \email{max.norman@ascent.io}
   \item Xinye Li \email{xinye.li@ascent.io}
   \item Anja Peebles-Brown \email{anna.peebles-brown@ascent.io}
+  \item Ashley Baldry \email{ashley.baldry@ascent.io}
 }
 
 }

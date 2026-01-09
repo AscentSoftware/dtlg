@@ -23,6 +23,11 @@ Authors@R: c(
         role = "aut"
         ),
     person(
+      given = "Ashley", family = "Baldry",
+      email = "ashley.baldry@ascent.io",
+      role = "aut"
+    ),    
+    person(
         given = "Ramiro", family = "Magno",
         email = "ramiro.morgado@ascent.io",
         role = c("aut", "cre")
