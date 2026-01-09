@@ -20,7 +20,7 @@ print_dtlg(
 
 \item{trunc.cols}{ If \code{TRUE}, only the columns that can be printed in the console without wrapping the columns to new lines will be printed (similar to \code{tibbles}). }
 
-\item{class}{ If \code{TRUE}, the resulting output will include above each column its storage class (or a self-evident abbreviation thereof). }
+\item{class}{ If \code{TRUE}, the resulting output will include above each column its storage class (or a self-evident abbreviation thereof). When combined with \code{col.names="auto"} and tables >20 rows, classes will also appear at the bottom.}
 
 \item{nrows}{ The number of rows which will be printed before truncation is enforced. }
 
