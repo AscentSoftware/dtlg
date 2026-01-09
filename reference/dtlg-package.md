@@ -28,3 +28,5 @@ Authors:
 - Xinye Li <xinye.li@ascent.io>
 
 - Anja Peebles-Brown <anna.peebles-brown@ascent.io>
+
+- Ashley Baldry <ashley.baldry@ascent.io>
