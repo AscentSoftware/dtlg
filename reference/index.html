@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dtlg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,7 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/benchmarks.html">benchmarks</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/benchmarks.html">Benchmarks</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -39,14 +39,12 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
       <h3 id="statistics">Statistics<a class="anchor" aria-label="anchor" href="#statistics"></a></h3>
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -57,13 +55,15 @@
 
         </dt>
         <dd>Calculate counts of a categorical variable</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="calc_desc.html">calc_desc()</a></code>
 
         </dt>
         <dd>Calculate descriptive summary statistics for a numeric variable</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="calc_stats.html">calc_stats()</a></code>
 
@@ -74,8 +74,7 @@
       <h3 id="events">Events<a class="anchor" aria-label="anchor" href="#events"></a></h3>
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -86,19 +85,22 @@
 
         </dt>
         <dd>Count events</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="event_count_by.html">event_count_by()</a></code>
 
         </dt>
         <dd>Summarise adverse events by arm and other grouping variables</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="total_events.html">total_events()</a></code>
 
         </dt>
         <dd>Count total events</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="multi_event_true.html">multi_event_true()</a></code>
 
@@ -109,8 +111,7 @@
       <h3 id="summary-tables">Summary Tables<a class="anchor" aria-label="anchor" href="#summary-tables"></a></h3>
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -121,13 +122,15 @@
 
         </dt>
         <dd>Summary Table</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="summary_table_by.html">summary_table_by()</a></code>
 
         </dt>
         <dd>Create a summary table using multiple rows for grouping on one target column</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="summary_table_by_targets.html">summary_table_by_targets()</a></code>
 
@@ -138,8 +141,7 @@
       <h3 id="clinical-tables">Clinical Tables<a class="anchor" aria-label="anchor" href="#clinical-tables"></a></h3>
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -150,7 +152,8 @@
 
         </dt>
         <dd>Generate Core Safety Tables for Clinical Study Reports</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="AET02_table.html">AET02_table()</a></code>
 
@@ -161,8 +164,7 @@
 
       <div class="section-desc"><p>Wrappers for generating tern-compatible tables to enable structured side-by-side comparison</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -173,19 +175,22 @@
 
         </dt>
         <dd>Convert a TableTree to a dtlg table</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="tern_summary_table.html">tern_summary_table()</a></code>
 
         </dt>
         <dd>Create a clinical reporting table with tern/rtables</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="tern_AET01_table.html">tern_AET01_table()</a></code>
 
         </dt>
         <dd>Generate Core Safety Tables (CSR Section 14.3.1) using <code>tern</code>/<code>rtables</code></dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="tern_AET02_table.html">tern_AET02_table()</a></code>
 
@@ -196,8 +201,7 @@
 
       <div class="section-desc"><p>Control how objects are returned as <code>data.table</code>s: by reference (in place) or by value (deep copy).</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -208,7 +212,8 @@
 
         </dt>
         <dd>Get or set data.table copy semantics</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="maybe_copy_dt.html">maybe_copy_dt()</a></code>
 
@@ -219,8 +224,7 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -231,19 +235,22 @@
 
         </dt>
         <dd>Subject-Level Analysis Dataset (ADSL) example dataset</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="adlb.html">adlb</a></code>
 
         </dt>
         <dd>ADaM Basic Data Structure (BDS) example dataset</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="adae.html">adae</a></code>
 
         </dt>
         <dd>Adverse Event Analysis Dataset example dataset</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="aesi.html">aesi</a></code>
 
@@ -254,8 +261,7 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -266,37 +272,43 @@
 
         </dt>
         <dd>Retrieve the label of an object</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="with_label.html">with_label()</a></code>
 
         </dt>
         <dd>Add a label attribute to an object</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="round_pct.html">round_pct()</a></code>
 
         </dt>
         <dd>Rounded percentage</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="round_sum.html">round_sum()</a></code>
 
         </dt>
         <dd>Rounds numbers while preserving the total sum</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="merge_table_lists.html">merge_table_lists()</a></code>
 
         </dt>
         <dd>Merge a list of list-wrapped data.tables into one data.table</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="cross_tab_to_obsv_tab.html">cross_tab_to_obsv_tab()</a></code>
 
         </dt>
         <dd>Convert a contingency table to a long-format observation-level data frame</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="print_dtlg.html">print_dtlg()</a></code>
 

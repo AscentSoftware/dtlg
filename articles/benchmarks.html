@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>benchmarks • dtlg</title>
+<title>Benchmarks • dtlg</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -18,7 +18,7 @@
 <link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="benchmarks">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Benchmarks">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dtlg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/benchmarks.html">benchmarks</a></li>
+<li><a class="dropdown-item" href="../articles/benchmarks.html">Benchmarks</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -63,7 +63,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>benchmarks</h1>
+      <h1>Benchmarks</h1>
             
       
 
@@ -76,9 +76,11 @@
 <h2 id="benchmark-data">Benchmark data<a class="anchor" aria-label="anchor" href="#benchmark-data"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">adsl_large</span> <span class="op">&lt;-</span> <span class="fu">dtlg.data</span><span class="fu">::</span><span class="fu"><a href="https://ascentsoftware.github.io/dtlg.data/reference/dataset.html" class="external-link">dataset</a></span><span class="op">(</span><span class="st">"adsl_large"</span><span class="op">)</span></span>
-<span><span class="va">adsl_small</span> <span class="op">&lt;-</span> <span class="fu">dtlg.data</span><span class="fu">::</span><span class="fu"><a href="https://ascentsoftware.github.io/dtlg.data/reference/dataset.html" class="external-link">dataset</a></span><span class="op">(</span><span class="st">"adsl_small"</span><span class="op">)</span></span>
-<span><span class="va">adae</span> <span class="op">&lt;-</span> <span class="fu">dtlg.data</span><span class="fu">::</span><span class="fu"><a href="https://ascentsoftware.github.io/dtlg.data/reference/dataset.html" class="external-link">dataset</a></span><span class="op">(</span><span class="st">"adae"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">seed</span> <span class="op">&lt;-</span> <span class="fl">42</span></span>
+<span></span>
+<span><span class="va">adsl_small</span> <span class="op">&lt;-</span> <span class="fu">random.cdisc.data</span><span class="fu">::</span><span class="fu"><a href="https://insightsengineering.github.io/random.cdisc.data/main/reference/radsl.html" class="external-link">radsl</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">20000</span>, seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span></span>
+<span><span class="va">adsl_large</span> <span class="op">&lt;-</span> <span class="fu">random.cdisc.data</span><span class="fu">::</span><span class="fu"><a href="https://insightsengineering.github.io/random.cdisc.data/main/reference/radsl.html" class="external-link">radsl</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">1000000</span>, seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span></span>
+<span><span class="va">aesi</span> <span class="op">&lt;-</span> <span class="fu">dtlg</span><span class="fu">::</span><span class="va"><a href="../reference/aesi.html">aesi</a></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="benchmarking-demographics-data">Benchmarking demographics data<a class="anchor" aria-label="anchor" href="#benchmarking-demographics-data"></a>
@@ -99,8 +101,8 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   expression                            min  median `itr/sec` mem_alloc `gc/sec`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_dmg_tab &lt;- dtlg::tern_summa…   28.6s   28.6s    0.035<span style="text-decoration: underline;">0</span>    8.08GB     1.36</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_dmg_tab &lt;- dtlg::summary_ta… 414.8ms 414.8ms    2.41     542.1MB     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_dmg_tab &lt;- dtlg::tern_summa…   28.9s   28.9s    0.034<span style="text-decoration: underline;">6</span>    8.08GB     1.73</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_dmg_tab &lt;- dtlg::summary_ta… 497.6ms 497.6ms    2.01     545.9MB     2.01</span></span>
 <span><span class="fu">dtlg</span><span class="fu">::</span><span class="fu"><a href="../reference/as_dtlg_table.html">as_dtlg_table</a></span><span class="op">(</span>tt <span class="op">=</span> <span class="va">tern_dmg_tab</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                         stats      A: Drug X     B: Placebo</span></span>
 <span><span class="co">#&gt;                                        &lt;char&gt;         &lt;char&gt;         &lt;char&gt;</span></span>
@@ -165,6 +167,7 @@
 <span><span class="co">#&gt; 59:                                    MEDIUM 111381 (33.4%) 111000 (33.3%)</span></span>
 <span><span class="co">#&gt; 60:                                      HIGH 110964 (33.2%) 111066 (33.3%)</span></span>
 <span><span class="co">#&gt;                                         stats      A: Drug X     B: Placebo</span></span>
+<span><span class="co">#&gt;                                        &lt;char&gt;         &lt;char&gt;         &lt;char&gt;</span></span>
 <span><span class="co">#&gt;     C: Combination</span></span>
 <span><span class="co">#&gt;             &lt;char&gt;</span></span>
 <span><span class="co">#&gt;  1:               </span></span>
@@ -228,6 +231,7 @@
 <span><span class="co">#&gt; 59: 111125 (33.4%)</span></span>
 <span><span class="co">#&gt; 60: 111115 (33.4%)</span></span>
 <span><span class="co">#&gt;     C: Combination</span></span>
+<span><span class="co">#&gt;             &lt;char&gt;</span></span>
 <span><span class="va">dtlg_dmg_tab</span></span>
 <span><span class="co">#&gt;                                         stats      A: Drug X     B: Placebo</span></span>
 <span><span class="co">#&gt;                                        &lt;char&gt;         &lt;char&gt;         &lt;char&gt;</span></span>
@@ -286,6 +290,7 @@
 <span><span class="co">#&gt; 53:                                       LOW 111579 (33.4%) 111021 (33.3%)</span></span>
 <span><span class="co">#&gt; 54:                                    MEDIUM 111381 (33.4%) 111000 (33.3%)</span></span>
 <span><span class="co">#&gt;                                         stats      A: Drug X     B: Placebo</span></span>
+<span><span class="co">#&gt;                                        &lt;char&gt;         &lt;char&gt;         &lt;char&gt;</span></span>
 <span><span class="co">#&gt;     C: Combination</span></span>
 <span><span class="co">#&gt;             &lt;char&gt;</span></span>
 <span><span class="co">#&gt;  1:               </span></span>
@@ -342,7 +347,8 @@
 <span><span class="co">#&gt; 52: 111115 (33.4%)</span></span>
 <span><span class="co">#&gt; 53: 110749 (33.3%)</span></span>
 <span><span class="co">#&gt; 54: 111125 (33.4%)</span></span>
-<span><span class="co">#&gt;     C: Combination</span></span></code></pre></div>
+<span><span class="co">#&gt;     C: Combination</span></span>
+<span><span class="co">#&gt;             &lt;char&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="benchmarking-aet01">Benchmarking AET01<a class="anchor" aria-label="anchor" href="#benchmarking-aet01"></a>
@@ -377,13 +383,8 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   expression                             min median `itr/sec` mem_alloc `gc/sec`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;bch&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_safety_tab &lt;- dtlg::tern_AET01… 443ms  443ms      2.26   137.5MB     0   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_safety_tab &lt;- dtlg::AET01_tabl… 204ms  204ms      4.91    28.9MB     4.91</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="benchmarking-aet02">Benchmarking AET02<a class="anchor" aria-label="anchor" href="#benchmarking-aet02"></a>
-</h2>
-<p>TODO</p>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_safety_tab &lt;- dtlg::tern_AET01… 597ms  597ms      1.68   134.5MB     3.35</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_safety_tab &lt;- dtlg::AET01_tabl… 154ms  154ms      6.47    28.8MB     0</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

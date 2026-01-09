@@ -1,0 +1,191 @@
+# dtlg
+
+Create high-performance clinical reporting tables (TLGs) from ADaM-like
+inputs. The package provides a consistent, programmatic API to generate
+common tables such as demographics, adverse event incidence, and
+laboratory summaries, using ‘data.table’ for fast aggregation over large
+populations. Functions support flexible target-variable selection,
+stratification by treatment, and customizable summary statistics, and
+return tidy, machine-readable results ready to render with downstream
+table/formatting packages in analysis pipelines.
+
+## Installation
+
+``` r
+install.packages("dtlg")
+```
+
+## Example
+
+Creating an AET01 table:
+
+``` r
+library(dtlg)
+
+head(adsl[, c("USUBJID", "ARM")])
+#>                 USUBJID            ARM
+#> 1  AB12345-CHN-3-id-128      A: Drug X
+#> 2 AB12345-CHN-15-id-262 C: Combination
+#> 3  AB12345-RUS-3-id-378 C: Combination
+#> 4 AB12345-CHN-11-id-220     B: Placebo
+#> 5  AB12345-CHN-7-id-267     B: Placebo
+#> 6 AB12345-CHN-15-id-201 C: Combination
+
+head(aesi[, c("USUBJID", "ARM", "FATAL")])
+#>                 USUBJID            ARM  FATAL
+#>                  <char>         <fctr> <lgcl>
+#> 1: AB12345-BRA-1-id-134      A: Drug X  FALSE
+#> 2: AB12345-BRA-1-id-134      A: Drug X  FALSE
+#> 3: AB12345-BRA-1-id-134      A: Drug X  FALSE
+#> 4: AB12345-BRA-1-id-134      A: Drug X   TRUE
+#> 5: AB12345-BRA-1-id-141 C: Combination  FALSE
+#> 6: AB12345-BRA-1-id-141 C: Combination  FALSE
+
+AET01 <-
+  AET01_table(
+    adsl = adsl,
+    adae = aesi,
+    patient_var = "USUBJID",
+    treat_var = "ARM",
+    aesi_vars = c("FATAL", "SER", "SERWD", "SERDSM", "RELSER",
+                  "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
+  )
+
+AET01[, stats := strtrim(stats, 35)][]
+#>                                   stats   A: Drug X B: Placebo C: Combination
+#>                                  <char>      <char>     <char>         <char>
+#>  1: Total number of patients with at le 100 (74.6%) 98 (73.1%)    103 (78.0%)
+#>  2:                 Total number of AEs         502        480            604
+#>  3:              Total number of deaths  25 (18.7%) 23 (17.2%)     22 (16.7%)
+#>  4: Total number of patients withdrawn     3 (2.2%)   6 (4.5%)       5 (3.8%)
+#>  5: Total number of patients with at le                                      
+#>  6:               AE with fatal outcome    5 (3.7%)   5 (3.7%)       6 (4.5%)
+#>  7:                          Serious AE  85 (63.4%) 80 (59.7%)     87 (65.9%)
+#>  8:   Serious AE leading to withdrawal     6 (4.5%)  12 (9.0%)       9 (6.8%)
+#>  9:   Serious AE leading to dose modifi  36 (26.9%) 40 (29.9%)     47 (35.6%)
+#> 10:                  Related Serious AE  64 (47.8%) 52 (38.8%)     64 (48.5%)
+#> 11:   AE leading to withdrawal from tre  20 (14.9%) 24 (17.9%)     26 (19.7%)
+#> 12:   AE leading to dose modification/i  63 (47.0%) 70 (52.2%)     77 (58.3%)
+#> 13:                          Related AE  86 (64.2%) 85 (63.4%)     92 (69.7%)
+#> 14:   Related AE leading to withdrawal    10 (7.5%)   9 (6.7%)      12 (9.1%)
+#> 15:   Related AE leading to dose modifi  44 (32.8%) 44 (32.8%)     51 (38.6%)
+#> 16:   Severe AE (at greatest intensity)  77 (57.5%) 70 (52.2%)     79 (59.8%)
+```
+
+# Package index
+
+## Tabulation
+
+### Statistics
+
+- [`calc_counts()`](https://AscentSoftware.github.io/dtlg/reference/calc_counts.md)
+  : Calculate counts of a categorical variable
+- [`calc_desc()`](https://AscentSoftware.github.io/dtlg/reference/calc_desc.md)
+  : Calculate descriptive summary statistics for a numeric variable
+- [`calc_stats()`](https://AscentSoftware.github.io/dtlg/reference/calc_stats.md)
+  : Calculate summary statistics for a variable
+
+### Events
+
+- [`event_count()`](https://AscentSoftware.github.io/dtlg/reference/event_count.md)
+  : Count events
+- [`event_count_by()`](https://AscentSoftware.github.io/dtlg/reference/event_count_by.md)
+  : Summarise adverse events by arm and other grouping variables
+- [`total_events()`](https://AscentSoftware.github.io/dtlg/reference/total_events.md)
+  : Count total events
+- [`multi_event_true()`](https://AscentSoftware.github.io/dtlg/reference/multi_event_true.md)
+  : Summarise multiple AESI-like events per treatment arm
+
+### Summary Tables
+
+- [`summary_table()`](https://AscentSoftware.github.io/dtlg/reference/summary_table.md)
+  : Summary Table
+- [`summary_table_by()`](https://AscentSoftware.github.io/dtlg/reference/summary_table_by.md)
+  : Create a summary table using multiple rows for grouping on one
+  target column
+- [`summary_table_by_targets()`](https://AscentSoftware.github.io/dtlg/reference/summary_table_by_targets.md)
+  : Create a summary table using multiple rows for grouping on two
+  target column ideal for creating change from baseline tables
+
+### Clinical Tables
+
+- [`AET01_table()`](https://AscentSoftware.github.io/dtlg/reference/AET01_table.md)
+  : Generate Core Safety Tables for Clinical Study Reports
+- [`AET02_table()`](https://AscentSoftware.github.io/dtlg/reference/AET02_table.md)
+  : Create AET02-style AE summary table
+
+## tern
+
+Wrappers for generating tern-compatible tables to enable structured
+side-by-side comparison
+
+- [`as_dtlg_table()`](https://AscentSoftware.github.io/dtlg/reference/as_dtlg_table.md)
+  : Convert a TableTree to a dtlg table
+
+- [`tern_summary_table()`](https://AscentSoftware.github.io/dtlg/reference/tern_summary_table.md)
+  : Create a clinical reporting table with tern/rtables
+
+- [`tern_AET01_table()`](https://AscentSoftware.github.io/dtlg/reference/tern_AET01_table.md)
+  :
+
+  Generate Core Safety Tables (CSR Section 14.3.1) using
+  `tern`/`rtables`
+
+- [`tern_AET02_table()`](https://AscentSoftware.github.io/dtlg/reference/tern_AET02_table.md)
+  :
+
+  Generate AET02-style AE summary using `tern` and `rtables`
+
+## Copy semantics
+
+Control how objects are returned as `data.table`s: by reference (in
+place) or by value (deep copy).
+
+- [`dt_copy_semantics()`](https://AscentSoftware.github.io/dtlg/reference/dt_copy_semantics.md)
+  [`set_dt_copy_semantics()`](https://AscentSoftware.github.io/dtlg/reference/dt_copy_semantics.md)
+  : Get or set data.table copy semantics
+- [`maybe_copy_dt()`](https://AscentSoftware.github.io/dtlg/reference/maybe_copy_dt.md)
+  : Return a data.table by reference or by value
+
+## Built in datasets
+
+- [`adsl`](https://AscentSoftware.github.io/dtlg/reference/adsl.md) :
+  Subject-Level Analysis Dataset (ADSL) example dataset
+- [`adlb`](https://AscentSoftware.github.io/dtlg/reference/adlb.md) :
+  ADaM Basic Data Structure (BDS) example dataset
+- [`adae`](https://AscentSoftware.github.io/dtlg/reference/adae.md) :
+  Adverse Event Analysis Dataset example dataset
+- [`aesi`](https://AscentSoftware.github.io/dtlg/reference/aesi.md) :
+  Adverse Events of Special Interest (AESI) example dataset
+
+## Miscellanea
+
+- [`label()`](https://AscentSoftware.github.io/dtlg/reference/label.md)
+  : Retrieve the label of an object
+
+- [`with_label()`](https://AscentSoftware.github.io/dtlg/reference/with_label.md)
+  : Add a label attribute to an object
+
+- [`round_pct()`](https://AscentSoftware.github.io/dtlg/reference/round_pct.md)
+  : Rounded percentage
+
+- [`round_sum()`](https://AscentSoftware.github.io/dtlg/reference/round_sum.md)
+  : Rounds numbers while preserving the total sum
+
+- [`merge_table_lists()`](https://AscentSoftware.github.io/dtlg/reference/merge_table_lists.md)
+  : Merge a list of list-wrapped data.tables into one data.table
+
+- [`cross_tab_to_obsv_tab()`](https://AscentSoftware.github.io/dtlg/reference/cross_tab_to_obsv_tab.md)
+  : Convert a contingency table to a long-format observation-level data
+  frame
+
+- [`print_dtlg()`](https://AscentSoftware.github.io/dtlg/reference/print_dtlg.md)
+  :
+
+  Print a `dtlg` table
+
+# Articles
+
+### All vignettes
+
+- [Benchmarks](https://AscentSoftware.github.io/dtlg/articles/benchmarks.md):
