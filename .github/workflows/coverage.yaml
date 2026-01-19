@@ -5,12 +5,12 @@ on:
     branches: [main, master]
   pull_request:
 
-name: R-CMD-check.yaml
+name: dtlg Package Coverage
 
 permissions: read-all
 
 jobs:
-  R-CMD-check:
+  coverage:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest, r: 'release'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
