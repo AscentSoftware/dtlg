@@ -52,18 +52,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Code Coverage Report
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        continue-on-error: true
+        uses: 5monkeys/cobertura-action@master
         with:
-          filename: cobertura.xml
-          fail_below_min: true
-          format: markdown
-          output: both
-          thresholds: '60 80'
-
-      - name: Add Coverage PR Comment
-        uses: marocchino/sticky-pull-request-comment@v2
-        if: github.event_name == 'pull_request'
-        with:
-          recreate: true
-          path: code-coverage-results.md
+          path: covertura.xml
+          minimum_coverage: 60
