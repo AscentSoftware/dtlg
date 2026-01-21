@@ -17,7 +17,7 @@
 #' tern_summary_table(
 #'   adsl,
 #'   target = dmg_vars,
-#'   treat = "ARM",
+#'   treat = 'ARM',
 #'   target_name = dmg_var_lbls
 #' )
 #'
@@ -25,7 +25,7 @@
 #' tern_summary_table(
 #'   adsl,
 #'   target = c(dmg_vars, "BMRKR1"),
-#'   treat = "ARM",
+#'   treat = 'ARM',
 #'   target_name = c(dmg_var_lbls, "Biomarker 1")
 #' )
 #'
