@@ -32,12 +32,24 @@ aesi <- dtlg::aesi
 
 ```{r}
 arm_var <- "ARM"
-vars <- c("AGE", "SEX", "RACE", "ETHNIC", "COUNTRY", "DTHFL", "BMRKR1", 
-          "REGION1","BMRKR2")
+vars <- c(
+  "AGE", "SEX", "RACE", "ETHNIC", "COUNTRY", "DTHFL", "BMRKR1",
+  "REGION1", "BMRKR2"
+)
 
 bench::mark(
-  tern_dmg_tab <- dtlg::tern_summary_table(adsl_large, target = vars, treat = arm_var),
-  dtlg_dmg_tab <- dtlg::summary_table(adsl_large, target = vars, treat = arm_var, indent = '', .total_dt = adsl_large),
+  tern_dmg_tab <- dtlg::tern_summary_table(
+    adsl_large, 
+    target = vars, 
+    treat = arm_var
+  ),
+  dtlg_dmg_tab <- dtlg::summary_table(
+    adsl_large, 
+    target = vars, 
+    treat = arm_var, 
+    indent = "", 
+    .total_dt = adsl_large
+  ),
   iterations = 1L,
   check = FALSE
 )
@@ -49,19 +61,20 @@ dtlg_dmg_tab
 
 ```{r}
 arm_var <- "ARM"
-aesi_vars = c("FATAL", "SER", "SERWD", "SERDSM", "RELSER",
-              "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
+aesi_vars <- c(
+  "FATAL", "SER", "SERWD", "SERDSM", "RELSER",
+  "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV"
+)
 
 bench::mark(
-  
   tern_safety_tab <- dtlg::tern_AET01_table(
     adsl = adsl_small,
     adae = aesi,
     patient_var = "USUBJID",
     treat_var = "ARM",
     aesi_vars = aesi_vars
-  ), 
-  
+  ),
+
   dtlg_safety_tab <- dtlg::AET01_table(
     adsl = adsl_small,
     adae = aesi,

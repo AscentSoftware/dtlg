@@ -214,7 +214,7 @@ multi_event_true <- function(dt,
   stopifnot(
     identical(length(event_filters), length(event_label)),
     all(event_vars %in% colnames(dt))
-    )
+  )
 
   event <- mapply(
     event_count,
@@ -313,14 +313,14 @@ event_count_by <- function(dt,
     event_count,
     dt = event_split,
     treat = treat,
-    label = 'Total number of patients with at least one event',
+    label = "Total number of patients with at least one event",
     MoreArgs = list(
       .total_dt = .total_dt,
       patient = patient,
       pct_dec = pct_dec
     )
   )
-  event_total <- mapply(total_events, event_split, treat = treat, label = 'Total number of events')
+  event_total <- mapply(total_events, event_split, treat = treat, label = "Total number of events")
   event_target <- mapply(
     calc_stats,
     dt = event_split,

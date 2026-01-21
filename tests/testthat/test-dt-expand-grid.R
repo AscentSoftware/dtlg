@@ -27,8 +27,8 @@ test_that("`dt_expand_grid()` preserves types: integer, double, logical, charact
 })
 
 test_that("`dt_expand_grid()` preserves factor and ordered factor with level order", {
-  f  <- factor(c("low","med","high"), levels = c("low","med","high"), ordered = FALSE)
-  fo <- factor(c("A","B"), levels = c("A","B"), ordered = TRUE)
+  f  <- factor(c("low", "med", "high"), levels = c("low", "med", "high"), ordered = FALSE)
+  fo <- factor(c("A", "B"), levels = c("A", "B"), ordered = TRUE)
 
   g <- dt_expand_grid(severity = f, group = fo)
 
@@ -37,8 +37,8 @@ test_that("`dt_expand_grid()` preserves factor and ordered factor with level ord
   expect_true(is.ordered(g$group))
 
   # Level orders preserved exactly
-  expect_identical(levels(g$severity), c("low","med","high"))
-  expect_identical(levels(g$group), c("A","B"))
+  expect_identical(levels(g$severity), c("low", "med", "high"))
+  expect_identical(levels(g$group), c("A", "B"))
 
   # Row count as product of input lengths (not unique levels)
   expect_equal(nrow(g), length(f) * length(fo))

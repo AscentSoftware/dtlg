@@ -7,7 +7,7 @@ adlb_arm_levels <- levels(adlb$ARM)
 # Tests
 #
 test_that("`summary_table()` respects order of levels of `treat` in the output", {
-  observed <- summary_table(dt = adlb, target = 'AVAL', treat = 'ARM')
+  observed <- summary_table(dt = adlb, target = "AVAL", treat = "ARM")
   treat_cols <- colnames(observed)[-1L]
 
   expect_equal( object = treat_cols, expected = adlb_arm_levels)
@@ -16,8 +16,8 @@ test_that("`summary_table()` respects order of levels of `treat` in the output",
 test_that("`summary_table()`: `treat_order` works", {
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = rev(adlb_arm_levels)
   )
   treat_cols <- colnames(observed)[-1L]
@@ -29,8 +29,8 @@ test_that("`summary_table()`: `treat_order` plays well with `skip_absent`", {
   # skip_absent = TRUE
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = c(rev(adlb_arm_levels), "PHONY"),
     skip_absent = TRUE
   )
@@ -41,8 +41,8 @@ test_that("`summary_table()`: `treat_order` plays well with `skip_absent`", {
   expect_error(
     summary_table(
       dt = adlb,
-      target = 'AVAL',
-      treat = 'ARM',
+      target = "AVAL",
+      treat = "ARM",
       treat_order = c(rev(adlb_arm_levels), "PHONY"),
       skip_absent = FALSE
     )
@@ -56,15 +56,15 @@ test_that("`summary_table()` tolerates 'stats' in `treat_order`", {
   #
   wo_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = NULL
   )
 
   wt_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = "stats"
   )
 
@@ -75,15 +75,15 @@ test_that("`summary_table()` tolerates 'stats' in `treat_order`", {
   #
   wo_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = NULL
   )
 
   wt_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = rep("stats", 3L)
   )
 
@@ -94,15 +94,15 @@ test_that("`summary_table()` tolerates 'stats' in `treat_order`", {
   #
   wo_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = NULL
   )
 
   wt_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = c("stats", adlb_arm_levels[1])
   )
 
@@ -113,15 +113,15 @@ test_that("`summary_table()` tolerates 'stats' in `treat_order`", {
   #
   wo_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = NULL
   )
 
   wt_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = c(adlb_arm_levels[1], "stats")
   )
 
@@ -133,8 +133,8 @@ test_that("`summary_table()`: `pct_dec` works", {
   pct_dec <- 0L
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     pct_dec = pct_dec
   )
 
@@ -149,8 +149,8 @@ test_that("`summary_table()`: `pct_dec` works", {
   pct_dec <- 1L
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     pct_dec = pct_dec
   )
 
@@ -165,8 +165,8 @@ test_that("`summary_table()`: `pct_dec` works", {
   pct_dec <- 2L
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     pct_dec = pct_dec
   )
 
@@ -181,8 +181,8 @@ test_that("`summary_table()`: `pct_dec` works", {
   pct_dec <- 10L
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     pct_dec = pct_dec
   )
 

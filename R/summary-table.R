@@ -92,7 +92,7 @@ summary_table <- function(dt,
 #' indicated in `rows_by`.
 #'
 #' @examples
-#' summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM","AVISIT"))
+#' summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM", "AVISIT"))
 #'
 #' @export
 #'
@@ -107,20 +107,13 @@ summary_table_by <- function(dt,
                              skip_absent = TRUE) {
   dt <- maybe_copy_dt(x = dt)
 
-  dt <- split(droplevels(dt),
-              by = rows_by,
-              drop = T,
-              sorted = T)
+  dt <- split(droplevels(dt), by = rows_by, drop = TRUE, sorted = TRUE)
   label <- names(dt)
   if (length(rows_by) > 1) {
     label <- strsplit(label, '\\.')
-    heading_full <- lapply(X = label, function(x) {
-      x[1]
-    })
+    heading_full <- lapply(X = label, function(x) x[1])
     heading <- unique(heading_full)
-    label <- lapply(label, function(x) {
-      paste(x[2:length(x)], collapse = '.')
-    })
+    label <- lapply(label, function(x) paste(x[2:length(x)], collapse = "."))
     label <- paste0(indent, label)
     indent <- paste0(indent, indent)
   }
@@ -136,7 +129,7 @@ summary_table_by <- function(dt,
 
   if (length(rows_by) > 1) {
     x <- 0
-    for (i in 1:length(heading)) {
+    for (i in seq_along(heading)) {
       y = sum(heading_full %in% heading[i])
       summary_split <- append(summary_split, list(data.table::data.table(stats = heading[[i]])), after = x)
       x <- x + y + 1
@@ -199,11 +192,11 @@ summary_table_by_targets <- function(dt,
   x <- summary_tables[[1]]
   y <- summary_tables[[2]]
   full <- x[, 1]
-  names(x) <- paste(names(x), target[1], sep = '.')
-  names(y) <- paste(names(y), target[2], sep = '.')
+  names(x) <- paste(names(x), target[1], sep = ".")
+  names(y) <- paste(names(y), target[2], sep = ".")
   for (i in 2:ncol(x)) {
     full <- data.table::data.table(full, x[, i, with = FALSE], y[, i, with = FALSE])
   }
-  return(full)
-}
 
+  full
+}

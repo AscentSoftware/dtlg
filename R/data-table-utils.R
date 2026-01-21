@@ -34,12 +34,12 @@ drop_keys <- function(dt) {
 #'   band = c("low", "high", "med", "high")
 #' )
 #'
-#' # Relevel 'grp' to c("c","a"); values not in the set become NA
+#' # Relevel 'grp' to c("c", "a"); values not in the set become NA
 #' res <- dt_relevel_col_(dt, col = "grp", levels = c("c", "a"))
 #' levels(res$grp)
 #'
 #' # In-place modification
-#' invisible(dt_relevel_col_(dt, col = "band", levels = c("high","low")))
+#' invisible(dt_relevel_col_(dt, col = "band", levels = c("high", "low")))
 #' levels(dt$band)
 #'
 #' @noRd
@@ -60,9 +60,10 @@ dt_relevel_col_ <- function(dt, col, levels) {
   ord_flag <- is.ordered(cur)  # FALSE for non-factors; TRUE only for ordered factors
 
   # Skip if levels and ordered flag already match
-  if (is.factor(cur) &&
-      identical(levels(cur), target_levels) &&
-      identical(is.ordered(cur), ord_flag)) {
+  matching_levels <- is.factor(cur) &&
+    identical(levels(cur), target_levels) &&
+    identical(is.ordered(cur), ord_flag)
+  if (matching_levels) {
     return(out)
   }
 

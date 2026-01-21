@@ -48,7 +48,7 @@ test_that("single group: fac_var with `.fct_levels = 'all'` includes unused leve
 
 test_that("single group: fac_var with `.fct_levels = 'all'` and `.include_na = TRUE` adds `NA` row", {
   # fac_var has no NA observed; .include_na = TRUE should add NA with 0
-  res <- dt_count(df, "fac_var", .fct_levels = 'all', .include_na = TRUE)
+  res <- dt_count(df, "fac_var", .fct_levels = "all", .include_na = TRUE)
 
   expect_true(any(is.na(res$fac_var)))
   expect_equal(res[is.na(fac_var), n][[1]], 0L)
@@ -66,12 +66,12 @@ test_that("single group: log_var includes TRUE, FALSE, and NA counts", {
 
 test_that("single group: .fct_levels = 'all' with non-factor (int_var) keeps uniques; .include_na adds NA", {
   # Without include_na, just the unique ints (1..6)
-  res1 <- dt_count(df, "int_var", .fct_levels = 'all')
+  res1 <- dt_count(df, "int_var", .fct_levels = "all")
   expect_equal(res1$int_var, 1:6)
   expect_false(any(is.na(res1$int_var)))
 
   # With include_na = TRUE, add NA row with 0
-  res2 <- dt_count(df, "int_var", .fct_levels = 'all', .include_na = TRUE)
+  res2 <- dt_count(df, "int_var", .fct_levels = "all", .include_na = TRUE)
   expect_true(any(is.na(res2$int_var)))
   expect_equal(res2[is.na(int_var), n][[1]], 0L)
 })
