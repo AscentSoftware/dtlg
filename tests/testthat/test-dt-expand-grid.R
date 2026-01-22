@@ -4,7 +4,7 @@ test_that("`dt_expand_grid()` basic two-vector grid preserves order and duplicat
 
   g <- dt_expand_grid(a = a, b = b)
 
-  # dimensions: length(a) * length(b)
+  # dimensions are length(a) * length(b)
   expect_equal(nrow(g), length(a) * length(b))
   expect_identical(names(g), c("a", "b"))
 

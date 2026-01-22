@@ -39,15 +39,15 @@ vars <- c(
 
 bench::mark(
   tern_dmg_tab <- dtlg::tern_summary_table(
-    adsl_large, 
-    target = vars, 
+    adsl_large,
+    target = vars,
     treat = arm_var
   ),
   dtlg_dmg_tab <- dtlg::summary_table(
-    adsl_large, 
-    target = vars, 
-    treat = arm_var, 
-    indent = "", 
+    adsl_large,
+    target = vars,
+    treat = arm_var,
+    indent = "",
     .total_dt = adsl_large
   ),
   iterations = 1L,

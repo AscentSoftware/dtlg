@@ -1,7 +1,6 @@
 dot_wrap <- function(x) {
   stopifnot(is.character(x))
-  . <- NULL
-  as.call(c(quote(.), lapply(x, as.name)))
+  as.call(c(str2lang("."), lapply(x, as.name)))
 }
 
 drop_keys <- function(dt) {
@@ -49,7 +48,6 @@ dt_relevel_col_ <- function(dt, col, levels) {
   stopifnot(length(col) == 1L, is.character(col), !is.na(col))
   stopifnot(is.character(levels))
 
-  # out <- maybe_copy_dt(x = dt)
   out <- dt
 
   if (!col %in% names(out))
@@ -67,7 +65,6 @@ dt_relevel_col_ <- function(dt, col, levels) {
     return(out)
   }
 
-  # out[[col]] <- factor(out[[col]], levels = target_levels, ordered = ord_flag)
   out[, (col) := factor(.SD[[1L]], levels = target_levels, ordered = ord_flag), .SDcols = col]
 
   out
