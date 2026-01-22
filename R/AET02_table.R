@@ -71,4 +71,3 @@ AET02_table <- function(adsl,
     ae_by_soc_pt_table
   ))
 }
-

@@ -65,21 +65,27 @@ calc_desc <- function(dt,
 
   dt <- maybe_copy_dt(x = dt)
 
-  n_stats <- 5L
-  dt_stats <-
-    dt_summarise(
-      dt,
-      .by = treat,
-      n = as.character(.N),
-      `Mean (SD)` = format_mean_sd(mean = mean(target, na.rm = TRUE), sd = stats::sd(target, na.rm = TRUE), .digits = pct_dec),
-      Median = round(stats::median(target, na.rm = TRUE), digits = pct_dec),
-      `Min, Max` = format_min_max(min = min(target, na.rm = TRUE), max = max(target, na.rm = TRUE), .digits = pct_dec),
-      Missing = as.character(sum(is.na(target))),
-      .env = list(target = as.name(target), pct_dec = pct_dec)
-    )
+  dt_stats <- dt_summarise(
+    dt,
+    .by = treat,
+    n = as.character(.N),
+    `Mean (SD)` = format_mean_sd(
+      mean = mean(target, na.rm = TRUE),
+      sd = stats::sd(target, na.rm = TRUE),
+      .digits = pct_dec
+    ),
+    Median = round(stats::median(target, na.rm = TRUE), digits = pct_dec),
+    `Min, Max` = format_min_max(
+      min = min(target, na.rm = TRUE),
+      max = max(target, na.rm = TRUE),
+      .digits = pct_dec
+    ),
+    Missing = as.character(sum(is.na(target))),
+    .env = list(target = as.name(target), pct_dec = pct_dec)
+  )
 
-  dt_stats <- data.table::transpose(dt_stats, keep.names = 'stats', make.names = treat)
-  header <- c(target_name, rep(list(''), times = ncol(dt_stats) - 1L))
+  dt_stats <- data.table::transpose(dt_stats, keep.names = "stats", make.names = treat)
+  header <- c(target_name, rep(list(""), times = ncol(dt_stats) - 1L))
   dt_stats[, `:=`(stats = indent(dt_stats$stats, indentation = indent))]
   dt_stats <- rbind(header, dt_stats)
 
@@ -150,7 +156,7 @@ calc_counts <- function(dt,
   if (!is.null(.total_dt)) {
     .total_dt <- maybe_copy_dt(x = .total_dt)
     counts_by_trt <- dt_count(.total_dt, treatment = treat, .name = "total")
-    counts_by_grp <- counts_by_grp[counts_by_trt, on = 'treatment']
+    counts_by_grp <- counts_by_grp[counts_by_trt, on = "treatment"]
     counts_by_grp$n <- format_n_pct(
       n = counts_by_grp$n,
       pct = 100 * counts_by_grp$n / counts_by_grp$total,
@@ -163,11 +169,11 @@ calc_counts <- function(dt,
   counts_by_grp <- data.table::dcast(
     counts_by_grp,
     stats::as.formula("stats ~ treatment"),
-    value.var = 'n',
+    value.var = "n",
     fill = 0
   )
 
-  header <- c(target_name, rep(list(''), times = ncol(counts_by_grp) - 1L))
+  header <- c(target_name, rep(list(""), times = ncol(counts_by_grp) - 1L))
   counts_by_grp[,  `:=`(stats = paste0(indent, as.character(counts_by_grp$stats)))]
   counts_by_grp <- rbind(header, counts_by_grp)
 
@@ -210,7 +216,7 @@ calc_stats <- function(dt,
                        .total_dt = NULL,
                        pct_dec = 1) {
   dt <- maybe_copy_dt(x = dt)
-  UseMethod('calc_stats', dt[[target]])
+  UseMethod("calc_stats", dt[[target]])
 }
 
 #' @export

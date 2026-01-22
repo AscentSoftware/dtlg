@@ -64,19 +64,17 @@ summary_table <- function(dt,
 
   stopifnot(length(target) >= length(target_name), length(target) >= length(indent))
   vct_args <- vctrs::vec_recycle_common(target = target, target_name = target_name, indent = indent)
-  scl_args <- list(dt = dt, treat = treat, .total_dt = .total_dt, pct_dec = pct_dec)
 
-  summaries <-
-    with(
-      vct_args,
-      expr = mapply(
-        FUN = calc_stats,
-        target = target,
-        target_name = target_name,
-        indent = indent,
-        MoreArgs = scl_args
-      )
+  summaries <- with(
+    vct_args,
+    expr = mapply(
+      FUN = calc_stats,
+      target = target,
+      target_name = target_name,
+      indent = indent,
+      MoreArgs = list(dt = dt, treat = treat, .total_dt = .total_dt, pct_dec = pct_dec)
     )
+  )
 
   summaries |>
     data.table::rbindlist(use.names = TRUE) |>
@@ -92,7 +90,7 @@ summary_table <- function(dt,
 #' indicated in `rows_by`.
 #'
 #' @examples
-#' summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM","AVISIT"))
+#' summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM", "AVISIT"))
 #'
 #' @export
 #'
@@ -107,20 +105,13 @@ summary_table_by <- function(dt,
                              skip_absent = TRUE) {
   dt <- maybe_copy_dt(x = dt)
 
-  dt <- split(droplevels(dt),
-              by = rows_by,
-              drop = T,
-              sorted = T)
+  dt <- split(droplevels(dt), by = rows_by, drop = TRUE, sorted = TRUE)
   label <- names(dt)
   if (length(rows_by) > 1) {
-    label <- strsplit(label, '\\.')
-    heading_full <- lapply(X = label, function(x) {
-      x[1]
-    })
+    label <- strsplit(label, "\\.")
+    heading_full <- lapply(X = label, function(x) x[1])
     heading <- unique(heading_full)
-    label <- lapply(label, function(x) {
-      paste(x[2:length(x)], collapse = '.')
-    })
+    label <- lapply(label, function(x) paste(x[2:length(x)], collapse = "."))
     label <- paste0(indent, label)
     indent <- paste0(indent, indent)
   }
@@ -136,9 +127,13 @@ summary_table_by <- function(dt,
 
   if (length(rows_by) > 1) {
     x <- 0
-    for (i in 1:length(heading)) {
+    for (i in seq_along(heading)) {
       y = sum(heading_full %in% heading[i])
-      summary_split <- append(summary_split, list(data.table::data.table(stats = heading[[i]])), after = x)
+      summary_split <- append(
+        summary_split,
+        list(data.table::data.table(stats = heading[[i]])),
+        after = x
+      )
       x <- x + y + 1
     }
   }
@@ -160,7 +155,8 @@ summary_table_by <- function(dt,
 #' @param .total_dt optional table for total counts to be derived
 #' @param pct_dec decimal places for percentages
 #' @param treat_order customise the column order of output table
-#' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
+#' @param skip_absent Logical, default TRUE. Passed to `data.table::setcolorder`, if treat_order
+#' includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
 #'
 #' @return data.table
 #' @export
@@ -177,7 +173,7 @@ summary_table_by_targets <- function(dt,
                                      treat_order = NULL,
                                      skip_absent = TRUE) {
   if (length(target) != 2) {
-    print('target needs to be length 2')
+    print("target needs to be length 2")
   }
 
   .total_dt <- maybe_copy_dt(x = .total_dt)
@@ -199,11 +195,11 @@ summary_table_by_targets <- function(dt,
   x <- summary_tables[[1]]
   y <- summary_tables[[2]]
   full <- x[, 1]
-  names(x) <- paste(names(x), target[1], sep = '.')
-  names(y) <- paste(names(y), target[2], sep = '.')
+  names(x) <- paste(names(x), target[1], sep = ".")
+  names(y) <- paste(names(y), target[2], sep = ".")
   for (i in 2:ncol(x)) {
     full <- data.table::data.table(full, x[, i, with = FALSE], y[, i, with = FALSE])
   }
-  return(full)
-}
 
+  full
+}

@@ -67,7 +67,11 @@ test_that("factor levels: used vs all", {
 })
 
 test_that(".sort ignored for factors; respected for non-factors", {
-  df <- data.frame(f = factor(c("b", "a", "b", "b", "a"), levels = c("a", "b", "c")), i = c(3L, NA, 1L, 2L, 1L))
+  df <- data.frame(
+    f = factor(c("b", "a", "b", "b", "a"), levels = c("a", "b", "c")),
+    i = c(3L, NA, 1L, 2L, 1L)
+  )
+
   # factors follow level order regardless of .sort
   expect_identical(level_set(df, cols = "f", .sort = TRUE)$f, c("a", "b", "c"))
   expect_identical(level_set(df, cols = "f", .sort = FALSE)$f, c("a", "b", "c"))

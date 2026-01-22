@@ -123,10 +123,12 @@ total_events <- function(dt, treat, label) {
   by <- as.call(c(quote(list), as.name(treat)))
 
   dt <- dt[, j = j, by = by, env = list(j = j, by = by)]
-  dt <- data.table::transpose(dt,
-                              keep.names = 'stats',
-                              make.names = treat,
-                              fill = 0)
+  dt <- data.table::transpose(
+    dt,
+    keep.names = "stats",
+    make.names = treat,
+    fill = 0
+  )
   dt[, `:=`(stats = label)]
   list(dt[])
 }
@@ -208,13 +210,13 @@ multi_event_true <- function(dt,
                              indent = nbsp(n = 4L),
                              pct_dec = 1) {
   dt <- maybe_copy_dt(x = dt)
-  event_filters <- paste0(event_vars, ' == TRUE')
+  event_filters <- paste0(event_vars, " == TRUE")
   event_label <- label %||% lapply(event_vars, \(x) label(dt[[x]]) %||% x)
 
   stopifnot(
     identical(length(event_filters), length(event_label)),
     all(event_vars %in% colnames(dt))
-    )
+  )
 
   event <- mapply(
     event_count,
@@ -231,7 +233,7 @@ multi_event_true <- function(dt,
 
   event <- data.table::rbindlist(event, use.names = TRUE)
   target_rows <- event$stats
-  event <- rbind(rep(list(''), times = ncol(event)), event)
+  event <- rbind(rep(list(""), times = ncol(event)), event)
   event[, `:=`(stats = c(heading, paste0(indent, target_rows)))]
 
   list(event[])
@@ -313,14 +315,14 @@ event_count_by <- function(dt,
     event_count,
     dt = event_split,
     treat = treat,
-    label = 'Total number of patients with at least one event',
+    label = "Total number of patients with at least one event",
     MoreArgs = list(
       .total_dt = .total_dt,
       patient = patient,
       pct_dec = pct_dec
     )
   )
-  event_total <- mapply(total_events, event_split, treat = treat, label = 'Total number of events')
+  event_total <- mapply(total_events, event_split, treat = treat, label = "Total number of events")
   event_target <- mapply(
     calc_stats,
     dt = event_split,

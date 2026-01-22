@@ -67,5 +67,3 @@ level_set <- function(df, cols = NULL, .sort = TRUE, .fct_levels = c("all", "use
   })
   stats::setNames(out, cols)
 }
-
-

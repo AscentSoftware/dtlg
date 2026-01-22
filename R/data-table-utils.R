@@ -1,7 +1,6 @@
 dot_wrap <- function(x) {
   stopifnot(is.character(x))
-  . <- NULL
-  as.call(c(quote(.), lapply(x, as.name)))
+  as.call(c(str2lang("."), lapply(x, as.name)))
 }
 
 drop_keys <- function(dt) {
@@ -34,12 +33,12 @@ drop_keys <- function(dt) {
 #'   band = c("low", "high", "med", "high")
 #' )
 #'
-#' # Relevel 'grp' to c("c","a"); values not in the set become NA
+#' # Relevel 'grp' to c("c", "a"); values not in the set become NA
 #' res <- dt_relevel_col_(dt, col = "grp", levels = c("c", "a"))
 #' levels(res$grp)
 #'
 #' # In-place modification
-#' invisible(dt_relevel_col_(dt, col = "band", levels = c("high","low")))
+#' invisible(dt_relevel_col_(dt, col = "band", levels = c("high", "low")))
 #' levels(dt$band)
 #'
 #' @noRd
@@ -49,7 +48,6 @@ dt_relevel_col_ <- function(dt, col, levels) {
   stopifnot(length(col) == 1L, is.character(col), !is.na(col))
   stopifnot(is.character(levels))
 
-  # out <- maybe_copy_dt(x = dt)
   out <- dt
 
   if (!col %in% names(out))
@@ -60,13 +58,13 @@ dt_relevel_col_ <- function(dt, col, levels) {
   ord_flag <- is.ordered(cur)  # FALSE for non-factors; TRUE only for ordered factors
 
   # Skip if levels and ordered flag already match
-  if (is.factor(cur) &&
-      identical(levels(cur), target_levels) &&
-      identical(is.ordered(cur), ord_flag)) {
+  matching_levels <- is.factor(cur) &&
+    identical(levels(cur), target_levels) &&
+    identical(is.ordered(cur), ord_flag)
+  if (matching_levels) {
     return(out)
   }
 
-  # out[[col]] <- factor(out[[col]], levels = target_levels, ordered = ord_flag)
   out[, (col) := factor(.SD[[1L]], levels = target_levels, ordered = ord_flag), .SDcols = col]
 
   out
