@@ -34,7 +34,8 @@ summary_table_by_targets(
 
 \item{treat_order}{customise the column order of output table}
 
-\item{skip_absent}{Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.}
+\item{skip_absent}{Logical, default TRUE. Passed to \code{data.table::setcolorder}, if treat_order
+includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.}
 }
 \value{
 data.table
