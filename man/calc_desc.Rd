@@ -10,7 +10,8 @@ calc_desc(
   target_name = target,
   treat,
   indent = nbsp(n = 4L),
-  pct_dec = 1
+  pct_dec = 1,
+  inc_missing = TRUE
 )
 }
 \arguments{
@@ -30,6 +31,13 @@ specifying the treatment population.}
 labels. Defaults to four HTML non-breaking spaces (\verb{&nbsp;}).}
 
 \item{pct_dec}{Decimal places for reported figures.}
+
+\item{inc_missing}{Toggle for including the "Missing" row:
+\describe{
+\item{\code{TRUE}}{(default) The Missing row is always displayed}
+\item{\code{NA}}{The Missing row is only displayed if any missing values are present}
+\item{\code{FALSE}}{The Missing row is never included in the table}
+}}
 }
 \value{
 A list containing a \code{data.table} formatted as follows:

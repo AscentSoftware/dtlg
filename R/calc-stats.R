@@ -24,6 +24,12 @@
 #' @param indent A string to be used as indentation of summary statistics
 #' labels. Defaults to four HTML non-breaking spaces (`&nbsp;`).
 #' @param pct_dec Decimal places for reported figures.
+#' @param inc_missing Toggle for including the "Missing" row:
+#' \describe{
+#' \item{`TRUE`}{(default) The Missing row is always displayed}
+#' \item{`NA`}{The Missing row is only displayed if any missing values are present}
+#' \item{`FALSE`}{The Missing row is never included in the table}
+#' }
 #'
 #' @returns A list containing a `data.table` formatted as follows:
 #'
@@ -52,7 +58,8 @@ calc_desc <- function(dt,
                       target_name = target,
                       treat,
                       indent = nbsp(n = 4L),
-                      pct_dec = 1) {
+                      pct_dec = 1,
+                      inc_missing = TRUE) {
 
   stopifnot(
     is.data.frame(dt),
@@ -65,18 +72,37 @@ calc_desc <- function(dt,
 
   dt <- maybe_copy_dt(x = dt)
 
-  n_stats <- 5L
-  dt_stats <-
-    dt_summarise(
+  dt_stats <- dt_summarise(
+    dt,
+    .by = treat,
+    n = as.character(sum(!is.na(target))),
+    `Mean (SD)` = format_mean_sd(
+      mean = mean(target, na.rm = TRUE),
+      sd = stats::sd(target, na.rm = TRUE),
+      .digits = pct_dec
+    ),
+    Median = round(
+      stats::median(target, na.rm = TRUE),
+      digits = pct_dec
+    ),
+    `Min, Max` = format_min_max(
+      min = min(target, na.rm = TRUE),
+      max = max(target, na.rm = TRUE),
+      .digits = pct_dec
+    ),
+    .env = list(target = as.name(target), pct_dec = pct_dec)
+  )
+
+  if (isTRUE(inc_missing) || (is.na(inc_missing) && anyNA(dt[[target]]))) {
+    dt_missing <- dt_summarise(
       dt,
       .by = treat,
-      n = as.character(.N),
-      `Mean (SD)` = format_mean_sd(mean = mean(target, na.rm = TRUE), sd = stats::sd(target, na.rm = TRUE), .digits = pct_dec),
-      Median = round(stats::median(target, na.rm = TRUE), digits = pct_dec),
-      `Min, Max` = format_min_max(min = min(target, na.rm = TRUE), max = max(target, na.rm = TRUE), .digits = pct_dec),
       Missing = as.character(sum(is.na(target))),
-      .env = list(target = as.name(target), pct_dec = pct_dec)
+      .env = list(target = as.name(target))
     )
+
+    dt_stats <- dt_stats[dt_missing, on = treat]
+  }
 
   dt_stats <- data.table::transpose(dt_stats, keep.names = 'stats', make.names = treat)
   header <- c(target_name, rep(list(''), times = ncol(dt_stats) - 1L))
