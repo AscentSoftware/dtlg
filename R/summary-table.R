@@ -18,6 +18,13 @@ reorder_cols <- function(dt, cols, before_cols = "stats", skip_absent = TRUE) {
 #' @param skip_absent Whether to ignore variables passed in `treat_order` that
 #'   are absent from `dt`. Default is `TRUE`; `FALSE` will throw an error in
 #'   case there are missing variables.
+#' @param inc_missing If any of the `target` variables are numeric, then used
+#' as a toggle to determine whether or not "Missing" appears in the summary stats:
+#' \describe{
+#' \item{`TRUE`}{(default) The Missing row is always displayed}
+#' \item{`NA`}{The Missing row is only displayed if any missing values are present}
+#' \item{`FALSE`}{The Missing row is never included in the table}
+#' }
 #'
 #' @returns A `data.table` of summary statistics. The format depends on the
 #' type of the `target` variable:
