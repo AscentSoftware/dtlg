@@ -60,23 +60,29 @@ summary_table <- function(dt,
                           .total_dt = dt,
                           pct_dec = 1,
                           treat_order = NULL,
-                          skip_absent = TRUE) {
+                          skip_absent = TRUE,
+                          inc_missing = TRUE) {
 
   stopifnot(length(target) >= length(target_name), length(target) >= length(indent))
   vct_args <- vctrs::vec_recycle_common(target = target, target_name = target_name, indent = indent)
-  scl_args <- list(dt = dt, treat = treat, .total_dt = .total_dt, pct_dec = pct_dec)
+  scl_args <- list(
+    dt = dt,
+    treat = treat,
+    .total_dt = .total_dt,
+    pct_dec = pct_dec,
+    inc_missing = inc_missing
+  )
 
-  summaries <-
-    with(
-      vct_args,
-      expr = mapply(
-        FUN = calc_stats,
-        target = target,
-        target_name = target_name,
-        indent = indent,
-        MoreArgs = scl_args
-      )
+  summaries <- with(
+    vct_args,
+    expr = mapply(
+      FUN = calc_stats,
+      target = target,
+      target_name = target_name,
+      indent = indent,
+      MoreArgs = scl_args
     )
+  )
 
   summaries |>
     data.table::rbindlist(use.names = TRUE) |>

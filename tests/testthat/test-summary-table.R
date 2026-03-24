@@ -194,3 +194,23 @@ test_that("`summary_table()`: `pct_dec` works", {
   # Mantissa length should match `pct_dec`.
   expect_equal(object = pct_dec, expected = unique(nchar(median_mantissa)))
 })
+
+test_that("summary_table() handles missing values dynamically when inc_missing is NA", {
+  adsl <- data.frame(
+    USUBJID = sprintf("ID-%03d", 1:6),
+    ARM = c("A", "A", "B", "B", "C", "C"),
+    AGE = c(30, 35, 40, 42, 25, NA),
+    AGE2 = c(30, 35, 40, 42, 25, 50)
+  )
+
+  observed <- summary_table(
+    dt = adsl,
+    target = c("AGE", "AGE2"),
+    treat = "ARM",
+    inc_missing = NA,
+    indent = ""
+  )
+
+  expect_true("Missing" %in% observed$stats)
+  expect_identical(sum(observed$stats == "Missing"), 1L)
+})

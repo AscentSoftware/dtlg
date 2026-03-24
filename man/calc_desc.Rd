@@ -66,10 +66,10 @@ levels:
 }
 \examples{
 # Calculate summary statistics for the age of the subjects in each region.
-calc_stats(dt = adsl, "AGE", treat = "REGION1")[[1]]
+calc_desc(dt = adsl, "AGE", treat = "REGION1")[[1]]
 
 # Calculate summary statistics for biomarker 1 in each of the three arms
 # (`ARM`).
-calc_stats(dt = adsl, "BMRKR1", treat = "ARM")[[1]]
+calc_desc(dt = adsl, "BMRKR1", treat = "ARM")[[1]]
 
 }

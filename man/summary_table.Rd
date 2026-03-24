@@ -13,7 +13,8 @@ summary_table(
   .total_dt = dt,
   pct_dec = 1,
   treat_order = NULL,
-  skip_absent = TRUE
+  skip_absent = TRUE,
+  inc_missing = TRUE
 )
 }
 \arguments{
