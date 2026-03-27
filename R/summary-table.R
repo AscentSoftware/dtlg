@@ -87,15 +87,19 @@ summary_table <- function(dt,
 #'
 #' @inheritParams summary_table
 #' @param rows_by string, grouping variable to split events by.
+#' @param sep character string to separate the terms
 #'
 #' @returns The same output as [summary_table()] except that folded by variables
 #' indicated in `rows_by`.
-#'
-#' @examples
-#' summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM","AVISIT"))
-#'
 #' @export
 #'
+#' @examples
+#' summary_table_by(
+#'   adlb,
+#'   target = "AVAL",
+#'   treat = "ARM",
+#'   rows_by = c("PARAM","AVISIT")
+#' )
 summary_table_by <- function(dt,
                              target,
                              treat,
@@ -104,26 +108,24 @@ summary_table_by <- function(dt,
                              .total_dt = dt,
                              pct_dec = 1,
                              treat_order = NULL,
-                             skip_absent = TRUE) {
+                             skip_absent = TRUE,
+                             sep = ".") {
   dt <- maybe_copy_dt(x = dt)
 
-  dt <- split(droplevels(dt),
-              by = rows_by,
-              drop = T,
-              sorted = T)
+  dt <- split(droplevels(dt), by = rows_by, drop = T, sorted = T)
   label <- names(dt)
+
   if (length(rows_by) > 1) {
-    label <- strsplit(label, '\\.')
+    label <- strsplit(label, ".", fixed = TRUE)
     heading_full <- lapply(X = label, function(x) {
       x[1]
     })
     heading <- unique(heading_full)
-    label <- lapply(label, function(x) {
-      paste(x[2:length(x)], collapse = '.')
-    })
+    label <- lapply(label, \(x) paste(x[-1L], collapse = sep))
     label <- paste0(indent, label)
     indent <- paste0(indent, indent)
   }
+
   summary_split <- mapply(
     calc_stats,
     dt = dt,
@@ -138,7 +140,11 @@ summary_table_by <- function(dt,
     x <- 0
     for (i in 1:length(heading)) {
       y = sum(heading_full %in% heading[i])
-      summary_split <- append(summary_split, list(data.table::data.table(stats = heading[[i]])), after = x)
+      summary_split <- append(
+        summary_split,
+        list(data.table::data.table(stats = heading[[i]])),
+        after = x
+      )
       x <- x + y + 1
     }
   }
@@ -160,13 +166,26 @@ summary_table_by <- function(dt,
 #' @param .total_dt optional table for total counts to be derived
 #' @param pct_dec decimal places for percentages
 #' @param treat_order customise the column order of output table
-#' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder, if treat_order includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
+#' @param skip_absent Logical, default `TRUE`. Passed to `data.table::setcolorder`,
+#' if `treat_order` includes columns not present in `dt`:
+#' - `TRUE` will silently ignore them
+#' - `FALSE` will throw an error
+#' @param sep character string to separate the terms
 #'
 #' @return data.table
 #' @export
 #'
-#' @examples adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
-#' labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'), '  ', NULL)
+#' @examples
+#' adlb <- random.cdisc.data::cadlb |>
+#'   dplyr::filter(AVISIT != "SCREENING")
+#'
+#' labs <- summary_table_by_targets(
+#'   dt = adlb,
+#'   target = c("AVAL", "CHG"),
+#'   treat = "ARM",
+#'   rows_by = c("PARAM", "AVISIT"),
+#'   indent = "  "
+#' )
 summary_table_by_targets <- function(dt,
                                      target,
                                      treat,
@@ -175,9 +194,10 @@ summary_table_by_targets <- function(dt,
                                      .total_dt = NULL,
                                      pct_dec = 1,
                                      treat_order = NULL,
-                                     skip_absent = TRUE) {
+                                     skip_absent = TRUE,
+                                     sep = ".") {
   if (length(target) != 2) {
-    print('target needs to be length 2')
+    print("target needs to be length 2")
   }
 
   .total_dt <- maybe_copy_dt(x = .total_dt)
@@ -193,17 +213,27 @@ summary_table_by_targets <- function(dt,
       .total_dt = .total_dt,
       pct_dec = pct_dec,
       treat_order = treat_order,
-      skip_absent = skip_absent
+      skip_absent = skip_absent,
+      sep = sep
     )
   )
-  x <- summary_tables[[1]]
-  y <- summary_tables[[2]]
-  full <- x[, 1]
-  names(x) <- paste(names(x), target[1], sep = '.')
-  names(y) <- paste(names(y), target[2], sep = '.')
-  for (i in 2:ncol(x)) {
-    full <- data.table::data.table(full, x[, i, with = FALSE], y[, i, with = FALSE])
+
+  for (i in seq_along(summary_tables)) {
+    data.table::setnames(
+      summary_tables[[i]],
+      old = -1L,
+      new = paste(names(summary_tables[[i]])[-1L], target[i], sep = sep)
+    )
   }
-  return(full)
+
+  data.table::cbindlist(
+    c(
+      list(summary_tables[[1]][, 1, with = FALSE]),
+      lapply(
+        seq(2, ncol(summary_tables[[1]])),
+        \(i) data.table::cbindlist(lapply(summary_tables, \(dat) dat[, i, with = FALSE]))
+      )
+    )
+  )
 }
 

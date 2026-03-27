@@ -3,9 +3,7 @@
 #
 adlb_arm_levels <- levels(adlb$ARM)
 
-#
-# Tests
-#
+#### summary_table ####
 test_that("`summary_table()` respects order of levels of `treat` in the output", {
   observed <- summary_table(dt = adlb, target = 'AVAL', treat = 'ARM')
   treat_cols <- colnames(observed)[-1L]
@@ -193,4 +191,28 @@ test_that("`summary_table()`: `pct_dec` works", {
   expect_equal(object = 0L, expected = unique(nchar(n_mantissa)))
   # Mantissa length should match `pct_dec`.
   expect_equal(object = pct_dec, expected = unique(nchar(median_mantissa)))
+})
+
+#### summary_table_by_targets ####
+test_that("summary_table_by_targets: Using custom separator does not affect data", {
+  summary_dot <- summary_table_by_targets(
+    dt = adlb,
+    target = c("AVAL", "CHG"),
+    treat = "ARM",
+    rows_by = c("PARAM", "AVISIT"),
+    indent = "  "
+  )
+
+  summary_dash <- summary_table_by_targets(
+    dt = adlb,
+    target = c("AVAL", "CHG"),
+    treat = "ARM",
+    rows_by = c("PARAM", "AVISIT"),
+    indent = "  ",
+    sep = " - "
+  )
+
+  treat_aval_cols <- as.vector(t(outer(adlb_arm_levels, c("AVAL", "CHG"), paste, sep = " - ")))
+  expect_named(summary_dash, c("stats", treat_aval_cols))
+  expect_identical(unname(summary_dash), unname(summary_dot))
 })
