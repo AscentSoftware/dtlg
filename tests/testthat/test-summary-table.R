@@ -216,3 +216,18 @@ test_that("summary_table_by_targets: Using custom separator does not affect data
   expect_named(summary_dash, c("stats", treat_aval_cols))
   expect_identical(unname(summary_dash), unname(summary_dot))
 })
+
+test_that("summary_table_by_targets: Able to use more than 2 target variables", {
+  target_vars <- c("AVAL", "CHG", "ANRLO", "ANRHI")
+
+  summary_dt <- summary_table_by_targets(
+    dt = adlb,
+    target = target_vars,
+    treat = "ARM",
+    rows_by = c("PARAM", "AVISIT"),
+    indent = "  "
+  )
+
+  treat_aval_cols <- as.vector(t(outer(adlb_arm_levels, target_vars, paste, sep = ".")))
+  expect_named(summary_dt, c("stats", treat_aval_cols))
+})

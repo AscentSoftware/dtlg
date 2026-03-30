@@ -196,10 +196,6 @@ summary_table_by_targets <- function(dt,
                                      treat_order = NULL,
                                      skip_absent = TRUE,
                                      sep = ".") {
-  if (length(target) != 2) {
-    print("target needs to be length 2")
-  }
-
   .total_dt <- maybe_copy_dt(x = .total_dt)
 
   summary_tables <- mapply(
