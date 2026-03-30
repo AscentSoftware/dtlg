@@ -195,21 +195,25 @@ test_that("`summary_table()`: `pct_dec` works", {
 
 #### summary_table_by_targets ####
 test_that("summary_table_by_targets: Using custom separator does not affect data", {
-  summary_dot <- summary_table_by_targets(
-    dt = adlb,
-    target = c("AVAL", "CHG"),
-    treat = "ARM",
-    rows_by = c("PARAM", "AVISIT"),
-    indent = "  "
+  summary_dot <- suppressWarnings(
+    summary_table_by_targets(
+      dt = adlb,
+      target = c("AVAL", "CHG"),
+      treat = "ARM",
+      rows_by = c("PARAM", "AVISIT"),
+      indent = "  "
+    )
   )
 
-  summary_dash <- summary_table_by_targets(
-    dt = adlb,
-    target = c("AVAL", "CHG"),
-    treat = "ARM",
-    rows_by = c("PARAM", "AVISIT"),
-    indent = "  ",
-    sep = " - "
+  summary_dash <- suppressWarnings(
+    summary_table_by_targets(
+      dt = adlb,
+      target = c("AVAL", "CHG"),
+      treat = "ARM",
+      rows_by = c("PARAM", "AVISIT"),
+      indent = "  ",
+      sep = " - "
+    )
   )
 
   treat_aval_cols <- as.vector(t(outer(adlb_arm_levels, c("AVAL", "CHG"), paste, sep = " - ")))
@@ -220,12 +224,14 @@ test_that("summary_table_by_targets: Using custom separator does not affect data
 test_that("summary_table_by_targets: Able to use more than 2 target variables", {
   target_vars <- c("AVAL", "CHG", "ANRLO", "ANRHI")
 
-  summary_dt <- summary_table_by_targets(
-    dt = adlb,
-    target = target_vars,
-    treat = "ARM",
-    rows_by = c("PARAM", "AVISIT"),
-    indent = "  "
+  summary_dt <- suppressWarnings(
+    summary_table_by_targets(
+      dt = adlb,
+      target = target_vars,
+      treat = "ARM",
+      rows_by = c("PARAM", "AVISIT"),
+      indent = "  "
+    )
   )
 
   treat_aval_cols <- as.vector(t(outer(adlb_arm_levels, target_vars, paste, sep = ".")))
