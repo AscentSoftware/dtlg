@@ -13,7 +13,8 @@ summary_table_by(
   .total_dt = dt,
   pct_dec = 1,
   treat_order = NULL,
-  skip_absent = TRUE
+  skip_absent = TRUE,
+  sep = "."
 )
 }
 \arguments{
@@ -41,6 +42,8 @@ per group.}
 \item{skip_absent}{Whether to ignore variables passed in \code{treat_order} that
 are absent from \code{dt}. Default is \code{TRUE}; \code{FALSE} will throw an error in
 case there are missing variables.}
+
+\item{sep}{character string to separate the terms}
 }
 \value{
 The same output as \code{\link[=summary_table]{summary_table()}} except that folded by variables
@@ -50,6 +53,10 @@ indicated in \code{rows_by}.
 Create a summary table using multiple rows for grouping on one target column
 }
 \examples{
-summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM","AVISIT"))
-
+summary_table_by(
+  adlb,
+  target = "AVAL",
+  treat = "ARM",
+  rows_by = c("PARAM","AVISIT")
+)
 }

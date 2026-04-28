@@ -12,7 +12,7 @@ Create high-performance clinical reporting tables (TLGs) from ADaM-like inputs. 
 Useful links:
 \itemize{
   \item \url{https://AscentSoftware.github.io/dtlg/}
-  \item Report bugs at \url{https://AscentSoftware.github.io/dtlg/issues}
+  \item Report bugs at \url{https://github.com/AscentSoftware/dtlg/issues}
 }
 
 }

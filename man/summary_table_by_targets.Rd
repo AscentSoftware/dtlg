@@ -14,7 +14,8 @@ summary_table_by_targets(
   .total_dt = NULL,
   pct_dec = 1,
   treat_order = NULL,
-  skip_absent = TRUE
+  skip_absent = TRUE,
+  sep = "."
 )
 }
 \arguments{
@@ -34,9 +35,15 @@ summary_table_by_targets(
 
 \item{treat_order}{customise the column order of output table}
 
-\item{skip_absent}{Logical, default TRUE. Passed to data.table::setcolorder,
-if treat_order includes columns not present in dt, TRUE will silently
-ignore them, FALSE will throw an error.}
+\item{skip_absent}{Logical, default \code{TRUE}. Passed to
+\code{data.table::setcolorder}, if \code{treat_order} includes columns not present in
+\code{dt}:
+\itemize{
+\item \code{TRUE} will silently ignore them
+\item \code{FALSE} will throw an error
+}}
+
+\item{sep}{character string to separate the terms}
 }
 \value{
 data.table
@@ -46,6 +53,14 @@ Create a summary table using multiple rows for grouping on two target column
 ideal for creating change from baseline tables
 }
 \examples{
-adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
-labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'), '  ', NULL)
+adlb <- random.cdisc.data::cadlb |>
+  dplyr::filter(AVISIT != "SCREENING")
+
+labs <- summary_table_by_targets(
+  dt = adlb,
+  target = c("AVAL", "CHG"),
+  treat = "ARM",
+  rows_by = c("PARAM", "AVISIT"),
+  indent = "  "
+)
 }

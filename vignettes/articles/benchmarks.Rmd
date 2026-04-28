@@ -2,7 +2,7 @@
 title: "Benchmarks"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{benchmarks}
+  %\VignetteIndexEntry{Benchmarks}
   %\VignetteEngine{knitr::rmarkdown_notangle}
   %\VignetteEncoding{UTF-8}
 ---

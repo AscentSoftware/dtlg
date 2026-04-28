@@ -3,9 +3,7 @@
 #
 adlb_arm_levels <- levels(adlb$ARM)
 
-#
-# Tests
-#
+#### summary_table ####
 test_that("`summary_table()` respects order of levels of `treat` in the output", {
   observed <- summary_table(dt = adlb, target = "AVAL", treat = "ARM")
   treat_cols <- colnames(observed)[-1L]
@@ -193,22 +191,47 @@ test_that("`summary_table()`: `pct_dec` works", {
   expect_equal(object = pct_dec, expected = unique(nchar(median_mantissa)))
 })
 
-test_that("summary_table() handles missing values dynamically when inc_missing is NA", {
-  adsl <- data.frame(
-    USUBJID = sprintf("ID-%03d", 1:6),
-    ARM = c("A", "A", "B", "B", "C", "C"),
-    AGE = c(30, 35, 40, 42, 25, NA),
-    AGE2 = c(30, 35, 40, 42, 25, 50)
+#### summary_table_by_targets ####
+test_that("summary_table_by_targets: Using custom separator does not affect data", {
+  summary_dot <- suppressWarnings(
+    summary_table_by_targets(
+      dt = adlb,
+      target = c("AVAL", "CHG"),
+      treat = "ARM",
+      rows_by = c("PARAM", "AVISIT"),
+      indent = "  "
+    )
   )
 
-  observed <- summary_table(
-    dt = adsl,
-    target = c("AGE", "AGE2"),
-    treat = "ARM",
-    inc_missing = NA,
-    indent = ""
+  summary_dash <- suppressWarnings(
+    summary_table_by_targets(
+      dt = adlb,
+      target = c("AVAL", "CHG"),
+      treat = "ARM",
+      rows_by = c("PARAM", "AVISIT"),
+      indent = "  ",
+      sep = " - "
+    )
   )
 
-  expect_true("Missing" %in% observed$stats)
-  expect_identical(sum(observed$stats == "Missing"), 1L)
+  treat_aval_cols <- as.vector(t(outer(adlb_arm_levels, c("AVAL", "CHG"), paste, sep = " - ")))
+  expect_named(summary_dash, c("stats", treat_aval_cols))
+  expect_identical(unname(summary_dash), unname(summary_dot))
+})
+
+test_that("summary_table_by_targets: Able to use more than 2 target variables", {
+  target_vars <- c("AVAL", "CHG", "ANRLO", "ANRHI")
+
+  summary_dt <- suppressWarnings(
+    summary_table_by_targets(
+      dt = adlb,
+      target = target_vars,
+      treat = "ARM",
+      rows_by = c("PARAM", "AVISIT"),
+      indent = "  "
+    )
+  )
+
+  treat_aval_cols <- as.vector(t(outer(adlb_arm_levels, target_vars, paste, sep = ".")))
+  expect_named(summary_dt, c("stats", treat_aval_cols))
 })
