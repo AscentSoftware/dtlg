@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dtlg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +36,34 @@
       <small>Source: <a href="https://github.com/AscentSoftware/dtlg/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.0" id="dtlg-010">dtlg 0.1.0<a class="anchor" aria-label="anchor" href="#dtlg-010"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/summary_table.html">summary_table()</a></code>, <code><a href="../reference/summary_table_by.html">summary_table_by()</a></code> and <code><a href="../reference/summary_table_by_targets.html">summary_table_by_targets()</a></code> gain an <code>inc_missing</code> argument controlling how the “Missing” row is rendered for numeric targets: <code>TRUE</code> (default) always shows it, <code>NA</code> shows it only when missing values are present, and <code>FALSE</code> suppresses it. Plumbed through to <code><a href="../reference/calc_desc.html">calc_desc()</a></code> and <code><a href="../reference/calc_stats.html">calc_stats()</a></code>.</li>
+<li>
+<code><a href="../reference/summary_table_by.html">summary_table_by()</a></code> and <code><a href="../reference/summary_table_by_targets.html">summary_table_by_targets()</a></code> gain a <code>sep</code> argument to set the separator between the heading and group labels when grouping by more than one variable in <code>rows_by</code> (defaults to <code>"."</code>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-and-behaviour-changes-0-1-0">Bug fixes and behaviour changes<a class="anchor" aria-label="anchor" href="#bug-fixes-and-behaviour-changes-0-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/calc_desc.html">calc_desc()</a></code>: the <code>n</code> row now reports the count of non-missing values rather than the total row count (<code>.N</code>), so <code>n</code> and the <code>Missing</code> row are now consistent.</li>
+<li>
+<code><a href="../reference/summary_table_by_targets.html">summary_table_by_targets()</a></code>: removed the spurious “target needs to be length 2” message; multiple target variables are now properly supported and covered by tests.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="infrastructure-and-tooling-0-1-0">Infrastructure and tooling<a class="anchor" aria-label="anchor" href="#infrastructure-and-tooling-0-1-0"></a></h3>
+<ul><li>Adopted <code>lintr</code> with default linters across the package and added a <code>lint.yaml</code> GitHub Actions workflow.</li>
+<li>Added a code-coverage workflow that posts a coverage summary as a comment on pull requests, gated on <code>pull_request</code> events to avoid duplicate runs.</li>
+<li>Expanded the test suite – new tests for <code><a href="../reference/AET01_table.html">AET01_table()</a></code>, the rounding helpers, <code><a href="../reference/tern_summary_table.html">tern_summary_table()</a></code>, and additional <code>summary_table*()</code> cases (multiple targets, missing-value handling) – raising overall coverage.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-and-metadata-0-1-0">Documentation and metadata<a class="anchor" aria-label="anchor" href="#documentation-and-metadata-0-1-0"></a></h3>
+<ul><li>Reorganised maintainership and contact details: maintainer e-mails moved to the <code>acuityanalytics.com</code> domain and copyright holder updated to Acuity Analytics.</li>
+<li>Documentation cleanup for <code>dt_count()</code>, <code>dt_summarise()</code> and the <code>summary_table*()</code> family; minor README and benchmarks article fixes.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.3" id="dtlg-003">dtlg 0.0.3<a class="anchor" aria-label="anchor" href="#dtlg-003"></a></h2><p class="text-muted">CRAN release: 2026-01-12</p>
 <ul><li>Removed dependency of dtlg.data in the benchmark vignette</li>

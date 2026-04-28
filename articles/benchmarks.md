@@ -40,8 +40,8 @@ bench::mark(
 #> # A tibble: 2 × 6
 #>   expression                            min  median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>                        <bch:t> <bch:t>     <dbl> <bch:byt>    <dbl>
-#> 1 tern_dmg_tab <- dtlg::tern_summa…   31.3s   31.3s    0.0319    8.08GB     1.72
-#> 2 dtlg_dmg_tab <- dtlg::summary_ta… 368.4ms 368.4ms    2.71    574.24MB     0
+#> 1 tern_dmg_tab <- dtlg::tern_summa…   34.4s   34.4s    0.0290    8.08GB     1.57
+#> 2 dtlg_dmg_tab <- dtlg::summary_ta… 518.5ms 518.5ms    1.93    574.24MB     0
 dtlg::as_dtlg_table(tt = tern_dmg_tab)
 #>                                         stats      A: Drug X     B: Placebo
 #>                                        <char>         <char>         <char>
@@ -323,6 +323,6 @@ bench::mark(
 #> # A tibble: 2 × 6
 #>   expression                             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>                           <bch> <bch:>     <dbl> <bch:byt>    <dbl>
-#> 1 tern_safety_tab <- dtlg::tern_AET01… 480ms  480ms      2.08   134.5MB     2.08
-#> 2 dtlg_safety_tab <- dtlg::AET01_tabl… 149ms  149ms      6.71    28.8MB     0
+#> 1 tern_safety_tab <- dtlg::tern_AET01… 598ms  598ms      1.67   134.5MB     1.67
+#> 2 dtlg_safety_tab <- dtlg::AET01_tabl… 171ms  171ms      5.86    28.8MB     0
 ```
