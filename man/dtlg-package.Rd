@@ -12,19 +12,20 @@ Create high-performance clinical reporting tables (TLGs) from ADaM-like inputs. 
 Useful links:
 \itemize{
   \item \url{https://AscentSoftware.github.io/dtlg/}
+  \item Report bugs at \url{https://github.com/AscentSoftware/dtlg/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Ramiro Magno \email{ramiro.morgado@ascent.io}
+\strong{Maintainer}: Ramiro Magno \email{ramiro.morgado@acuityanalytics.com}
 
 Authors:
 \itemize{
-  \item Max Ebenezer-Brown \email{max.ebenezer-brown@ascent.io}
-  \item Max Norman \email{max.norman@ascent.io}
-  \item Xinye Li \email{xinye.li@ascent.io}
-  \item Anja Peebles-Brown \email{anna.peebles-brown@ascent.io}
-  \item Ashley Baldry \email{ashley.baldry@ascent.io}
+  \item Max Ebenezer-Brown \email{max.ebenezer-brown@acuityanalytics.com}
+  \item Max Norman
+  \item Xinye Li \email{xinye.li@acuityanalytics.com}
+  \item Anja Peebles-Brown \email{anna.peebles-brown@acuityanalytics.com}
+  \item Ashley Baldry \email{ashley.baldry@acuityanalytics.com}
 }
 
 }

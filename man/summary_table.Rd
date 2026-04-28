@@ -13,7 +13,8 @@ summary_table(
   .total_dt = dt,
   pct_dec = 1,
   treat_order = NULL,
-  skip_absent = TRUE
+  skip_absent = TRUE,
+  inc_missing = TRUE
 )
 }
 \arguments{
@@ -42,6 +43,14 @@ per group.}
 \item{skip_absent}{Whether to ignore variables passed in \code{treat_order} that
 are absent from \code{dt}. Default is \code{TRUE}; \code{FALSE} will throw an error in
 case there are missing variables.}
+
+\item{inc_missing}{If any of the \code{target} variables are numeric, then used
+as a toggle to determine whether or not "Missing" appears in the summary stats:
+\describe{
+\item{\code{TRUE}}{(default) The Missing row is always displayed}
+\item{\code{NA}}{The Missing row is only displayed if any missing values are present}
+\item{\code{FALSE}}{The Missing row is never included in the table}
+}}
 }
 \value{
 A \code{data.table} of summary statistics. The format depends on the

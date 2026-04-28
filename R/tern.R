@@ -140,11 +140,11 @@ tern_AET01_table <- function(adsl,
   missing_vars_adae <- setdiff(required_vars, names(adae))
 
   if (length(missing_vars_adsl) > 0) {
-    stop("The following variables are missing in `adsl`: ", paste(missing_vars_adsl, collapse = ", "))
+    stop("The following variables are missing in `adsl`: ", toString(missing_vars_adsl))
   }
 
   if (length(missing_vars_adae) > 0) {
-    stop("The following variables are missing in `adae`: ", paste(missing_vars_adae, collapse = ", "))
+    stop("The following variables are missing in `adae`: ", toString(missing_vars_adae))
   }
 
   if (!is.character(aesi_vars) || length(aesi_vars) == 0) {
@@ -153,7 +153,7 @@ tern_AET01_table <- function(adsl,
 
   missing_aesi <- setdiff(aesi_vars, names(adae))
   if (length(missing_aesi) > 0) {
-    stop("The following `aesi_vars` are not in `adae`: ", paste(missing_aesi, collapse = ", "))
+    stop("The following `aesi_vars` are not in `adae`: ", toString(missing_aesi))
   }
 
   # --- ADSL layout: deaths and withdrawals ---
