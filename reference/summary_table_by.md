@@ -15,7 +15,8 @@ summary_table_by(
   .total_dt = dt,
   pct_dec = 1,
   treat_order = NULL,
-  skip_absent = TRUE
+  skip_absent = TRUE,
+  sep = "."
 )
 ```
 
@@ -63,6 +64,10 @@ summary_table_by(
   from `dt`. Default is `TRUE`; `FALSE` will throw an error in case
   there are missing variables.
 
+- sep:
+
+  character string to separate the terms
+
 ## Value
 
 The same output as
@@ -72,7 +77,12 @@ except that folded by variables indicated in `rows_by`.
 ## Examples
 
 ``` r
-summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM","AVISIT"))
+summary_table_by(
+  adlb,
+  target = "AVAL",
+  treat = "ARM",
+  rows_by = c("PARAM","AVISIT")
+)
 #> [[1]]
 #>                                                          stats  A: Drug X
 #>                                                         <char>     <char>

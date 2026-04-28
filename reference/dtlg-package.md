@@ -15,7 +15,7 @@ Useful links:
 
 - <https://AscentSoftware.github.io/dtlg/>
 
-- Report bugs at <https://AscentSoftware.github.io/dtlg/issues>
+- Report bugs at <https://github.com/AscentSoftware/dtlg/issues>
 
 ## Author
 

@@ -15,7 +15,8 @@ summary_table_by_targets(
   .total_dt = NULL,
   pct_dec = 1,
   treat_order = NULL,
-  skip_absent = TRUE
+  skip_absent = TRUE,
+  sep = "."
 )
 ```
 
@@ -55,9 +56,17 @@ summary_table_by_targets(
 
 - skip_absent:
 
-  Logical, default TRUE. Passed to data.table::setcolorder, if
-  treat_order includes columns not present in dt, TRUE will silently
-  ignore them, FALSE will throw an error.
+  Logical, default `TRUE`. Passed to
+  [`data.table::setcolorder`](https://rdrr.io/pkg/data.table/man/setcolorder.html),
+  if `treat_order` includes columns not present in `dt`:
+
+  - `TRUE` will silently ignore them
+
+  - `FALSE` will throw an error
+
+- sep:
+
+  character string to separate the terms
 
 ## Value
 
@@ -66,6 +75,14 @@ data.table
 ## Examples
 
 ``` r
-adlb <- random.cdisc.data::cadlb|>dplyr::filter(AVISIT != "SCREENING")
-labs <- summary_table_by_targets(adlb, c('AVAL','CHG'), 'ARM', c('PARAM','AVISIT'), '  ', NULL)
+adlb <- random.cdisc.data::cadlb |>
+  dplyr::filter(AVISIT != "SCREENING")
+
+labs <- summary_table_by_targets(
+  dt = adlb,
+  target = c("AVAL", "CHG"),
+  treat = "ARM",
+  rows_by = c("PARAM", "AVISIT"),
+  indent = "  "
+)
 ```

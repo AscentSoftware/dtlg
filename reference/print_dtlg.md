@@ -36,7 +36,9 @@ print_dtlg(
 - class:
 
   If `TRUE`, the resulting output will include above each column its
-  storage class (or a self-evident abbreviation thereof).
+  storage class (or a self-evident abbreviation thereof). When combined
+  with `col.names="auto"` and tables \>20 rows, classes will also appear
+  at the bottom.
 
 - nrows:
 
