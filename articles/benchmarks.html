@@ -87,12 +87,24 @@
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">arm_var</span> <span class="op">&lt;-</span> <span class="st">"ARM"</span></span>
-<span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AGE"</span>, <span class="st">"SEX"</span>, <span class="st">"RACE"</span>, <span class="st">"ETHNIC"</span>, <span class="st">"COUNTRY"</span>, <span class="st">"DTHFL"</span>, <span class="st">"BMRKR1"</span>, </span>
-<span>          <span class="st">"REGION1"</span>,<span class="st">"BMRKR2"</span><span class="op">)</span></span>
+<span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"AGE"</span>, <span class="st">"SEX"</span>, <span class="st">"RACE"</span>, <span class="st">"ETHNIC"</span>, <span class="st">"COUNTRY"</span>, <span class="st">"DTHFL"</span>, <span class="st">"BMRKR1"</span>,</span>
+<span>  <span class="st">"REGION1"</span>, <span class="st">"BMRKR2"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span></span>
-<span>  <span class="va">tern_dmg_tab</span> <span class="op">&lt;-</span> <span class="fu">dtlg</span><span class="fu">::</span><span class="fu"><a href="../reference/tern_summary_table.html">tern_summary_table</a></span><span class="op">(</span><span class="va">adsl_large</span>, target <span class="op">=</span> <span class="va">vars</span>, treat <span class="op">=</span> <span class="va">arm_var</span><span class="op">)</span>,</span>
-<span>  <span class="va">dtlg_dmg_tab</span> <span class="op">&lt;-</span> <span class="fu">dtlg</span><span class="fu">::</span><span class="fu"><a href="../reference/summary_table.html">summary_table</a></span><span class="op">(</span><span class="va">adsl_large</span>, target <span class="op">=</span> <span class="va">vars</span>, treat <span class="op">=</span> <span class="va">arm_var</span>, indent <span class="op">=</span> <span class="st">''</span>, .total_dt <span class="op">=</span> <span class="va">adsl_large</span><span class="op">)</span>,</span>
+<span>  <span class="va">tern_dmg_tab</span> <span class="op">&lt;-</span> <span class="fu">dtlg</span><span class="fu">::</span><span class="fu"><a href="../reference/tern_summary_table.html">tern_summary_table</a></span><span class="op">(</span></span>
+<span>    <span class="va">adsl_large</span>,</span>
+<span>    target <span class="op">=</span> <span class="va">vars</span>,</span>
+<span>    treat <span class="op">=</span> <span class="va">arm_var</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="va">dtlg_dmg_tab</span> <span class="op">&lt;-</span> <span class="fu">dtlg</span><span class="fu">::</span><span class="fu"><a href="../reference/summary_table.html">summary_table</a></span><span class="op">(</span></span>
+<span>    <span class="va">adsl_large</span>,</span>
+<span>    target <span class="op">=</span> <span class="va">vars</span>,</span>
+<span>    treat <span class="op">=</span> <span class="va">arm_var</span>,</span>
+<span>    indent <span class="op">=</span> <span class="st">""</span>,</span>
+<span>    .total_dt <span class="op">=</span> <span class="va">adsl_large</span></span>
+<span>  <span class="op">)</span>,</span>
 <span>  iterations <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  check <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
@@ -101,8 +113,8 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   expression                            min  median `itr/sec` mem_alloc `gc/sec`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_dmg_tab &lt;- dtlg::tern_summa…   32.5s   32.5s    0.030<span style="text-decoration: underline;">8</span>    8.08GB     1.54</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_dmg_tab &lt;- dtlg::summary_ta… 391.3ms 391.3ms    2.56     545.9MB     2.56</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_dmg_tab &lt;- dtlg::tern_summa…   27.3s   27.3s    0.036<span style="text-decoration: underline;">7</span>    8.08GB     2.16</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_dmg_tab &lt;- dtlg::summary_ta… 335.3ms 335.3ms    2.98    545.92MB     2.98</span></span>
 <span><span class="fu">dtlg</span><span class="fu">::</span><span class="fu"><a href="../reference/as_dtlg_table.html">as_dtlg_table</a></span><span class="op">(</span>tt <span class="op">=</span> <span class="va">tern_dmg_tab</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                         stats      A: Drug X     B: Placebo</span></span>
 <span><span class="co">#&gt;                                        &lt;char&gt;         &lt;char&gt;         &lt;char&gt;</span></span>
@@ -355,19 +367,20 @@
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">arm_var</span> <span class="op">&lt;-</span> <span class="st">"ARM"</span></span>
-<span><span class="va">aesi_vars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"FATAL"</span>, <span class="st">"SER"</span>, <span class="st">"SERWD"</span>, <span class="st">"SERDSM"</span>, <span class="st">"RELSER"</span>,</span>
-<span>              <span class="st">"WD"</span>, <span class="st">"DSM"</span>, <span class="st">"REL"</span>, <span class="st">"RELWD"</span>, <span class="st">"RELDSM"</span>, <span class="st">"SEV"</span><span class="op">)</span></span>
+<span><span class="va">aesi_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"FATAL"</span>, <span class="st">"SER"</span>, <span class="st">"SERWD"</span>, <span class="st">"SERDSM"</span>, <span class="st">"RELSER"</span>,</span>
+<span>  <span class="st">"WD"</span>, <span class="st">"DSM"</span>, <span class="st">"REL"</span>, <span class="st">"RELWD"</span>, <span class="st">"RELDSM"</span>, <span class="st">"SEV"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span></span>
-<span>  </span>
 <span>  <span class="va">tern_safety_tab</span> <span class="op">&lt;-</span> <span class="fu">dtlg</span><span class="fu">::</span><span class="fu"><a href="../reference/tern_AET01_table.html">tern_AET01_table</a></span><span class="op">(</span></span>
 <span>    adsl <span class="op">=</span> <span class="va">adsl_small</span>,</span>
 <span>    adae <span class="op">=</span> <span class="va">aesi</span>,</span>
 <span>    patient_var <span class="op">=</span> <span class="st">"USUBJID"</span>,</span>
 <span>    treat_var <span class="op">=</span> <span class="st">"ARM"</span>,</span>
 <span>    aesi_vars <span class="op">=</span> <span class="va">aesi_vars</span></span>
-<span>  <span class="op">)</span>, </span>
-<span>  </span>
+<span>  <span class="op">)</span>,</span>
+<span></span>
 <span>  <span class="va">dtlg_safety_tab</span> <span class="op">&lt;-</span> <span class="fu">dtlg</span><span class="fu">::</span><span class="fu"><a href="../reference/AET01_table.html">AET01_table</a></span><span class="op">(</span></span>
 <span>    adsl <span class="op">=</span> <span class="va">adsl_small</span>,</span>
 <span>    adae <span class="op">=</span> <span class="va">aesi</span>,</span>
@@ -383,8 +396,8 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   expression                             min median `itr/sec` mem_alloc `gc/sec`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;bch&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_safety_tab &lt;- dtlg::tern_AET01… 694ms  694ms      1.44   134.5MB     2.88</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_safety_tab &lt;- dtlg::AET01_tabl… 163ms  163ms      6.12    28.8MB     0</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tern_safety_tab &lt;- dtlg::tern_AET01… 588ms  588ms      1.70   134.5MB     1.70</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dtlg_safety_tab &lt;- dtlg::AET01_tabl… 192ms  192ms      5.21    28.8MB     0</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -35,7 +35,7 @@ the semantics:
 
   - If `x` is a `data.frame`, it is converted to a `data.table` in place
     via
-    [`data.table::setDT()`](https://rdatatable.gitlab.io/data.table/reference/setDT.html),
+    [`data.table::setDT()`](https://rdrr.io/pkg/data.table/man/setDT.html),
     mutating the caller’s object. The returned object is a `data.table`
     with the same contents. For efficiency, the column vectors are
     reused without a deep copy.

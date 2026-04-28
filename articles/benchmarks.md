@@ -14,12 +14,24 @@ aesi <- dtlg::aesi
 
 ``` r
 arm_var <- "ARM"
-vars <- c("AGE", "SEX", "RACE", "ETHNIC", "COUNTRY", "DTHFL", "BMRKR1", 
-          "REGION1","BMRKR2")
+vars <- c(
+  "AGE", "SEX", "RACE", "ETHNIC", "COUNTRY", "DTHFL", "BMRKR1",
+  "REGION1", "BMRKR2"
+)
 
 bench::mark(
-  tern_dmg_tab <- dtlg::tern_summary_table(adsl_large, target = vars, treat = arm_var),
-  dtlg_dmg_tab <- dtlg::summary_table(adsl_large, target = vars, treat = arm_var, indent = '', .total_dt = adsl_large),
+  tern_dmg_tab <- dtlg::tern_summary_table(
+    adsl_large,
+    target = vars,
+    treat = arm_var
+  ),
+  dtlg_dmg_tab <- dtlg::summary_table(
+    adsl_large,
+    target = vars,
+    treat = arm_var,
+    indent = "",
+    .total_dt = adsl_large
+  ),
   iterations = 1L,
   check = FALSE
 )
@@ -28,8 +40,8 @@ bench::mark(
 #> # A tibble: 2 × 6
 #>   expression                            min  median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>                        <bch:t> <bch:t>     <dbl> <bch:byt>    <dbl>
-#> 1 tern_dmg_tab <- dtlg::tern_summa…   32.5s   32.5s    0.0308    8.08GB     1.54
-#> 2 dtlg_dmg_tab <- dtlg::summary_ta… 391.3ms 391.3ms    2.56     545.9MB     2.56
+#> 1 tern_dmg_tab <- dtlg::tern_summa…   27.3s   27.3s    0.0367    8.08GB     2.16
+#> 2 dtlg_dmg_tab <- dtlg::summary_ta… 335.3ms 335.3ms    2.98    545.92MB     2.98
 dtlg::as_dtlg_table(tt = tern_dmg_tab)
 #>                                         stats      A: Drug X     B: Placebo
 #>                                        <char>         <char>         <char>
@@ -282,19 +294,20 @@ dtlg_dmg_tab
 
 ``` r
 arm_var <- "ARM"
-aesi_vars = c("FATAL", "SER", "SERWD", "SERDSM", "RELSER",
-              "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
+aesi_vars <- c(
+  "FATAL", "SER", "SERWD", "SERDSM", "RELSER",
+  "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV"
+)
 
 bench::mark(
-  
   tern_safety_tab <- dtlg::tern_AET01_table(
     adsl = adsl_small,
     adae = aesi,
     patient_var = "USUBJID",
     treat_var = "ARM",
     aesi_vars = aesi_vars
-  ), 
-  
+  ),
+
   dtlg_safety_tab <- dtlg::AET01_table(
     adsl = adsl_small,
     adae = aesi,
@@ -310,6 +323,6 @@ bench::mark(
 #> # A tibble: 2 × 6
 #>   expression                             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>                           <bch> <bch:>     <dbl> <bch:byt>    <dbl>
-#> 1 tern_safety_tab <- dtlg::tern_AET01… 694ms  694ms      1.44   134.5MB     2.88
-#> 2 dtlg_safety_tab <- dtlg::AET01_tabl… 163ms  163ms      6.12    28.8MB     0
+#> 1 tern_safety_tab <- dtlg::tern_AET01… 588ms  588ms      1.70   134.5MB     1.70
+#> 2 dtlg_safety_tab <- dtlg::AET01_tabl… 192ms  192ms      5.21    28.8MB     0
 ```

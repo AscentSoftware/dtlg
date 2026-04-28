@@ -69,7 +69,7 @@ the semantics:</p><ul><li><p><code>"reference"</code>: input is mutated in place
 <ul><li><p>If the semantics are <code>"reference"</code> (default):</p><ul><li><p>If <code>x</code> is already a <code>data.table</code>, it is returned unchanged. Aliasing
 holds, so mutations with <code>:=</code> will affect both input and output.</p></li>
 <li><p>If <code>x</code> is a <code>data.frame</code>, it is converted to a <code>data.table</code> in place
-via <code><a href="https://rdatatable.gitlab.io/data.table/reference/setDT.html" class="external-link">data.table::setDT()</a></code>, mutating the caller’s object. The returned
+via <code><a href="https://rdrr.io/pkg/data.table/man/setDT.html" class="external-link">data.table::setDT()</a></code>, mutating the caller’s object. The returned
 object is a <code>data.table</code> with the same contents. For efficiency, the
 column vectors are reused without a deep copy.</p></li>
 </ul></li>
@@ -87,12 +87,12 @@ returned. Mutating the result does not affect the input.</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Default: reference semantics</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">maybe_copy_dt</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">is.data.table</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="co"># TRUE, converted in place</span></span></span>
+<span class="r-in"><span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">is.data.table</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="co"># TRUE, converted in place</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Switch to value semantics</span></span></span>
 <span class="r-in"><span><span class="va">old</span> <span class="op">&lt;-</span> <span class="fu"><a href="dt_copy_semantics.html">set_dt_copy_semantics</a></span><span class="op">(</span><span class="st">"value"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu">maybe_copy_dt</span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">out2</span><span class="op">[</span>, <span class="va">b</span> <span class="op">:=</span> <span class="fl">99L</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        a     b</span>

@@ -72,7 +72,7 @@ except that folded by variables indicated in `rows_by`.
 ## Examples
 
 ``` r
-summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM","AVISIT"))
+summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM", "AVISIT"))
 #> [[1]]
 #>                                                          stats  A: Drug X
 #>                                                         <char>     <char>

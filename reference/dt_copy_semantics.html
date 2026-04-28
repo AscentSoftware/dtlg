@@ -72,7 +72,7 @@ semantics invisibly.</p></li>
 <code>dtlg_dt_copy_semantics</code>. The option can take two values:</p><ul><li><p><code>"reference"</code> (default): inputs are treated with reference semantics.</p><ul><li><p>If the input is already a <code>data.table</code>, it is returned unchanged and
 aliases are preserved.</p></li>
 <li><p>If the input is a <code>data.frame</code>, it is converted to a <code>data.table</code>
-in place via <code><a href="https://rdatatable.gitlab.io/data.table/reference/setDT.html" class="external-link">data.table::setDT()</a></code>, mutating the caller’s object.</p></li>
+in place via <code><a href="https://rdrr.io/pkg/data.table/man/setDT.html" class="external-link">data.table::setDT()</a></code>, mutating the caller’s object.</p></li>
 </ul></li>
 <li><p><code>"value"</code>: inputs are treated with value semantics.</p><ul><li><p>The input is converted to a <code>data.table</code> (if necessary) and a deep
 copy is returned, leaving the original unchanged.</p></li>
