@@ -135,5 +135,3 @@ round_pct <- function(
   x[!is.na(x)] <- round_pct_(x[!is.na(x)], digits = digits, method = method)
   x
 }
-
-

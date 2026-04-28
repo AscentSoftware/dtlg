@@ -35,8 +35,9 @@ summary_table_by_targets(
 
 \item{treat_order}{customise the column order of output table}
 
-\item{skip_absent}{Logical, default \code{TRUE}. Passed to \code{data.table::setcolorder},
-if \code{treat_order} includes columns not present in \code{dt}:
+\item{skip_absent}{Logical, default \code{TRUE}. Passed to
+\code{data.table::setcolorder}, if \code{treat_order} includes columns not present in
+\code{dt}:
 \itemize{
 \item \code{TRUE} will silently ignore them
 \item \code{FALSE} will throw an error

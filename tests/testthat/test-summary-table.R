@@ -5,17 +5,17 @@ adlb_arm_levels <- levels(adlb$ARM)
 
 #### summary_table ####
 test_that("`summary_table()` respects order of levels of `treat` in the output", {
-  observed <- summary_table(dt = adlb, target = 'AVAL', treat = 'ARM')
+  observed <- summary_table(dt = adlb, target = "AVAL", treat = "ARM")
   treat_cols <- colnames(observed)[-1L]
 
-  expect_equal( object = treat_cols, expected = adlb_arm_levels)
+  expect_equal(object = treat_cols, expected = adlb_arm_levels)
 })
 
 test_that("`summary_table()`: `treat_order` works", {
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = rev(adlb_arm_levels)
   )
   treat_cols <- colnames(observed)[-1L]
@@ -24,23 +24,21 @@ test_that("`summary_table()`: `treat_order` works", {
 })
 
 test_that("`summary_table()`: `treat_order` plays well with `skip_absent`", {
-  # skip_absent = TRUE
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = c(rev(adlb_arm_levels), "PHONY"),
     skip_absent = TRUE
   )
   treat_cols <- colnames(observed)[-1L]
   expect_equal(object = treat_cols, expected = rev(adlb_arm_levels))
 
-  # skip_absent = FALSE
   expect_error(
     summary_table(
       dt = adlb,
-      target = 'AVAL',
-      treat = 'ARM',
+      target = "AVAL",
+      treat = "ARM",
       treat_order = c(rev(adlb_arm_levels), "PHONY"),
       skip_absent = FALSE
     )
@@ -50,76 +48,76 @@ test_that("`summary_table()`: `treat_order` plays well with `skip_absent`", {
 test_that("`summary_table()` tolerates 'stats' in `treat_order`", {
 
   #
-  # `treat_order = "stats"`
+  # `treat_order = "stats"` # nolint: commented_code_linter
   #
   wo_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = NULL
   )
 
   wt_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = "stats"
   )
 
   testthat::expect_equal(object = wt_stats, expected = wo_stats)
 
   #
-  # `treat_order = rep("stats", 3L)`
+  # `treat_order = rep("stats", 3L)` # nolint: commented_code_linter
   #
   wo_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = NULL
   )
 
   wt_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = rep("stats", 3L)
   )
 
   testthat::expect_equal(object = wt_stats, expected = wo_stats)
 
   #
-  # `treat_order = c("stats", adlb_arm_levels[1])`
+  # `treat_order = c("stats", adlb_arm_levels[1])` # nolint: commented_code_linter
   #
   wo_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = NULL
   )
 
   wt_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = c("stats", adlb_arm_levels[1])
   )
 
   testthat::expect_equal(object = wt_stats, expected = wo_stats)
 
   #
-  # `treat_order = c("stats", adlb_arm_levels[1])`
+  # `treat_order = c("stats", adlb_arm_levels[1])` # nolint: commented_code_linter
   #
   wo_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = NULL
   )
 
   wt_stats <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     treat_order = c(adlb_arm_levels[1], "stats")
   )
 
@@ -131,8 +129,8 @@ test_that("`summary_table()`: `pct_dec` works", {
   pct_dec <- 0L
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     pct_dec = pct_dec
   )
 
@@ -147,8 +145,8 @@ test_that("`summary_table()`: `pct_dec` works", {
   pct_dec <- 1L
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     pct_dec = pct_dec
   )
 
@@ -163,8 +161,8 @@ test_that("`summary_table()`: `pct_dec` works", {
   pct_dec <- 2L
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     pct_dec = pct_dec
   )
 
@@ -179,8 +177,8 @@ test_that("`summary_table()`: `pct_dec` works", {
   pct_dec <- 10L
   observed <- summary_table(
     dt = adlb,
-    target = 'AVAL',
-    treat = 'ARM',
+    target = "AVAL",
+    treat = "ARM",
     pct_dec = pct_dec
   )
 

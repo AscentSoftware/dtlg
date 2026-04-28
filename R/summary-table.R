@@ -18,6 +18,13 @@ reorder_cols <- function(dt, cols, before_cols = "stats", skip_absent = TRUE) {
 #' @param skip_absent Whether to ignore variables passed in `treat_order` that
 #'   are absent from `dt`. Default is `TRUE`; `FALSE` will throw an error in
 #'   case there are missing variables.
+#' @param inc_missing If any of the `target` variables are numeric, then used
+#' as a toggle to determine whether or not "Missing" appears in the summary stats:
+#' \describe{
+#' \item{`TRUE`}{(default) The Missing row is always displayed}
+#' \item{`NA`}{The Missing row is only displayed if any missing values are present}
+#' \item{`FALSE`}{The Missing row is never included in the table}
+#' }
 #'
 #' @returns A `data.table` of summary statistics. The format depends on the
 #' type of the `target` variable:
@@ -60,23 +67,29 @@ summary_table <- function(dt,
                           .total_dt = dt,
                           pct_dec = 1,
                           treat_order = NULL,
-                          skip_absent = TRUE) {
+                          skip_absent = TRUE,
+                          inc_missing = TRUE) {
 
   stopifnot(length(target) >= length(target_name), length(target) >= length(indent))
   vct_args <- vctrs::vec_recycle_common(target = target, target_name = target_name, indent = indent)
-  scl_args <- list(dt = dt, treat = treat, .total_dt = .total_dt, pct_dec = pct_dec)
+  scl_args <- list( # nolint: object_usage_linter
+    dt = dt,
+    treat = treat,
+    .total_dt = .total_dt,
+    pct_dec = pct_dec,
+    inc_missing = inc_missing
+  )
 
-  summaries <-
-    with(
-      vct_args,
-      expr = mapply(
-        FUN = calc_stats,
-        target = target,
-        target_name = target_name,
-        indent = indent,
-        MoreArgs = scl_args
-      )
+  summaries <- with(
+    vct_args,
+    expr = mapply(
+      FUN = calc_stats,
+      target = target,
+      target_name = target_name,
+      indent = indent,
+      MoreArgs = scl_args
     )
+  )
 
   summaries |>
     data.table::rbindlist(use.names = TRUE) |>
@@ -112,7 +125,7 @@ summary_table_by <- function(dt,
                              sep = ".") {
   dt <- maybe_copy_dt(x = dt)
 
-  dt <- split(droplevels(dt), by = rows_by, drop = T, sorted = T)
+  dt <- split(droplevels(dt), by = rows_by, drop = TRUE, sorted = TRUE)
   label <- names(dt)
 
   if (length(rows_by) > 1) {
@@ -138,7 +151,7 @@ summary_table_by <- function(dt,
 
   if (length(rows_by) > 1) {
     x <- 0
-    for (i in 1:length(heading)) {
+    for (i in seq_along(heading)) {
       y = sum(heading_full %in% heading[i])
       summary_split <- append(
         summary_split,
@@ -166,8 +179,9 @@ summary_table_by <- function(dt,
 #' @param .total_dt optional table for total counts to be derived
 #' @param pct_dec decimal places for percentages
 #' @param treat_order customise the column order of output table
-#' @param skip_absent Logical, default `TRUE`. Passed to `data.table::setcolorder`,
-#' if `treat_order` includes columns not present in `dt`:
+#' @param skip_absent Logical, default `TRUE`. Passed to
+#'   `data.table::setcolorder`, if `treat_order` includes columns not present in
+#'   `dt`:
 #' - `TRUE` will silently ignore them
 #' - `FALSE` will throw an error
 #' @param sep character string to separate the terms
@@ -232,4 +246,3 @@ summary_table_by_targets <- function(dt,
     )
   )
 }
-

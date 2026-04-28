@@ -117,5 +117,3 @@ maybe_copy_dt <- function(x) {
 
   stop(error_msg, call. = FALSE)
 }
-
-

@@ -110,4 +110,3 @@ test_that("detect_fmt() works with min_max_fmt()", {
   expect_false(detect_fmt("1.0, ", fmt))      # missing max
   expect_false(detect_fmt("a, b", fmt))       # non-numeric
 })
-
