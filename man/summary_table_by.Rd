@@ -50,6 +50,6 @@ indicated in \code{rows_by}.
 Create a summary table using multiple rows for grouping on one target column
 }
 \examples{
-summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM","AVISIT"))
+summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM", "AVISIT"))
 
 }
