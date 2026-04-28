@@ -7,7 +7,7 @@ test_that("Able to correctly round numbers to specified digits - internal", {
 })
 
 test_that("Able to correctly round numbers to expected sum - internal", {
-  x <- rep(1/7, 7L)
+  x <- rep(1 / 7, 7L)
 
   expect_identical(round_sum_(x, 1), rep(c(0.1, 0.2), times = c(4L, 3L)))
   expect_identical(round_sum_(x, 3), c(0.142, rep(0.143, 6L)))
@@ -28,7 +28,7 @@ test_that("Able to correctly round numbers to specified digits", {
 })
 
 test_that("Able to correctly round numbers to expected sum", {
-  x <- rep(1/7, 7L)
+  x <- rep(1 / 7, 7L)
 
   expect_identical(round_sum(x, 1), rep(c(0.1, 0.2), times = c(4L, 3L)))
   expect_identical(round_sum(x, 3), c(0.142, rep(0.143, 6L)))
@@ -54,7 +54,7 @@ test_that("Able to correctly round percentages to specified digits - internal", 
 })
 
 test_that("Able to correctly sum rounded percentages to 100", {
-  x <- rep(1/7, 7L)
+  x <- rep(1 / 7, 7L)
 
   expect_identical(round_pct_(x, 1), rep(14.3, 7L))
   expect_identical(
