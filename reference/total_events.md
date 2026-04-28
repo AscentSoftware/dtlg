@@ -46,13 +46,13 @@ total_events(dt = adsl, treat = "ARM", label = "Subjects")[[1]]
 
 # If `dt` is pre-filtered, e.g. with a condition matching an event, then
 # `total_events()` can be used to (effectively) count events.
-total_events(dt = adsl[adsl$DTHFL == 'Y'], treat = "ARM", label = "Deaths")[[1]]
+total_events(dt = adsl[adsl$DTHFL == "Y"], treat = "ARM", label = "Deaths")[[1]]
 #>     stats A: Drug X B: Placebo C: Combination
 #>    <char>     <int>      <int>          <int>
 #> 1: Deaths        25         23             22
 
 # Another example using the complement predicate condition.
-total_events(dt = adsl[adsl$DTHFL == 'N'], treat = "ARM", label = "Lives")[[1]]
+total_events(dt = adsl[adsl$DTHFL == "N"], treat = "ARM", label = "Lives")[[1]]
 #>     stats A: Drug X B: Placebo C: Combination
 #>    <char>     <int>      <int>          <int>
 #> 1:  Lives       109        111            110
