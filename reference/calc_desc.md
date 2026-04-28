@@ -24,7 +24,8 @@ calc_desc(
   target_name = target,
   treat,
   indent = nbsp(n = 4L),
-  pct_dec = 1
+  pct_dec = 1,
+  inc_missing = TRUE
 )
 ```
 
@@ -58,6 +59,23 @@ calc_desc(
 
   Decimal places for reported figures.
 
+- inc_missing:
+
+  Toggle for including the "Missing" row:
+
+  `TRUE`
+
+  :   (default) The Missing row is always displayed
+
+  `NA`
+
+  :   The Missing row is only displayed if any missing values are
+      present
+
+  `FALSE`
+
+  :   The Missing row is never included in the table
+
 ## Value
 
 A list containing a `data.table` formatted as follows:
@@ -76,7 +94,7 @@ This table is structured for easy integration with Shiny output widgets.
 
 ``` r
 # Calculate summary statistics for the age of the subjects in each region.
-calc_stats(dt = adsl, "AGE", treat = "REGION1")[[1]]
+calc_desc(dt = adsl, "AGE", treat = "REGION1")[[1]]
 #>                                stats     Africa       Asia    Eurasia
 #>                               <char>     <char>     <char>     <char>
 #> 1:                               AGE                                 
@@ -96,7 +114,7 @@ calc_stats(dt = adsl, "AGE", treat = "REGION1")[[1]]
 
 # Calculate summary statistics for biomarker 1 in each of the three arms
 # (`ARM`).
-calc_stats(dt = adsl, "BMRKR1", treat = "ARM")[[1]]
+calc_desc(dt = adsl, "BMRKR1", treat = "ARM")[[1]]
 #>                                stats A: Drug X B: Placebo C: Combination
 #>                               <char>    <char>     <char>         <char>
 #> 1:                            BMRKR1                                    

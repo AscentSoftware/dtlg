@@ -15,7 +15,8 @@ summary_table(
   .total_dt = dt,
   pct_dec = 1,
   treat_order = NULL,
-  skip_absent = TRUE
+  skip_absent = TRUE,
+  inc_missing = TRUE
 )
 ```
 
@@ -62,6 +63,24 @@ summary_table(
   Whether to ignore variables passed in `treat_order` that are absent
   from `dt`. Default is `TRUE`; `FALSE` will throw an error in case
   there are missing variables.
+
+- inc_missing:
+
+  If any of the `target` variables are numeric, then used as a toggle to
+  determine whether or not "Missing" appears in the summary stats:
+
+  `TRUE`
+
+  :   (default) The Missing row is always displayed
+
+  `NA`
+
+  :   The Missing row is only displayed if any missing values are
+      present
+
+  `FALSE`
+
+  :   The Missing row is never included in the table
 
 ## Value
 

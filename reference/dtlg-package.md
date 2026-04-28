@@ -15,18 +15,20 @@ Useful links:
 
 - <https://AscentSoftware.github.io/dtlg/>
 
+- Report bugs at <https://AscentSoftware.github.io/dtlg/issues>
+
 ## Author
 
-**Maintainer**: Ramiro Magno <ramiro.morgado@ascent.io>
+**Maintainer**: Ramiro Magno <ramiro.morgado@acuityanalytics.com>
 
 Authors:
 
-- Max Ebenezer-Brown <max.ebenezer-brown@ascent.io>
+- Max Ebenezer-Brown <max.ebenezer-brown@acuityanalytics.com>
 
-- Max Norman <max.norman@ascent.io>
+- Max Norman
 
-- Xinye Li <xinye.li@ascent.io>
+- Xinye Li <xinye.li@acuityanalytics.com>
 
-- Anja Peebles-Brown <anna.peebles-brown@ascent.io>
+- Anja Peebles-Brown <anna.peebles-brown@acuityanalytics.com>
 
-- Ashley Baldry <ashley.baldry@ascent.io>
+- Ashley Baldry <ashley.baldry@acuityanalytics.com>

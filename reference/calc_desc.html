@@ -27,7 +27,7 @@ Missing: number of missing target values
 
     <a class="navbar-brand me-2" href="../index.html">dtlg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,8 @@ levels:</p><ul><li><p><code>n</code>: number of observations</p></li>
 <span>  target_name <span class="op">=</span> <span class="va">target</span>,</span>
 <span>  <span class="va">treat</span>,</span>
 <span>  indent <span class="op">=</span> <span class="fu"><a href="nbsp.html">nbsp</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span>,</span>
-<span>  pct_dec <span class="op">=</span> <span class="fl">1</span></span>
+<span>  pct_dec <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  inc_missing <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -111,6 +112,20 @@ labels. Defaults to four HTML non-breaking spaces (<code>&amp;nbsp;</code>).</p>
 <dt id="arg-pct-dec">pct_dec<a class="anchor" aria-label="anchor" href="#arg-pct-dec"></a></dt>
 <dd><p>Decimal places for reported figures.</p></dd>
 
+
+<dt id="arg-inc-missing">inc_missing<a class="anchor" aria-label="anchor" href="#arg-inc-missing"></a></dt>
+<dd><p>Toggle for including the "Missing" row:</p><dl><dt><code>TRUE</code></dt>
+<dd><p>(default) The Missing row is always displayed</p></dd>
+
+<dt><code>NA</code></dt>
+<dd><p>The Missing row is only displayed if any missing values are present</p></dd>
+
+<dt><code>FALSE</code></dt>
+<dd><p>The Missing row is never included in the table</p></dd>
+
+
+</dl></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -125,7 +140,7 @@ summarised statistics labels.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Calculate summary statistics for the age of the subjects in each region.</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="calc_stats.html">calc_stats</a></span><span class="op">(</span>dt <span class="op">=</span> <span class="va">adsl</span>, <span class="st">"AGE"</span>, treat <span class="op">=</span> <span class="st">"REGION1"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="fu">calc_desc</span><span class="op">(</span>dt <span class="op">=</span> <span class="va">adsl</span>, <span class="st">"AGE"</span>, treat <span class="op">=</span> <span class="st">"REGION1"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                stats     Africa       Asia    Eurasia</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                               &lt;char&gt;     &lt;char&gt;     &lt;char&gt;     &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                               AGE                                 </span>
@@ -145,7 +160,7 @@ summarised statistics labels.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate summary statistics for biomarker 1 in each of the three arms</span></span></span>
 <span class="r-in"><span><span class="co"># (`ARM`).</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="calc_stats.html">calc_stats</a></span><span class="op">(</span>dt <span class="op">=</span> <span class="va">adsl</span>, <span class="st">"BMRKR1"</span>, treat <span class="op">=</span> <span class="st">"ARM"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="fu">calc_desc</span><span class="op">(</span>dt <span class="op">=</span> <span class="va">adsl</span>, <span class="st">"BMRKR1"</span>, treat <span class="op">=</span> <span class="st">"ARM"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                stats A: Drug X B: Placebo C: Combination</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                               &lt;char&gt;    &lt;char&gt;     &lt;char&gt;         &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                            BMRKR1                                    </span>

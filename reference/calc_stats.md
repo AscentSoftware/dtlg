@@ -10,8 +10,9 @@ of `target` (second argument), not `dt` (first argument).
 calc_stats(
   dt,
   target,
-  target_name = target,
   treat,
+  ...,
+  target_name = target,
   indent = nbsp(n = 4L),
   .total_dt = NULL,
   pct_dec = 1
@@ -30,14 +31,18 @@ calc_stats(
   Target variable passed as a string for which summary statistics are to
   be calculated.
 
-- target_name:
-
-  Heading for the target variable as a string. Defaults to `target`.
-
 - treat:
 
   A string indicating the grouping variable, e.g. the variable
   specifying the treatment population.
+
+- ...:
+
+  Additional arguments passed to other methods
+
+- target_name:
+
+  Heading for the target variable as a string. Defaults to `target`.
 
 - indent:
 

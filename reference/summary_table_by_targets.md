@@ -55,9 +55,8 @@ summary_table_by_targets(
 
 - skip_absent:
 
-  Logical, default TRUE. Passed to
-  [`data.table::setcolorder`](https://rdrr.io/pkg/data.table/man/setcolorder.html),
-  if treat_order includes columns not present in dt, TRUE will silently
+  Logical, default TRUE. Passed to data.table::setcolorder, if
+  treat_order includes columns not present in dt, TRUE will silently
   ignore them, FALSE will throw an error.
 
 ## Value
