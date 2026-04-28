@@ -18,6 +18,13 @@ reorder_cols <- function(dt, cols, before_cols = "stats", skip_absent = TRUE) {
 #' @param skip_absent Whether to ignore variables passed in `treat_order` that
 #'   are absent from `dt`. Default is `TRUE`; `FALSE` will throw an error in
 #'   case there are missing variables.
+#' @param inc_missing If any of the `target` variables are numeric, then used
+#' as a toggle to determine whether or not "Missing" appears in the summary stats:
+#' \describe{
+#' \item{`TRUE`}{(default) The Missing row is always displayed}
+#' \item{`NA`}{The Missing row is only displayed if any missing values are present}
+#' \item{`FALSE`}{The Missing row is never included in the table}
+#' }
 #'
 #' @returns A `data.table` of summary statistics. The format depends on the
 #' type of the `target` variable:
@@ -60,10 +67,18 @@ summary_table <- function(dt,
                           .total_dt = dt,
                           pct_dec = 1,
                           treat_order = NULL,
-                          skip_absent = TRUE) {
+                          skip_absent = TRUE,
+                          inc_missing = TRUE) {
 
   stopifnot(length(target) >= length(target_name), length(target) >= length(indent))
   vct_args <- vctrs::vec_recycle_common(target = target, target_name = target_name, indent = indent)
+  scl_args <- list( # nolint: object_usage_linter
+    dt = dt,
+    treat = treat,
+    .total_dt = .total_dt,
+    pct_dec = pct_dec,
+    inc_missing = inc_missing
+  )
 
   summaries <- with(
     vct_args,
@@ -72,7 +87,7 @@ summary_table <- function(dt,
       target = target,
       target_name = target_name,
       indent = indent,
-      MoreArgs = list(dt = dt, treat = treat, .total_dt = .total_dt, pct_dec = pct_dec)
+      MoreArgs = scl_args
     )
   )
 
@@ -90,7 +105,7 @@ summary_table <- function(dt,
 #' indicated in `rows_by`.
 #'
 #' @examples
-#' summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM", "AVISIT"))
+#' summary_table_by(adlb, target = "AVAL", treat = "ARM", rows_by = c("PARAM","AVISIT"))
 #'
 #' @export
 #'
@@ -105,13 +120,20 @@ summary_table_by <- function(dt,
                              skip_absent = TRUE) {
   dt <- maybe_copy_dt(x = dt)
 
-  dt <- split(droplevels(dt), by = rows_by, drop = TRUE, sorted = TRUE)
+  dt <- split(droplevels(dt),
+              by = rows_by,
+              drop = TRUE,
+              sorted = TRUE)
   label <- names(dt)
   if (length(rows_by) > 1) {
     label <- strsplit(label, "\\.")
-    heading_full <- lapply(X = label, function(x) x[1])
+    heading_full <- lapply(X = label, function(x) {
+      x[1]
+    })
     heading <- unique(heading_full)
-    label <- lapply(label, function(x) paste(x[2:length(x)], collapse = "."))
+    label <- lapply(label, function(x) {
+      paste(x[2:length(x)], collapse = ".")
+    })
     label <- paste0(indent, label)
     indent <- paste0(indent, indent)
   }
@@ -129,11 +151,8 @@ summary_table_by <- function(dt,
     x <- 0
     for (i in seq_along(heading)) {
       y = sum(heading_full %in% heading[i])
-      summary_split <- append(
-        summary_split,
-        list(data.table::data.table(stats = heading[[i]])),
-        after = x
-      )
+      summary_split <-
+        append(summary_split, list(data.table::data.table(stats = heading[[i]])), after = x)
       x <- x + y + 1
     }
   }
@@ -155,8 +174,9 @@ summary_table_by <- function(dt,
 #' @param .total_dt optional table for total counts to be derived
 #' @param pct_dec decimal places for percentages
 #' @param treat_order customise the column order of output table
-#' @param skip_absent Logical, default TRUE. Passed to `data.table::setcolorder`, if treat_order
-#' includes columns not present in dt, TRUE will silently ignore them, FALSE will throw an error.
+#' @param skip_absent Logical, default TRUE. Passed to data.table::setcolorder,
+#'   if treat_order includes columns not present in dt, TRUE will silently
+#'   ignore them, FALSE will throw an error.
 #'
 #' @return data.table
 #' @export
@@ -200,6 +220,5 @@ summary_table_by_targets <- function(dt,
   for (i in 2:ncol(x)) {
     full <- data.table::data.table(full, x[, i, with = FALSE], y[, i, with = FALSE])
   }
-
   full
 }

@@ -5,7 +5,6 @@ adsl <- data.frame(
   stringsAsFactors = FALSE
 )
 
-
 test_that("calc_desc() returns expected structure and types", {
   tbl <- calc_desc(adsl, target = "AGE", treat = "ARM", indent = "")[[1]]
 
@@ -27,7 +26,7 @@ test_that("calc_desc() calculates correct n and Missing", {
   tbl <- calc_desc(adsl, target = "AGE", treat = "ARM", indent = "")[[1]]
 
   expect_equal(tbl[stats == "n", A], "2")
-  expect_equal(tbl[stats == "n", C], "2")
+  expect_equal(tbl[stats == "n", C], "1")
 
   expect_equal(tbl[stats == "Missing", A], "0")
   expect_equal(tbl[stats == "Missing", C], "1")
@@ -40,4 +39,17 @@ test_that("calc_desc() formats summary strings correctly", {
 
   expect_true(all(detect_fmt(unlist(mean_sd_values), mean_sd_fmt(n = 1L))))
   expect_true(all(detect_fmt(unlist(min_max_values), min_max_fmt(n = 1L))))
+})
+
+test_that("calc_desc() only displays Missing when required if inc_missing is NA", {
+  tbl <- calc_desc(adsl, target = "AGE", treat = "ARM", indent = "", inc_missing = NA)[[1]]
+  expect_true("Missing" %in% tbl$stats)
+
+  tbl <- calc_desc(adsl[1:5], target = "AGE", treat = "ARM", indent = "", inc_missing = NA)[[1]]
+  expect_false("Missing" %in% tbl$stats)
+})
+
+test_that("calc_desc() does not display Missing if inc_missing is FALSE", {
+  tbl <- calc_desc(adsl, target = "AGE", treat = "ARM", indent = "", inc_missing = FALSE)[[1]]
+  expect_false("Missing" %in% tbl$stats)
 })

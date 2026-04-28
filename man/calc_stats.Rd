@@ -7,8 +7,9 @@
 calc_stats(
   dt,
   target,
-  target_name = target,
   treat,
+  ...,
+  target_name = target,
   indent = nbsp(n = 4L),
   .total_dt = NULL,
   pct_dec = 1
@@ -21,11 +22,13 @@ calc_stats(
 \item{target}{Target variable passed as a string for which summary
 statistics are to be calculated.}
 
-\item{target_name}{Heading for the target variable as a string. Defaults to
-\code{target}.}
-
 \item{treat}{A string indicating the grouping variable, e.g. the variable
 specifying the treatment population.}
+
+\item{...}{Additional arguments passed to other methods}
+
+\item{target_name}{Heading for the target variable as a string. Defaults to
+\code{target}.}
 
 \item{indent}{A string to be used as indentation of summary statistics
 labels. Defaults to four HTML non-breaking spaces (\verb{&nbsp;}).}
