@@ -78,4 +78,3 @@ merge_table_lists <- function(dt_l) {
   dt_l <- lapply(dt_l, `[[`, 1)
   data.table::rbindlist(dt_l, use.names = TRUE)
 }
-

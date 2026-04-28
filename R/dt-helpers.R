@@ -155,6 +155,3 @@ dt_filter <- function(dt, ..., .env = parent.frame()) {
   i <- substitute_q(as.call(c(quote(and), filters)), env = .env)
   dt[i, , env = list(i = i)]
 }
-
-
-

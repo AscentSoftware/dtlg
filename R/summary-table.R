@@ -219,4 +219,3 @@ summary_table_by_targets <- function(dt,
   }
   return(full)
 }
-
