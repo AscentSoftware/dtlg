@@ -1,4 +1,4 @@
 # License
 
     YEAR: 2025
-    COPYRIGHT HOLDER: Ascent Digital Services
+    COPYRIGHT HOLDER: Acuity Analytics
