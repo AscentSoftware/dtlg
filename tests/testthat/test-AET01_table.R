@@ -51,7 +51,17 @@ test_that("Able to re-create the AET01 table using data.table", {
     patient_var = "USUBJID",
     treat_var = "ARM",
     aesi_vars = c(
-      "FATAL", "SER", "SERWD", "SERDSM", "RELSER", "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV"
+      "FATAL",
+      "SER",
+      "SERWD",
+      "SERDSM",
+      "RELSER",
+      "WD",
+      "DSM",
+      "REL",
+      "RELWD",
+      "RELDSM",
+      "SEV"
     )
   )
 
@@ -65,10 +75,12 @@ test_that("Able to re-create the AET01 table using data.table", {
   expect_identical(
     AET01_summary[endsWith(stats, "Related AE"), `C: Combination`],
     aesi[
-      ARM == "C: Combination" & REL == TRUE,
+      ARM == "C: Combination" & REL,
       paste(
         data.table::uniqueN(USUBJID),
-        sprintf("(%.1f%%)", data.table::uniqueN(USUBJID) / sum(adsl$ARM == "C: Combination") * 100)
+        sprintf("(%.1f%%)",
+                data.table::uniqueN(USUBJID) /
+                  sum(adsl$ARM == "C: Combination") * 100)
       )
     ]
   )

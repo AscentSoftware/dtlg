@@ -1,3 +1,47 @@
+assert_aet01_inputs <- function(adsl,
+                                adae,
+                                patient_var,
+                                treat_var,
+                                aesi_vars) {
+  stopifnot(is.data.frame(adsl), is.data.frame(adae))
+
+  missing_vars_adsl <- setdiff(c(patient_var, treat_var), names(adsl))
+  missing_vars_adae <- setdiff(c(patient_var, treat_var), names(adae))
+
+  if (length(missing_vars_adsl) > 0) {
+    stop(
+      "The following variables are missing in `adsl`: ",
+      toString(missing_vars_adsl)
+    )
+  }
+
+  if (length(missing_vars_adae) > 0) {
+    stop(
+      "The following variables are missing in `adae`: ",
+      toString(missing_vars_adae)
+    )
+  }
+
+  if (!is.character(aesi_vars) || length(aesi_vars) == 0) {
+    stop("`aesi_vars` must be a non-empty character vector of variable names.")
+  }
+
+  missing_aesi_vars <- setdiff(aesi_vars, names(adae))
+
+  if (length(missing_aesi_vars) > 0) {
+    stop(
+      "The following `aesi_vars` are not found in `adae`: ",
+      toString(missing_aesi_vars)
+    )
+  }
+
+  invisible(NULL)
+}
+
+aesi_heading_msg <- function() {
+  "Total number of patients with at least one"
+}
+
 #' Generate Core Safety Tables for Clinical Study Reports
 #'
 #' [AET01_table()] produces and combines the main safety summary tables
@@ -7,10 +51,13 @@
 #'
 #' @param adsl A subject-level dataset (typically ADaM ADSL).
 #' @param adae A dataset of adverse events, preprocessed with AESI flags.
-#' @param patient_var A string indicating the subject identifier variable (e.g., `"USUBJID"`).
-#' @param treat_var A string indicating the treatment arm variable (e.g., `"ARM"`).
+#' @param patient_var A string indicating the subject identifier variable (e.g.,
+#'   `"USUBJID"`).
+#' @param treat_var A string indicating the treatment arm variable (e.g.,
+#'   `"ARM"`).
 #' @param aesi_vars A character vector of binary AESI flags in `adae`.
-#' @param aesi_heading Optional character string used as a heading in the AESI block.
+#' @param aesi_heading Optional character string used as a heading in the AESI
+#'   block.
 #' @param indent A string used to indent AESI row labels (default is 2 spaces).
 #'
 #' @return A merged `data.table` summarising the main safety outcomes.
@@ -21,8 +68,10 @@
 #'   adae = aesi,
 #'   patient_var = "USUBJID",
 #'   treat_var = "ARM",
-#'   aesi_vars = c("FATAL", "SER", "SERWD", "SERDSM", "RELSER",
-#'                 "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
+#'   aesi_vars = c(
+#'     "FATAL", "SER", "SERWD", "SERDSM", "RELSER",
+#'     "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV"
+#'   )
 #' )
 #' print(AET01_summary)
 #'
@@ -32,32 +81,16 @@ AET01_table <- function(adsl,
                         patient_var,
                         treat_var,
                         aesi_vars,
-                        aesi_heading = "Total number of patients with at least one",
+                        aesi_heading = aesi_heading_msg(),
                         indent = "  ") {
+  assert_aet01_inputs(
+    adsl = adsl,
+    adae = adae,
+    patient_var = patient_var,
+    treat_var = treat_var,
+    aesi_vars = aesi_vars
+  )
 
-  stopifnot(is.data.frame(adsl), is.data.frame(adae))
-  missing_vars_adsl <- setdiff(c(patient_var, treat_var), names(adsl))
-  missing_vars_adae <- setdiff(c(patient_var, treat_var), names(adae))
-
-  if (length(missing_vars_adsl) > 0) {
-    stop("The following variables are missing in `adsl`: ", toString(missing_vars_adsl))
-  }
-
-  if (length(missing_vars_adae) > 0) {
-    stop("The following variables are missing in `adae`: ", toString(missing_vars_adae))
-  }
-
-  # Check AESI variables
-  if (!is.character(aesi_vars) || length(aesi_vars) == 0) {
-    stop("`aesi_vars` must be a non-empty character vector of variable names.")
-  }
-
-  missing_aesi_vars <- setdiff(aesi_vars, names(adae))
-  if (length(missing_aesi_vars) > 0) {
-    stop("The following `aesi_vars` are not found in `adae`: ", toString(missing_aesi_vars))
-  }
-
-  # --- Table Construction ---
   death_table <- event_count(
     dt = adsl,
     patient = patient_var,
@@ -74,27 +107,20 @@ AET01_table <- function(adsl,
     .filters = "DCSREAS == 'ADVERSE EVENT'"
   )
 
-  patients_with_ae_table <- event_count(
-    dt = adae,
-    patient = patient_var,
-    treat = treat_var,
-    label = "Total number of patients with at least one AE",
-    .total_dt = adsl
-  )
+  patients_with_ae_table <-
+    event_count(
+      dt = adae, patient = patient_var, treat = treat_var,
+      label = "Total number of patients with at least one AE",
+      .total_dt = adsl
+    )
 
-  total_ae_events_table <- total_events(
-    dt = adae,
-    treat = treat_var,
-    label = "Total number of AEs"
-  )
+  total_ae_events_table <-
+    total_events(dt = adae, treat = treat_var, label = "Total number of AEs")
 
   aesi_table <- multi_event_true(
-    dt = adae,
-    event_vars = aesi_vars,
-    patient = patient_var,
-    treat = treat_var,
-    heading = aesi_heading,
-    .total_dt = adsl,
+    dt = adae, event_vars = aesi_vars,
+    patient = patient_var, treat = treat_var,
+    heading = aesi_heading, .total_dt = adsl,
     indent = indent
   )
 
