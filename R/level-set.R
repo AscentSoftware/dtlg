@@ -11,10 +11,7 @@
 #' @param .sort Logical (default `TRUE`). If `TRUE`, non-factor
 #'   columns use `sort(unique(x), na.last = TRUE)`; if `FALSE`, they use
 #'   `unique(x)` (order of first appearance). Ignored for factor columns.
-#' @param .fct_levels One of `"used"` or `"all"` (default `"all"`). Controls
-#'   whether factor columns return only levels that appear in the data or all
-#'   declared levels. The order of returned factor levels always follows the
-#'   factor's level order.
+#' @inheritParams dt_count .fct_levels
 #'
 #' @returns A named list with one element per selected column of `df`.
 #'   For factors, the element is a character vector of levels; otherwise it is
@@ -43,7 +40,11 @@
 #' level_set(df, cols = "f", .fct_levels = "all")
 #'
 #' @noRd
-level_set <- function(df, cols = NULL, .sort = TRUE, .fct_levels = c("all", "used")) {
+level_set <- function(df,
+                      cols = NULL,
+                      .sort = TRUE,
+                      .fct_levels = c("all", "used")) {
+
   stopifnot(is.data.frame(df))
   .fct_levels <- match.arg(.fct_levels)
 

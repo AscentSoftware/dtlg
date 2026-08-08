@@ -54,7 +54,7 @@ test_that("reference semantics: in-place mutation holds", {
     x_df <- data.frame(a = 1:3)
     y2 <- maybe_copy_dt(x_df)
     expect_true(data.table::is.data.table(x_df))   # original mutated in place
-    expect_equal(x_df, y2)                         # contents identical
+    expect_identical(x_df, y2)                         # contents identical
     # but DO NOT test aliasing between x_df and y2
   })
 })
@@ -86,7 +86,8 @@ test_that("reference semantics: data.table input aliases (:= propagates)", {
   expect_identical(x$b, rep.int(9L, 3))
 })
 
-test_that("reference semantics: data.frame converts in place (no deep copy of cols)", {
+test_that(
+  "reference semantics: data.frame converts in place (no deep copy of cols)", {
   withr::local_options(list(dtlg_dt_copy_semantics = "reference"))
   df <- data.frame(
     a = as.integer(c(1L, 2L, 3L)),
@@ -149,7 +150,8 @@ test_that("invalid option triggers clear error", {
   )
 })
 
-test_that("inline expression in reference mode returns DT but cannot mutate caller", {
+test_that(
+  "inline expression in reference mode returns DT but cannot mutate caller", {
   withr::local_options(list(dtlg_dt_copy_semantics = "reference"))
   res <- maybe_copy_dt(data.frame(a = 1:3))
   expect_true(data.table::is.data.table(res))
@@ -201,11 +203,12 @@ test_that("class and names are preserved/expected", {
   withr::local_options(list(dtlg_dt_copy_semantics = "reference"))
   df <- structure(data.frame(a = 1:3, b = 4:6), my_attr = 1L)
   out <- maybe_copy_dt(df)
-  expect_identical(class(out), c("data.table", "data.frame"))
-  expect_identical(names(out), c("a", "b"))
+  expect_s3_class(out, c("data.table", "data.frame"))
+  expect_named(out, c("a", "b"))
 })
 
-test_that("reference semantics with inline expr: returns DT, no external mutation", {
+test_that(
+  "reference semantics with inline expr: returns DT, no external mutation", {
   withr::local_options(list(dtlg_dt_copy_semantics = "reference"))
   res <- maybe_copy_dt(data.frame(a = 1:3))
   expect_true(data.table::is.data.table(res))

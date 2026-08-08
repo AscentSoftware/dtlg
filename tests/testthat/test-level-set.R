@@ -40,7 +40,7 @@ test_that("cols subset works and errors on invalid names", {
     a = 1:3,
     b = factor(c("x", "y", "x"), levels = c("x", "y", "z"))
   )
-  out <- level_set(df, cols = c("b"))
+  out <- level_set(df, cols = "b")
   expect_named(out, "b")
   expect_identical(out$b, c("x", "y", "z"))
 
@@ -50,8 +50,8 @@ test_that("cols subset works and errors on invalid names", {
 test_that("empty cols produces empty named list", {
   df <- data.frame(a = 1:3)
   out <- level_set(df, cols = character(0))
-  expect_true(is.list(out) && length(out) == 0L)
-  expect_identical(names(out), character(0))
+  expect_vector(out, list(), 0L)
+  expect_named(out, character(0))
 })
 
 test_that("factor levels: used vs all", {
@@ -78,5 +78,7 @@ test_that(".sort ignored for factors; respected for non-factors", {
 
   # non-factors: .sort controls ordering and NA placement
   expect_identical(level_set(df, cols = "i", .sort = TRUE)$i, c(1L, 2L, 3L, NA))
-  expect_identical(level_set(df, cols = "i", .sort = FALSE)$i, c(3L, NA, 1L, 2L))
+  expect_identical(
+    level_set(df, cols = "i", .sort = FALSE)$i, c(3L, NA, 1L, 2L)
+    )
 })
