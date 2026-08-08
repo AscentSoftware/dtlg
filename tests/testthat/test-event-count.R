@@ -2,10 +2,10 @@
 # `dt`: dummy dataset of three variables (USUBJID, ARM, DTHFL) and 60 subjects
 # (observations).
 #
-DTHFL_Y <- c(18L, 6L, 6L)
-DTHFL_N <- c(0L, 6L, 24L)
+DTHFL_Y <- c(18L, 6L, 6L) # nolint: object_name_linter
+DTHFL_N <- c(0L, 6L, 24L) # nolint: object_name_linter
 dim_names <- list(ARM = LETTERS[1:3], DTHFL = c("Y", "N"))
-ARM_DTHFL_table <- matrix(c(DTHFL_Y, DTHFL_N), nrow = 3, dimnames = dim_names)
+ARM_DTHFL_table <- matrix(c(DTHFL_Y, DTHFL_N), nrow = 3, dimnames = dim_names) # nolint: object_name_linter
 
 dt <- cross_tab_to_obsv_tab(ARM_DTHFL_table)
 dt[["USUBJID"]] <- sprintf("id-%03d", seq_len(nrow(dt)))

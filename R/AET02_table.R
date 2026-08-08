@@ -28,7 +28,7 @@
 #' )
 #'
 #' @export
-AET02_table <- function(adsl,
+AET02_table <- function(adsl, # nolint: object_name_linter
                         adae,
                         patient,
                         treat,

@@ -157,5 +157,3 @@ n_pct_fmt <- function(n = 0L, support_zero = TRUE) {
           int_fmt("positive"),
           dbl_fmt(n = n, "positive"))
 }
-
-

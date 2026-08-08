@@ -32,23 +32,23 @@ test_that("as_dtlg_table() converts a TableTree to a data.table", {
 
 test_that(
   "as_dtlg_table() replaces missing character values with empty strings", {
-  dt <- data.frame(
-    ARM = factor(rep(c("A", "B"), each = 3L)),
-    AGE = c(20, 30, NA, 40, 50, 60)
-  )
+    dt <- data.frame(
+      ARM = factor(rep(c("A", "B"), each = 3L)),
+      AGE = c(20, 30, NA, 40, 50, 60)
+    )
 
-  tt <- tern_summary_table(
-    dt,
-    target = "AGE",
-    treat = "ARM",
-    target_name = "Age (years)"
-  )
+    tt <- tern_summary_table(
+      dt,
+      target = "AGE",
+      treat = "ARM",
+      target_name = "Age (years)"
+    )
 
-  result <- as_dtlg_table(tt)
-  character_columns <- vapply(result, is.character, logical(1L))
+    result <- as_dtlg_table(tt)
+    character_columns <- vapply(result, is.character, logical(1L))
 
-  expect_false(anyNA(result[, character_columns, with = FALSE]))
-})
+    expect_false(anyNA(result[, character_columns, with = FALSE]))
+  })
 
 test_that("as_dtlg_table() supports a custom label-column name", {
   dt <- data.frame(

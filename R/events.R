@@ -307,7 +307,6 @@ event_count_by <- function(dt,
                            .total_dt = dt,
                            indent = nbsp(n = 4L),
                            pct_dec = 1) {
-
   dt <- maybe_copy_dt(x = dt)
   .total_dt <- maybe_copy_dt(x = .total_dt)
 
@@ -326,12 +325,10 @@ event_count_by <- function(dt,
       pct_dec = pct_dec
     )
   )
-  event_total <- mapply(
-    total_events,
-    event_split,
-    treat = treat,
-    label = "Total number of events"
-    )
+  event_total <- mapply(total_events,
+                        event_split,
+                        treat = treat,
+                        label = "Total number of events")
 
   event_target <- mapply(
     calc_stats,

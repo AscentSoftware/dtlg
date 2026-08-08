@@ -45,7 +45,7 @@ test_that("Input validation of AET01 table creation works as expected", {
 })
 
 test_that("Able to re-create the AET01 table using data.table", {
-  AET01_summary <- AET01_table(
+  AET01_summary <- AET01_table( # nolint: object_name_linter
     adsl = adsl,
     adae = aesi,
     patient_var = "USUBJID",

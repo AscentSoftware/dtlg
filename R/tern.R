@@ -125,7 +125,7 @@ assert_tern_aet01_table_inputs <- function(adsl,
   }
 }
 
-tern_AET01_adsl_layout <- function(patient_var, treat_var) {
+tern_AET01_adsl_layout <- function(patient_var, treat_var) { # nolint: object_name_linter
   rtables::basic_table(show_colcounts = TRUE) |>
     rtables::split_cols_by(treat_var) |>
     tern::count_patients_with_event(
@@ -147,7 +147,7 @@ tern_AET01_adsl_layout <- function(patient_var, treat_var) {
     )
 }
 
-tern_AET01_adae_layout <- function(patient_var,
+tern_AET01_adae_layout <- function(patient_var, # nolint: object_name_linter
                                    treat_var,
                                    aesi_vars,
                                    aesi_labels,
@@ -206,7 +206,7 @@ tern_AET01_adae_layout <- function(patient_var,
 #' )
 #'
 #' @export
-tern_AET01_table <- function(adsl,
+tern_AET01_table <- function(adsl, # nolint: object_name_linter
                              adae,
                              patient_var,
                              treat_var,
@@ -270,7 +270,7 @@ tern_AET01_table <- function(adsl,
 #' )
 #'
 #' @export
-tern_AET02_table <- function(adsl,
+tern_AET02_table <- function(adsl, # nolint: object_name_linter
                              adae,
                              patient,
                              treat,

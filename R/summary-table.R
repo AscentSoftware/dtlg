@@ -247,10 +247,15 @@ summary_table_by_targets <- function(dt,
     )
   }
 
-  data.table::cbindlist(c(
-    list(summary_tables[[1]][, 1, with = FALSE]),
-    lapply(seq(2, ncol(summary_tables[[1]])), \(i) data.table::cbindlist(lapply(
-      summary_tables, \(dat) dat[, i, with = FALSE]
-    )))
-  ))
+  data.table::cbindlist(
+    c(
+      list(summary_tables[[1]][, 1, with = FALSE]),
+      lapply(
+        seq(2, ncol(summary_tables[[1]])), function(i) { # nolint: indentation_linter
+          data.table::cbindlist(
+            lapply(summary_tables, \(dat) dat[, i, with = FALSE])
+          )
+        })
+    )
+  )
 }
