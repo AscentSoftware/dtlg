@@ -44,11 +44,14 @@ per group.}
 are absent from \code{dt}. Default is \code{TRUE}; \code{FALSE} will throw an error in
 case there are missing variables.}
 
-\item{inc_missing}{If any of the \code{target} variables are numeric, then used
-as a toggle to determine whether or not "Missing" appears in the summary stats:
+\item{inc_missing}{If any of the \code{target} variables are numeric, then used as
+a toggle to determine whether or not "Missing" appears in the summary
+stats:
+
 \describe{
 \item{\code{TRUE}}{(default) The Missing row is always displayed}
-\item{\code{NA}}{The Missing row is only displayed if any missing values are present}
+\item{\code{NA}}{The Missing row is only displayed if any missing values are
+present.}
 \item{\code{FALSE}}{The Missing row is never included in the table}
 }}
 }

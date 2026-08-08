@@ -46,7 +46,8 @@ test_that("Rounding errors when non-positive numbers are passed", {
 })
 
 # round_pct_ ----
-test_that("Able to correctly round percentages to specified digits - internal", {
+test_that(
+  "Able to correctly round percentages to specified digits - internal", {
   x <- c(1.0001, 1.9999, 3, 4)
 
   expect_identical(round_pct_(x, 1), c(10, 20, 30, 40))

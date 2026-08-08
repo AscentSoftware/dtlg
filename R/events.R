@@ -109,10 +109,12 @@ event_count <- function(dt,
 #'
 #' # If `dt` is pre-filtered, e.g. with a condition matching an event, then
 #' # `total_events()` can be used to (effectively) count events.
-#' total_events(dt = adsl[adsl$DTHFL == "Y"], treat = "ARM", label = "Deaths")[[1]]
+#' total_events(dt = adsl[adsl$DTHFL == "Y"], treat = "ARM", label =
+#' "Deaths")[[1]]
 #'
 #' # Another example using the complement predicate condition.
-#' total_events(dt = adsl[adsl$DTHFL == "N"], treat = "ARM", label = "Lives")[[1]]
+#' total_events(dt = adsl[adsl$DTHFL == "N"], treat = "ARM", label =
+#' "Lives")[[1]]
 #'
 #' @export
 #'
@@ -244,7 +246,8 @@ multi_event_true <- function(dt,
 #'
 #' `event_count_by()` creates a tabular summary of adverse events grouped by a
 #' higher-level classification variable (e.g., system organ class), and counts
-#' both the number of events and the number of unique patients per treatment arm.
+#' both the number of events and the number of unique patients per treatment
+#' arm.
 #'
 #' @param dt A `data.frame` or `data.table` containing the adverse event data
 #'   and patient-level identifiers.
@@ -274,7 +277,8 @@ multi_event_true <- function(dt,
 #'
 #' * One row per combination of `rows_by` and `target`
 #' * One row per group total (`Total number of events`)
-#' * One row per patient-level total (`Total number of patients with at least one event`)
+#' * One row per patient-level total
+#' (`Total number of patients with at least one event`)
 #'
 #' Columns include:
 #' - `stats`: character column with labels
@@ -322,7 +326,13 @@ event_count_by <- function(dt,
       pct_dec = pct_dec
     )
   )
-  event_total <- mapply(total_events, event_split, treat = treat, label = "Total number of events")
+  event_total <- mapply(
+    total_events,
+    event_split,
+    treat = treat,
+    label = "Total number of events"
+    )
+
   event_target <- mapply(
     calc_stats,
     dt = event_split,

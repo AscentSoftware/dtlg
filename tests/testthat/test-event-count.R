@@ -28,22 +28,19 @@ test_that("`event_count()` can count deaths", {
   #
   # Basic assertions on the wrapping list
   #
-  expect_equal(class(sum_stat_tbl_lst), "list")
-  expect_equal(typeof(sum_stat_tbl_lst), "list")
-  expect_equal(length(sum_stat_tbl_lst), 1L)
+  expect_vector(sum_stat_tbl_lst, list(), 1L)
 
   #
   # Basic assertions on the data.table within
   #
   expect_s3_class(sum_stat_tbl, "data.table")
-  expect_equal(typeof(sum_stat_tbl), "list")
-  expect_equal(colnames(sum_stat_tbl), c("stats", dim_names$ARM))
+  expect_identical(colnames(sum_stat_tbl), c("stats", dim_names$ARM))
 
   # Assertions on data.table's contents
-  expect_equal(sum_stat_tbl$stats[1L], "Deaths")
-  expect_equal(sum_stat_tbl$A[1L], "18 (100.0%)")
-  expect_equal(sum_stat_tbl$B[1L], "6 (50.0%)")
-  expect_equal(sum_stat_tbl$C[1L], "6 (20.0%)")
+  expect_identical(sum_stat_tbl$stats[1L], "Deaths")
+  expect_identical(sum_stat_tbl$A[1L], "18 (100.0%)")
+  expect_identical(sum_stat_tbl$B[1L], "6 (50.0%)")
+  expect_identical(sum_stat_tbl$C[1L], "6 (20.0%)")
 })
 
 test_that("`event_count()` can count lives", {
@@ -60,20 +57,17 @@ test_that("`event_count()` can count lives", {
   #
   # Basic assertions on the wrapping list
   #
-  expect_equal(class(sum_stat_tbl_lst), "list")
-  expect_equal(typeof(sum_stat_tbl_lst), "list")
-  expect_equal(length(sum_stat_tbl_lst), 1L)
+  expect_vector(sum_stat_tbl_lst, list(), 1L)
 
   #
   # Basic assertions on the data.table within
   #
   expect_s3_class(sum_stat_tbl, "data.table")
-  expect_equal(typeof(sum_stat_tbl), "list")
-  expect_equal(colnames(sum_stat_tbl), c("stats", dim_names$ARM))
+  expect_identical(colnames(sum_stat_tbl), c("stats", dim_names$ARM))
 
   # Assertions on data.table's contents
-  expect_equal(sum_stat_tbl$stats[1L], "Lives")
-  expect_equal(sum_stat_tbl$A[1L], "0")
-  expect_equal(sum_stat_tbl$B[1L], "6 (50.0%)")
-  expect_equal(sum_stat_tbl$C[1L], "24 (80.0%)")
+  expect_identical(sum_stat_tbl$stats[1L], "Lives")
+  expect_identical(sum_stat_tbl$A[1L], "0")
+  expect_identical(sum_stat_tbl$B[1L], "6 (50.0%)")
+  expect_identical(sum_stat_tbl$C[1L], "24 (80.0%)")
 })
