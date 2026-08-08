@@ -11,7 +11,8 @@ derived columns including:
 \item{FATAL}{Logical flag for fatal AEs (\code{AESDTH == "Y"}).}
 \item{SEV}{Logical flag for severe AEs (\code{AESEV == "SEVERE"}).}
 \item{SER}{Logical flag for serious AEs (\code{AESER == "Y"}).}
-\item{SERWD}{Serious AE leading to withdrawal (\code{AESER == "Y" & AEACN == "DRUG WITHDRAWN"}).}
+\item{SERWD}{Serious AE leading to withdrawal
+(\code{AESER == "Y" & AEACN == "DRUG WITHDRAWN"}).}
 \item{SERDSM}{Serious AE leading to dose modification/interruption.}
 \item{RELSER}{Serious and related AE.}
 \item{WD}{AE leading to withdrawal.}
@@ -32,8 +33,8 @@ special interest (AESIs).
 }
 \details{
 These derived flags include seriousness, severity, fatality, relatedness, and
-treatment consequence (e.g., dose modification or withdrawal), and are used to
-illustrate key safety summaries in clinical reporting.
+treatment consequence (e.g., dose modification or withdrawal), and are used
+to illustrate key safety summaries in clinical reporting.
 
 Each derived variable is labeled using \code{\link[=with_label]{with_label()}} for compatibility
 with tabulation functions.

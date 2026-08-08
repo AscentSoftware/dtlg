@@ -32,10 +32,7 @@ aesi <- random.cdisc.data::cadae |>
       "Action Taken with Study Treatment"
     ),
     FATAL = dtlg::with_label(AESDTH == "Y", "AE with fatal outcome"),
-    SEV = dtlg::with_label(
-      AESEV == "SEVERE",
-      "Severe AE (at greatest intensity)"
-    ),
+    SEV = dtlg::with_label(AESEV == "SEVERE", "Severe AE (at greatest intensity)"),
     SER = dtlg::with_label(AESER == "Y", "Serious AE"),
     SERWD = dtlg::with_label(
       AESER == "Y" &
@@ -47,10 +44,8 @@ aesi <- random.cdisc.data::cadae |>
         AEACN %in% c("DRUG INTERRUPTED", "DOSE INCREASED", "DOSE REDUCED"),
       "Serious AE leading to dose modification/interruption"
     ),
-    RELSER = dtlg::with_label(
-      AESER == "Y" & AEREL == "Y",
-      "Related Serious AE"
-    ),
+    RELSER = dtlg::with_label(AESER == "Y" &
+                                AEREL == "Y", "Related Serious AE"),
     WD = dtlg::with_label(
       AEACN == "DRUG WITHDRAWN",
       "AE leading to withdrawal from treatment"
