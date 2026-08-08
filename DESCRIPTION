@@ -48,8 +48,7 @@ Description: Create high-performance clinical reporting tables (TLGs) from
     table/formatting packages in analysis pipelines.
 License: MIT + file LICENSE
 Imports: 
-    data.table (>= 1.18.0),
-    vctrs
+    data.table (>= 1.18.0)
 Suggests: 
     bench,
     dplyr,
