@@ -38,6 +38,18 @@ assert_aet01_inputs <- function(adsl,
   invisible(NULL)
 }
 
+#' Default heading for adverse events of special interest
+#'
+#' `aesi_heading_msg()` returns the default heading used for adverse events of
+#' special interest (AESI) sections in safety summary tables.
+#'
+#' @returns A single character string containing the default AESI heading.
+#'
+#' @examples
+#' aesi_heading_msg()
+#'
+#' @keywords internal
+#' @export
 aesi_heading_msg <- function() {
   "Total number of patients with at least one"
 }
@@ -76,7 +88,7 @@ aesi_heading_msg <- function() {
 #' print(AET01_summary)
 #'
 #' @export
-AET01_table <- function(adsl,
+AET01_table <- function(adsl, # nolint: object_name_linter
                         adae,
                         patient_var,
                         treat_var,
