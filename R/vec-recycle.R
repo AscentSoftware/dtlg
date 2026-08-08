@@ -43,89 +43,6 @@ vec_size <- function(x, x_arg = "", call = sys.call(-1L)) {
   }
 }
 
-#' Common size of several vectors
-#'
-#' Reduces the sizes of `...` pairwise, from left to right, under the recycling
-#' rules: two equal sizes agree, a size of 1 adopts the size of the other input,
-#' and anything else is an error. `NULL` inputs are ignored.
-#'
-#' The reduction is ordered, not a maximum. `vec_size_common(1, integer())` is
-#' 0, because the size-1 input adopts the size of the empty one, whereas
-#' `vec_size_common(1:2, integer())` is an error.
-#'
-#' @param ... Vectors, or `NULL`.
-#' @param .size Overrides the computed size. Validated and returned unchanged.
-#' @param .absent Size returned when `...` is empty or contains only `NULL`.
-#'   Validated as a size, so negative and missing sentinels are rejected.
-#'   `NULL` makes that case an error.
-#' @param .arg Name of the argument holding `...` in the calling function, used
-#'   to qualify element names in error messages.
-#' @param .call Call reported in errors.
-#'
-#' @return A single integer, or a double for long vectors.
-#' @noRd
-vec_size_common <- function(
-    ...,
-    .size = NULL,
-    .absent = 0L,
-    .arg = "",
-    .call = sys.call(-1L)
-) {
-  if (!is.null(.size)) {
-    return(as_size(.size, arg = ".size", call = .call))
-  }
-
-  size <- size_common(list(...), arg = .arg, call = .call)
-
-  if (!is.null(size)) {
-    return(size)
-  }
-
-  if (is.null(.absent)) {
-    stop_vec(
-      "`.absent` must be supplied when `...` is empty.",
-      class = "vec_error_size",
-      call = .call
-    )
-  }
-
-  as_size(.absent, arg = ".absent", call = .call)
-}
-
-#' Recycle a vector to a given size
-#'
-#' A vector already of `size` is returned unchanged. A vector of size 1 is
-#' recycled to `size`, including to size 0. Any other size is an error.
-#' `NULL` is returned unchanged.
-#'
-#' @section Deviations from vctrs:
-#'
-#' * Attributes survive only as far as `[` preserves them. Classes with a `[`
-#'   method (factors, dates, tibbles) round-trip; a bare atomic vector carrying
-#'   custom attributes loses them, because base R has no proxy/restore
-#'   mechanism.
-#' * Recycled data frames are given automatic row names, rather than the
-#'   duplicated labels `[.data.frame` would otherwise produce.
-#' * A classed list is treated as a vector when it inherits from `"list"` or
-#'   defines a `length()` method; otherwise it is rejected as a scalar. vctrs
-#'   uses `vec_proxy()` for this test, which is unavailable here.
-#'
-#' @param x A vector, or `NULL`.
-#' @param size Size to recycle to. A single non-negative whole number.
-#' @param x_arg Argument name for `x`, used in error messages.
-#' @param call Call reported in errors.
-#'
-#' @return `x` recycled to `size`, or `NULL` if `x` is `NULL`.
-#' @noRd
-vec_recycle <- function(x, size, x_arg = "", call = sys.call(-1L)) {
-  if (is.null(x)) {
-    return(NULL)
-  }
-
-  size <- as_size(size, arg = "size", call = call)
-  recycle_to(x, size, x_arg = x_arg, call = call)
-}
-
 #' Recycle vectors to their common size
 #'
 #' Determines a common size for the supplied vectors and recycles size-one
@@ -139,6 +56,7 @@ vec_recycle <- function(x, size, x_arg = "", call = sys.call(-1L)) {
 #'
 #' @return A list with the same length and names as `...`. Each non-`NULL`
 #'   element is recycled to the common size.
+#' @keywords internal
 #' @noRd
 vec_recycle_common <- function(
     ...,
@@ -328,7 +246,7 @@ as_size <- function(size, arg = "size", call = NULL) {
     )
   }
 
-  if (size < 0 || size != trunc(size)) {
+  if (!is.finite(size) || size < 0 || size != trunc(size)) {
     stop_vec(
       sprintf("%s must be a whole number, zero or greater.", fmt_arg(arg)),
       class = "vec_error_size",
@@ -396,7 +314,10 @@ stop_recycle_size <- function(x_size, size, x_arg, call = NULL) {
 
   stop_vec(
     message,
-    class = c("vec_error_recycle_incompatible_size", "vec_error_incompatible_size"),
+    class = c(
+      "vec_error_recycle_incompatible_size",
+      "vec_error_incompatible_size"
+    ),
     call = call,
     x_size = x_size,
     size = size
@@ -448,5 +369,5 @@ obj_desc <- function(x) {
     return("a call")
   }
 
-  sprintf("a <%s> object", paste0(class(x), collapse = "/"))
+  sprintf("a <%s> object", paste(class(x), collapse = "/"))
 }
