@@ -78,7 +78,7 @@ summary_table <- function(dt,
   stopifnot(length(target) >= length(target_name),
             length(target) >= length(indent))
   vct_args <-
-    vec_recycle_common(
+    vec_recycle_common( # nolint: object_usage_linter
       target = target,
       target_name = target_name,
       indent = indent

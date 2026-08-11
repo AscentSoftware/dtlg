@@ -119,7 +119,7 @@ calc_desc <- function(dt,
       make.names = treat
     )
   header <- c(target_name, rep(list(""), times = ncol(dt_stats_value) - 1L))
-  dt_stats_value[, `:=`(stats = indent(dt_stats_value$stats, indentation = indent))]
+  dt_stats_value[, `:=`(stats = indent(dt_stats_value$stats, indentation = indent))] # nolint: line_length_linter
   dt_stats_value <- rbind(header, dt_stats_value)
 
   list(dt_stats_value)
