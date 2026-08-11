@@ -14,3 +14,4 @@
 ^\.Rhistory$
 ^ctx$
 ^\.lintr$
+^\.covrignore$

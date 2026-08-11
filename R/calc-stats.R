@@ -99,7 +99,7 @@ calc_desc <- function(dt,
                       inc_missing = TRUE) {
   assert_calc_desc_inputs(dt, target, target_name, treat, indent, pct_dec)
   dt <- maybe_copy_dt(x = dt)
-  dt_stats <- dt_stats(dt, target, treat, pct_dec)
+  dt_stats_value <- dt_stats(dt, target, treat, pct_dec)
 
   if (isTRUE(inc_missing) || (is.na(inc_missing) && anyNA(dt[[target]]))) {
     dt_missing <- dt_summarise(
@@ -109,20 +109,20 @@ calc_desc <- function(dt,
       .env = list(target = as.name(target))
     )
 
-    dt_stats <- dt_stats[dt_missing, on = treat]
+    dt_stats_value <- dt_stats_value[dt_missing, on = treat]
   }
 
-  dt_stats <-
+  dt_stats_value <-
     data.table::transpose(
-      dt_stats,
+      dt_stats_value,
       keep.names = "stats",
       make.names = treat
     )
-  header <- c(target_name, rep(list(""), times = ncol(dt_stats) - 1L))
-  dt_stats[, `:=`(stats = indent(dt_stats$stats, indentation = indent))]
-  dt_stats <- rbind(header, dt_stats)
+  header <- c(target_name, rep(list(""), times = ncol(dt_stats_value) - 1L))
+  dt_stats_value[, `:=`(stats = indent(dt_stats_value$stats, indentation = indent))]
+  dt_stats_value <- rbind(header, dt_stats_value)
 
-  list(dt_stats)
+  list(dt_stats_value)
 }
 
 

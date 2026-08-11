@@ -1,11 +1,17 @@
-test_that("Input validation of AET02 table creation works as expected", {
+test_that("AET02_table() validates its inputs", {
+  missing_adae_vars_error <- paste0(
+    r"{all\(c\(patient, treat, target, rows_by\) %in% }",
+    r"{colnames\(adae\)\) is not TRUE}"
+  )
+
   expect_error(
     AET02_table(
       adsl = adsl,
       adae = iris,
       patient = "USUBJID",
       treat = "ARM"
-    )
+    ),
+    missing_adae_vars_error
   )
 
   expect_error(
@@ -14,7 +20,8 @@ test_that("Input validation of AET02 table creation works as expected", {
       adae = aesi,
       patient = "USUBJID",
       treat = "ARM"
-    )
+    ),
+    r"{patient %in% colnames\(adsl\) is not TRUE}"
   )
 
   expect_error(
@@ -24,7 +31,8 @@ test_that("Input validation of AET02 table creation works as expected", {
       patient = "USUBJID",
       treat = "ARM",
       target = "UNKNOWN"
-    )
+    ),
+    missing_adae_vars_error
   )
 
   expect_error(
@@ -34,7 +42,8 @@ test_that("Input validation of AET02 table creation works as expected", {
       patient = "USUBJID",
       treat = "ARM",
       rows_by = "UNKNOWN"
-    )
+    ),
+    missing_adae_vars_error
   )
 })
 

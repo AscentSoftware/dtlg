@@ -1,3 +1,8 @@
+# Validate inputs to AET01_table()
+#
+# Checks that `adsl` and `adae` are data frames, that the subject and treatment
+# variables are present in both datasets, and that `aesi_vars` is a non-empty
+# character vector containing variables present in `adae`.
 assert_aet01_inputs <- function(adsl,
                                 adae,
                                 patient_var,
@@ -119,28 +124,37 @@ AET01_table <- function(adsl, # nolint: object_name_linter
     .filters = "DCSREAS == 'ADVERSE EVENT'"
   )
 
-  patients_with_ae_table <-
-    event_count(
-      dt = adae, patient = patient_var, treat = treat_var,
-      label = "Total number of patients with at least one AE",
-      .total_dt = adsl
-    )
+  patients_with_ae_table <- event_count(
+    dt = adae,
+    patient = patient_var,
+    treat = treat_var,
+    label = "Total number of patients with at least one AE",
+    .total_dt = adsl
+  )
 
-  total_ae_events_table <-
-    total_events(dt = adae, treat = treat_var, label = "Total number of AEs")
+  total_ae_events_table <- total_events(
+    dt = adae,
+    treat = treat_var,
+    label = "Total number of AEs"
+  )
 
   aesi_table <- multi_event_true(
-    dt = adae, event_vars = aesi_vars,
-    patient = patient_var, treat = treat_var,
-    heading = aesi_heading, .total_dt = adsl,
+    dt = adae,
+    event_vars = aesi_vars,
+    patient = patient_var,
+    treat = treat_var,
+    heading = aesi_heading,
+    .total_dt = adsl,
     indent = indent
   )
 
-  merge_table_lists(list(
-    patients_with_ae_table,
-    total_ae_events_table,
-    death_table,
-    withdrawal_table,
-    aesi_table
-  ))
+  merge_table_lists(
+    list(
+      patients_with_ae_table,
+      total_ae_events_table,
+      death_table,
+      withdrawal_table,
+      aesi_table
+    )
+  )
 }
