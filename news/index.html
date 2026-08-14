@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dtlg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,9 +33,36 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/AscentSoftware/dtlg/blob/v0.1.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/AscentSoftware/dtlg/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.2" id="dtlg-012">dtlg 0.1.2<a class="anchor" aria-label="anchor" href="#dtlg-012"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-1-2">New features<a class="anchor" aria-label="anchor" href="#new-features-0-1-2"></a></h3>
+<ul><li>Added and exported <code><a href="../reference/aesi_heading_msg.html">aesi_heading_msg()</a></code>, which provides the shared default heading used for adverse events of special interest in the native and <a href="https://insightsengineering.github.io/tern/" class="external-link">tern</a> AET01 tables.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-and-behaviour-changes-0-1-2">Bug fixes and behaviour changes<a class="anchor" aria-label="anchor" href="#bug-fixes-and-behaviour-changes-0-1-2"></a></h3>
+<ul><li>
+<code><a href="../reference/as_dtlg_table.html">as_dtlg_table()</a></code> now uses <code>where(is.character)</code> when selecting columns, removing a tidyselect deprecation warning.</li>
+<li>Reinstated the internal <code>%||%</code> operator and documented its explicit use to avoid a false-positive dead-code warning from <a href="https://docs.ropensci.org/goodpractice/" class="external-link">goodpractice</a>.</li>
+<li>Replaced <code><a href="https://vctrs.r-lib.org/reference/vec_recycle.html" class="external-link">vctrs::vec_recycle_common()</a></code> with a focused base R implementation and removed <a href="https://vctrs.r-lib.org/" class="external-link">vctrs</a> from package dependencies. Existing <code><a href="../reference/summary_table.html">summary_table()</a></code> argument-recycling behaviour is preserved.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="internal-improvements-0-1-2">Internal improvements<a class="anchor" aria-label="anchor" href="#internal-improvements-0-1-2"></a></h3>
+<ul><li>Extracted input validation and table-layout helpers from <code><a href="../reference/AET01_table.html">AET01_table()</a></code> and <code><a href="../reference/tern_AET01_table.html">tern_AET01_table()</a></code>.</li>
+<li>Extracted descriptive-statistics calculation and validation helpers from <code><a href="../reference/calc_desc.html">calc_desc()</a></code>.</li>
+<li>Removed unused column-relevel helpers and moved format-matching utilities from package code into the test suite.</li>
+<li>Expanded tests for AET01 and AET02 tables, <a href="https://insightsengineering.github.io/tern/" class="external-link">tern</a> table layouts, <code><a href="../reference/calc_stats.html">calc_stats()</a></code>, <code><a href="../reference/as_dtlg_table.html">as_dtlg_table()</a></code>, printing, labels, package availability, contingency-table expansion, and vector recycling.</li>
+<li>Strengthened existing tests with stricter type, structure, formatting, and error assertions.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="infrastructure-and-tooling-0-1-2">Infrastructure and tooling<a class="anchor" aria-label="anchor" href="#infrastructure-and-tooling-0-1-2"></a></h3>
+<ul><li>Added the rOpenSci <code>pkgcheck</code> workflow.</li>
+<li>Refined the <code>lintr</code> configuration and added targeted exclusions for established API names.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="dtlg-011">dtlg 0.1.1<a class="anchor" aria-label="anchor" href="#dtlg-011"></a></h2>
 <div class="section level3">

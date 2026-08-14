@@ -28,7 +28,8 @@ A data.table.
 
 ``` r
 vars <- c('AGE', 'RACE', 'ETHNIC', 'BMRKR1')
-var_labels <- c("Age (yr)", "Race", "Ethnicity", "Continuous Level Biomarker 1")
+var_labels <-
+  c("Age (yr)", "Race", "Ethnicity", "Continuous Level Biomarker 1")
 
 # Summary statistics table split by ARM with custom labels.
 (tt <- tern_summary_table(

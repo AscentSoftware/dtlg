@@ -14,7 +14,7 @@ AET01_table(
   patient_var,
   treat_var,
   aesi_vars,
-  aesi_heading = "Total number of patients with at least one",
+  aesi_heading = aesi_heading_msg(),
   indent = "  "
 )
 ```
@@ -62,8 +62,10 @@ AET01_summary <- AET01_table(
   adae = aesi,
   patient_var = "USUBJID",
   treat_var = "ARM",
-  aesi_vars = c("FATAL", "SER", "SERWD", "SERDSM", "RELSER",
-                "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
+  aesi_vars = c(
+    "FATAL", "SER", "SERWD", "SERDSM", "RELSER",
+    "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV"
+  )
 )
 print(AET01_summary)
 #>                                                      stats   A: Drug X

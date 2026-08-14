@@ -9,7 +9,7 @@ of dtlg's data.table."><meta property="og:image" content="https://AscentSoftware
 
     <a class="navbar-brand me-2" href="../index.html">dtlg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@ of dtlg's data.table."><meta property="og:image" content="https://AscentSoftware
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Convert a TableTree to a dtlg table</h1>
-      <small class="dont-index">Source: <a href="https://github.com/AscentSoftware/dtlg/blob/v0.1.1/R/tern.R" class="external-link"><code>R/tern.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/AscentSoftware/dtlg/blob/main/R/tern.R" class="external-link"><code>R/tern.R</code></a></small>
       <div class="d-none name"><code>as_dtlg_table.Rd</code></div>
     </div>
 
@@ -69,7 +69,8 @@ of dtlg's <code>data.table</code>.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'AGE'</span>, <span class="st">'RACE'</span>, <span class="st">'ETHNIC'</span>, <span class="st">'BMRKR1'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">var_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Age (yr)"</span>, <span class="st">"Race"</span>, <span class="st">"Ethnicity"</span>, <span class="st">"Continuous Level Biomarker 1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">var_labels</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Age (yr)"</span>, <span class="st">"Race"</span>, <span class="st">"Ethnicity"</span>, <span class="st">"Continuous Level Biomarker 1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Summary statistics table split by ARM with custom labels.</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">tt</span> <span class="op">&lt;-</span> <span class="fu"><a href="tern_summary_table.html">tern_summary_table</a></span><span class="op">(</span></span></span>

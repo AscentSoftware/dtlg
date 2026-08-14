@@ -13,7 +13,7 @@ withdrawals, total AEs, and adverse events of special interest (AESIs)."><meta p
 
     <a class="navbar-brand me-2" href="../index.html">dtlg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ withdrawals, total AEs, and adverse events of special interest (AESIs)."><meta p
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Generate Core Safety Tables for Clinical Study Reports</h1>
-      <small class="dont-index">Source: <a href="https://github.com/AscentSoftware/dtlg/blob/v0.1.1/R/AET01_table.R" class="external-link"><code>R/AET01_table.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/AscentSoftware/dtlg/blob/main/R/AET01_table.R" class="external-link"><code>R/AET01_table.R</code></a></small>
       <div class="d-none name"><code>AET01_table.Rd</code></div>
     </div>
 
@@ -58,7 +58,7 @@ withdrawals, total AEs, and adverse events of special interest (AESIs).</p>
 <span>  <span class="va">patient_var</span>,</span>
 <span>  <span class="va">treat_var</span>,</span>
 <span>  <span class="va">aesi_vars</span>,</span>
-<span>  aesi_heading <span class="op">=</span> <span class="st">"Total number of patients with at least one"</span>,</span>
+<span>  aesi_heading <span class="op">=</span> <span class="fu"><a href="aesi_heading_msg.html">aesi_heading_msg</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  indent <span class="op">=</span> <span class="st">"  "</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -76,11 +76,13 @@ withdrawals, total AEs, and adverse events of special interest (AESIs).</p>
 
 
 <dt id="arg-patient-var">patient_var<a class="anchor" aria-label="anchor" href="#arg-patient-var"></a></dt>
-<dd><p>A string indicating the subject identifier variable (e.g., <code>"USUBJID"</code>).</p></dd>
+<dd><p>A string indicating the subject identifier variable (e.g.,
+<code>"USUBJID"</code>).</p></dd>
 
 
 <dt id="arg-treat-var">treat_var<a class="anchor" aria-label="anchor" href="#arg-treat-var"></a></dt>
-<dd><p>A string indicating the treatment arm variable (e.g., <code>"ARM"</code>).</p></dd>
+<dd><p>A string indicating the treatment arm variable (e.g.,
+<code>"ARM"</code>).</p></dd>
 
 
 <dt id="arg-aesi-vars">aesi_vars<a class="anchor" aria-label="anchor" href="#arg-aesi-vars"></a></dt>
@@ -88,7 +90,8 @@ withdrawals, total AEs, and adverse events of special interest (AESIs).</p>
 
 
 <dt id="arg-aesi-heading">aesi_heading<a class="anchor" aria-label="anchor" href="#arg-aesi-heading"></a></dt>
-<dd><p>Optional character string used as a heading in the AESI block.</p></dd>
+<dd><p>Optional character string used as a heading in the AESI
+block.</p></dd>
 
 
 <dt id="arg-indent">indent<a class="anchor" aria-label="anchor" href="#arg-indent"></a></dt>
@@ -107,8 +110,10 @@ withdrawals, total AEs, and adverse events of special interest (AESIs).</p>
 <span class="r-in"><span>  adae <span class="op">=</span> <span class="va">aesi</span>,</span></span>
 <span class="r-in"><span>  patient_var <span class="op">=</span> <span class="st">"USUBJID"</span>,</span></span>
 <span class="r-in"><span>  treat_var <span class="op">=</span> <span class="st">"ARM"</span>,</span></span>
-<span class="r-in"><span>  aesi_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"FATAL"</span>, <span class="st">"SER"</span>, <span class="st">"SERWD"</span>, <span class="st">"SERDSM"</span>, <span class="st">"RELSER"</span>,</span></span>
-<span class="r-in"><span>                <span class="st">"WD"</span>, <span class="st">"DSM"</span>, <span class="st">"REL"</span>, <span class="st">"RELWD"</span>, <span class="st">"RELDSM"</span>, <span class="st">"SEV"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  aesi_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"FATAL"</span>, <span class="st">"SER"</span>, <span class="st">"SERWD"</span>, <span class="st">"SERDSM"</span>, <span class="st">"RELSER"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"WD"</span>, <span class="st">"DSM"</span>, <span class="st">"REL"</span>, <span class="st">"RELWD"</span>, <span class="st">"RELDSM"</span>, <span class="st">"SEV"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">AET01_summary</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                      stats   A: Drug X</span>

@@ -1,5 +1,56 @@
 # Changelog
 
+## dtlg 0.1.2
+
+### New features
+
+- Added and exported
+  [`aesi_heading_msg()`](https://AscentSoftware.github.io/dtlg/reference/aesi_heading_msg.md),
+  which provides the shared default heading used for adverse events of
+  special interest in the native and
+  [tern](https://insightsengineering.github.io/tern/) AET01 tables.
+
+### Bug fixes and behaviour changes
+
+- [`as_dtlg_table()`](https://AscentSoftware.github.io/dtlg/reference/as_dtlg_table.md)
+  now uses `where(is.character)` when selecting columns, removing a
+  tidyselect deprecation warning.
+- Reinstated the internal `%||%` operator and documented its explicit
+  use to avoid a false-positive dead-code warning from
+  [goodpractice](https://docs.ropensci.org/goodpractice/).
+- Replaced
+  [`vctrs::vec_recycle_common()`](https://vctrs.r-lib.org/reference/vec_recycle.html)
+  with a focused base R implementation and removed
+  [vctrs](https://vctrs.r-lib.org/) from package dependencies. Existing
+  [`summary_table()`](https://AscentSoftware.github.io/dtlg/reference/summary_table.md)
+  argument-recycling behaviour is preserved.
+
+### Internal improvements
+
+- Extracted input validation and table-layout helpers from
+  [`AET01_table()`](https://AscentSoftware.github.io/dtlg/reference/AET01_table.md)
+  and
+  [`tern_AET01_table()`](https://AscentSoftware.github.io/dtlg/reference/tern_AET01_table.md).
+- Extracted descriptive-statistics calculation and validation helpers
+  from
+  [`calc_desc()`](https://AscentSoftware.github.io/dtlg/reference/calc_desc.md).
+- Removed unused column-relevel helpers and moved format-matching
+  utilities from package code into the test suite.
+- Expanded tests for AET01 and AET02 tables,
+  [tern](https://insightsengineering.github.io/tern/) table layouts,
+  [`calc_stats()`](https://AscentSoftware.github.io/dtlg/reference/calc_stats.md),
+  [`as_dtlg_table()`](https://AscentSoftware.github.io/dtlg/reference/as_dtlg_table.md),
+  printing, labels, package availability, contingency-table expansion,
+  and vector recycling.
+- Strengthened existing tests with stricter type, structure, formatting,
+  and error assertions.
+
+### Infrastructure and tooling
+
+- Added the rOpenSci `pkgcheck` workflow.
+- Refined the `lintr` configuration and added targeted exclusions for
+  established API names.
+
 ## dtlg 0.1.1
 
 ### Bug fixes and behaviour changes

@@ -76,7 +76,7 @@ summary_table(
   `NA`
 
   :   The Missing row is only displayed if any missing values are
-      present
+      present.
 
   `FALSE`
 

@@ -13,7 +13,7 @@ special interest (AESIs).'><meta property="og:image" content="https://AscentSoft
 
     <a class="navbar-brand me-2" href="../index.html">dtlg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ special interest (AESIs).'><meta property="og:image" content="https://AscentSoft
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Adverse Events of Special Interest (AESI) example dataset</h1>
-      <small class="dont-index">Source: <a href="https://github.com/AscentSoftware/dtlg/blob/v0.1.1/R/cdisc-data.R" class="external-link"><code>R/cdisc-data.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/AscentSoftware/dtlg/blob/main/R/cdisc-data.R" class="external-link"><code>R/cdisc-data.R</code></a></small>
       <div class="d-none name"><code>aesi.Rd</code></div>
     </div>
 
@@ -68,7 +68,8 @@ derived columns including:</p><dl><dt>FATAL</dt>
 <dd><p>Logical flag for serious AEs (<code>AESER == "Y"</code>).</p></dd>
 
 <dt>SERWD</dt>
-<dd><p>Serious AE leading to withdrawal (<code>AESER == "Y" &amp; AEACN == "DRUG WITHDRAWN"</code>).</p></dd>
+<dd><p>Serious AE leading to withdrawal
+(<code>AESER == "Y" &amp; AEACN == "DRUG WITHDRAWN"</code>).</p></dd>
 
 <dt>SERDSM</dt>
 <dd><p>Serious AE leading to dose modification/interruption.</p></dd>
@@ -96,8 +97,8 @@ derived columns including:</p><dl><dt>FATAL</dt>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>These derived flags include seriousness, severity, fatality, relatedness, and
-treatment consequence (e.g., dose modification or withdrawal), and are used to
-illustrate key safety summaries in clinical reporting.</p>
+treatment consequence (e.g., dose modification or withdrawal), and are used
+to illustrate key safety summaries in clinical reporting.</p>
 <p>Each derived variable is labeled using <code><a href="with_label.html">with_label()</a></code> for compatibility
 with tabulation functions.</p>
 <p>This dataset is included in <code>{dtlg}</code> to support function testing, usage

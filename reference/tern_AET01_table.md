@@ -15,7 +15,7 @@ tern_AET01_table(
   patient_var,
   treat_var,
   aesi_vars,
-  aesi_heading = "Total number of patients with at least one",
+  aesi_heading = aesi_heading_msg(),
   indent = "  "
 )
 ```

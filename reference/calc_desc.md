@@ -65,16 +65,16 @@ calc_desc(
 
   `TRUE`
 
-  :   (default) The Missing row is always displayed
+  :   (default) The Missing row is always displayed.
 
   `NA`
 
   :   The Missing row is only displayed if any missing values are
-      present
+      present.
 
   `FALSE`
 
-  :   The Missing row is never included in the table
+  :   The Missing row is never included in the table.
 
 ## Value
 
