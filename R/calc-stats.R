@@ -1,11 +1,47 @@
+assert_calc_desc_inputs <- function(dt,
+                                    target,
+                                    target_name,
+                                    treat,
+                                    indent,
+                                    pct_dec) {
+  stopifnot(
+    is.data.frame(dt),
+    is_string(target),
+    is_string(target_name),
+    is_string(treat),
+    is_string(indent),
+    is.numeric(pct_dec)
+  )
+}
+
+dt_stats <- function(dt, target, treat, pct_dec = 1) {
+  dt_summarise(
+    dt,
+    .by = treat,
+    n = as.character(sum(!is.na(target))),
+    `Mean (SD)` = format_mean_sd(
+      mean = mean(target, na.rm = TRUE),
+      sd = stats::sd(target, na.rm = TRUE),
+      .digits = pct_dec
+    ),
+    Median = round(stats::median(target, na.rm = TRUE), digits = pct_dec),
+    `Min, Max` = format_min_max(
+      min = min(target, na.rm = TRUE),
+      max = max(target, na.rm = TRUE),
+      .digits = pct_dec
+    ),
+    .env = list(target = as.name(target), pct_dec = pct_dec)
+  )
+}
+
 #' Calculate descriptive summary statistics for a numeric variable
 #'
 #' @description
 #'
-#' [calc_desc()] summarises a numeric variable (`target`) by another (`treat`) and
-#' reports summary statistics in clinical trial reporting format. The following
-#' statistics are calculated for `target`, per group, i.e. by variable `treat`
-#' levels:
+#' [calc_desc()] summarises a numeric variable (`target`) by another (`treat`)
+#' and reports summary statistics in clinical trial reporting format. The
+#' following statistics are calculated for `target`, per group, i.e. by variable
+#' `treat` levels:
 #'
 #' - `n`: number of observations
 #' - `Mean (SD)`: mean and standard deviation of `target`
@@ -26,9 +62,10 @@
 #' @param pct_dec Decimal places for reported figures.
 #' @param inc_missing Toggle for including the "Missing" row:
 #' \describe{
-#' \item{`TRUE`}{(default) The Missing row is always displayed}
-#' \item{`NA`}{The Missing row is only displayed if any missing values are present}
-#' \item{`FALSE`}{The Missing row is never included in the table}
+#' \item{`TRUE`}{(default) The Missing row is always displayed.}
+#' \item{`NA`}{The Missing row is only displayed if any missing values are
+#' present.}
+#' \item{`FALSE`}{The Missing row is never included in the table.}
 #' }
 #'
 #' @returns A list containing a `data.table` formatted as follows:
@@ -60,38 +97,9 @@ calc_desc <- function(dt,
                       indent = nbsp(n = 4L),
                       pct_dec = 1,
                       inc_missing = TRUE) {
-
-  stopifnot(
-    is.data.frame(dt),
-    is_string(target),
-    is_string(target_name),
-    is_string(treat),
-    is_string(indent),
-    is.numeric(pct_dec)
-  )
-
+  assert_calc_desc_inputs(dt, target, target_name, treat, indent, pct_dec)
   dt <- maybe_copy_dt(x = dt)
-
-  dt_stats <- dt_summarise(
-    dt,
-    .by = treat,
-    n = as.character(sum(!is.na(target))),
-    `Mean (SD)` = format_mean_sd(
-      mean = mean(target, na.rm = TRUE),
-      sd = stats::sd(target, na.rm = TRUE),
-      .digits = pct_dec
-    ),
-    Median = round(
-      stats::median(target, na.rm = TRUE),
-      digits = pct_dec
-    ),
-    `Min, Max` = format_min_max(
-      min = min(target, na.rm = TRUE),
-      max = max(target, na.rm = TRUE),
-      .digits = pct_dec
-    ),
-    .env = list(target = as.name(target), pct_dec = pct_dec)
-  )
+  dt_stats_value <- dt_stats(dt, target, treat, pct_dec)
 
   if (isTRUE(inc_missing) || (is.na(inc_missing) && anyNA(dt[[target]]))) {
     dt_missing <- dt_summarise(
@@ -101,15 +109,20 @@ calc_desc <- function(dt,
       .env = list(target = as.name(target))
     )
 
-    dt_stats <- dt_stats[dt_missing, on = treat]
+    dt_stats_value <- dt_stats_value[dt_missing, on = treat]
   }
 
-  dt_stats <- data.table::transpose(dt_stats, keep.names = "stats", make.names = treat)
-  header <- c(target_name, rep(list(""), times = ncol(dt_stats) - 1L))
-  dt_stats[, `:=`(stats = indent(dt_stats$stats, indentation = indent))]
-  dt_stats <- rbind(header, dt_stats)
+  dt_stats_value <-
+    data.table::transpose(
+      dt_stats_value,
+      keep.names = "stats",
+      make.names = treat
+    )
+  header <- c(target_name, rep(list(""), times = ncol(dt_stats_value) - 1L))
+  dt_stats_value[, `:=`(stats = indent(dt_stats_value$stats, indentation = indent))] # nolint: line_length_linter
+  dt_stats_value <- rbind(header, dt_stats_value)
 
-  list(dt_stats)
+  list(dt_stats_value)
 }
 
 
@@ -158,7 +171,6 @@ calc_counts <- function(dt,
                         indent = nbsp(n = 4L),
                         .total_dt = NULL,
                         pct_dec = 1) {
-
   stopifnot(
     is.data.frame(dt),
     is_string(target),
@@ -169,9 +181,11 @@ calc_counts <- function(dt,
   )
 
   dt <- maybe_copy_dt(x = dt)
-  counts_by_grp <- dt_count(dt = dt,
-                            treatment = treat,
-                            stats = target)
+  counts_by_grp <- dt_count(
+    dt = dt,
+    treatment = treat,
+    stats = target
+  )
 
   if (!is.null(.total_dt)) {
     .total_dt <- maybe_copy_dt(x = .total_dt)
@@ -194,7 +208,8 @@ calc_counts <- function(dt,
   )
 
   header <- c(target_name, rep(list(""), times = ncol(counts_by_grp) - 1L))
-  counts_by_grp[,  `:=`(stats = paste0(indent, as.character(counts_by_grp$stats)))]
+  counts_by_grp[,
+                `:=`(stats = paste0(indent, as.character(counts_by_grp$stats)))]
   counts_by_grp <- rbind(header, counts_by_grp)
 
   list(counts_by_grp)
@@ -323,5 +338,7 @@ calc_stats.logical <- function(dt,
 #' @export
 calc_stats.default <- function(dt, target, ...) {
   target_class <- class(dt[[target]])
-  stop("`cal_stats()` does not support dispatch on `target` variables of class ", target_class, ".")
+  msg <- paste("`cal_stats()` does not support dispatch on",
+               " `target` variables of class ")
+  stop(msg, target_class, ".")
 }

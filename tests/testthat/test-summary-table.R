@@ -4,7 +4,8 @@
 adlb_arm_levels <- levels(adlb$ARM)
 
 #### summary_table ####
-test_that("`summary_table()` respects order of levels of `treat` in the output", {
+test_that(
+  "`summary_table()` respects order of levels of `treat` in the output", {
   observed <- summary_table(dt = adlb, target = "AVAL", treat = "ARM")
   treat_cols <- colnames(observed)[-1L]
 
@@ -192,7 +193,8 @@ test_that("`summary_table()`: `pct_dec` works", {
 })
 
 #### summary_table_by_targets ####
-test_that("summary_table_by_targets: Using custom separator does not affect data", {
+test_that(
+  "summary_table_by_targets: Using custom separator does not affect data", {
   summary_dot <- suppressWarnings(
     summary_table_by_targets(
       dt = adlb,
@@ -214,12 +216,15 @@ test_that("summary_table_by_targets: Using custom separator does not affect data
     )
   )
 
-  treat_aval_cols <- as.vector(t(outer(adlb_arm_levels, c("AVAL", "CHG"), paste, sep = " - ")))
+  treat_aval_cols <- as.vector(t(outer(
+    adlb_arm_levels, c("AVAL", "CHG"), paste, sep = " - "
+  )))
   expect_named(summary_dash, c("stats", treat_aval_cols))
   expect_identical(unname(summary_dash), unname(summary_dot))
 })
 
-test_that("summary_table_by_targets: Able to use more than 2 target variables", {
+test_that(
+  "summary_table_by_targets: Able to use more than 2 target variables", {
   target_vars <- c("AVAL", "CHG", "ANRLO", "ANRHI")
 
   summary_dt <- suppressWarnings(
@@ -232,6 +237,7 @@ test_that("summary_table_by_targets: Able to use more than 2 target variables", 
     )
   )
 
-  treat_aval_cols <- as.vector(t(outer(adlb_arm_levels, target_vars, paste, sep = ".")))
+  treat_aval_cols <-
+    as.vector(t(outer(adlb_arm_levels, target_vars, paste, sep = ".")))
   expect_named(summary_dt, c("stats", treat_aval_cols))
 })

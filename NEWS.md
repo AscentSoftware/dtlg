@@ -1,3 +1,41 @@
+# dtlg 0.1.2
+
+## New features
+
+- Added and exported `aesi_heading_msg()`, which provides the shared default
+  heading used for adverse events of special interest in the native and
+  `{tern}` AET01 tables.
+
+## Bug fixes and behaviour changes
+
+- `as_dtlg_table()` now uses `where(is.character)` when selecting columns,
+  removing a tidyselect deprecation warning.
+- Reinstated the internal `%||%` operator and documented its explicit use to
+  avoid a false-positive dead-code warning from `{goodpractice}`.
+- Replaced `vctrs::vec_recycle_common()` with a focused base R implementation
+  and removed `{vctrs}` from package dependencies. Existing
+  `summary_table()` argument-recycling behaviour is preserved.
+
+## Internal improvements
+
+- Extracted input validation and table-layout helpers from `AET01_table()` and
+  `tern_AET01_table()`.
+- Extracted descriptive-statistics calculation and validation helpers from
+  `calc_desc()`.
+- Removed unused column-relevel helpers and moved format-matching utilities
+  from package code into the test suite.
+- Expanded tests for AET01 and AET02 tables, `{tern}` table layouts,
+  `calc_stats()`, `as_dtlg_table()`, printing, labels, package availability,
+  contingency-table expansion, and vector recycling.
+- Strengthened existing tests with stricter type, structure, formatting, and
+  error assertions.
+
+## Infrastructure and tooling
+
+- Added the rOpenSci `pkgcheck` workflow.
+- Refined the `lintr` configuration and added targeted exclusions for
+  established API names.
+
 # dtlg 0.1.1
 
 ## Bug fixes and behaviour changes

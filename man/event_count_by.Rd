@@ -44,7 +44,8 @@ A \code{data.table} with the following structure:
 \itemize{
 \item One row per combination of \code{rows_by} and \code{target}
 \item One row per group total (\verb{Total number of events})
-\item One row per patient-level total (\verb{Total number of patients with at least one event})
+\item One row per patient-level total
+(\verb{Total number of patients with at least one event})
 }
 
 Columns include:
@@ -56,7 +57,8 @@ Columns include:
 \description{
 \code{event_count_by()} creates a tabular summary of adverse events grouped by a
 higher-level classification variable (e.g., system organ class), and counts
-both the number of events and the number of unique patients per treatment arm.
+both the number of events and the number of unique patients per treatment
+arm.
 }
 \examples{
 event_count_by(

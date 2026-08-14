@@ -10,7 +10,7 @@ AET01_table(
   patient_var,
   treat_var,
   aesi_vars,
-  aesi_heading = "Total number of patients with at least one",
+  aesi_heading = aesi_heading_msg(),
   indent = "  "
 )
 }
@@ -19,13 +19,16 @@ AET01_table(
 
 \item{adae}{A dataset of adverse events, preprocessed with AESI flags.}
 
-\item{patient_var}{A string indicating the subject identifier variable (e.g., \code{"USUBJID"}).}
+\item{patient_var}{A string indicating the subject identifier variable (e.g.,
+\code{"USUBJID"}).}
 
-\item{treat_var}{A string indicating the treatment arm variable (e.g., \code{"ARM"}).}
+\item{treat_var}{A string indicating the treatment arm variable (e.g.,
+\code{"ARM"}).}
 
 \item{aesi_vars}{A character vector of binary AESI flags in \code{adae}.}
 
-\item{aesi_heading}{Optional character string used as a heading in the AESI block.}
+\item{aesi_heading}{Optional character string used as a heading in the AESI
+block.}
 
 \item{indent}{A string used to indent AESI row labels (default is 2 spaces).}
 }
@@ -44,8 +47,10 @@ AET01_summary <- AET01_table(
   adae = aesi,
   patient_var = "USUBJID",
   treat_var = "ARM",
-  aesi_vars = c("FATAL", "SER", "SERWD", "SERDSM", "RELSER",
-                "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV")
+  aesi_vars = c(
+    "FATAL", "SER", "SERWD", "SERDSM", "RELSER",
+    "WD", "DSM", "REL", "RELWD", "RELDSM", "SEV"
+  )
 )
 print(AET01_summary)
 

@@ -34,9 +34,10 @@ labels. Defaults to four HTML non-breaking spaces (\verb{&nbsp;}).}
 
 \item{inc_missing}{Toggle for including the "Missing" row:
 \describe{
-\item{\code{TRUE}}{(default) The Missing row is always displayed}
-\item{\code{NA}}{The Missing row is only displayed if any missing values are present}
-\item{\code{FALSE}}{The Missing row is never included in the table}
+\item{\code{TRUE}}{(default) The Missing row is always displayed.}
+\item{\code{NA}}{The Missing row is only displayed if any missing values are
+present.}
+\item{\code{FALSE}}{The Missing row is never included in the table.}
 }}
 }
 \value{
@@ -52,10 +53,10 @@ summarised statistics labels.
 This table is structured for easy integration with Shiny output widgets.
 }
 \description{
-\code{\link[=calc_desc]{calc_desc()}} summarises a numeric variable (\code{target}) by another (\code{treat}) and
-reports summary statistics in clinical trial reporting format. The following
-statistics are calculated for \code{target}, per group, i.e. by variable \code{treat}
-levels:
+\code{\link[=calc_desc]{calc_desc()}} summarises a numeric variable (\code{target}) by another (\code{treat})
+and reports summary statistics in clinical trial reporting format. The
+following statistics are calculated for \code{target}, per group, i.e. by variable
+\code{treat} levels:
 \itemize{
 \item \code{n}: number of observations
 \item \code{Mean (SD)}: mean and standard deviation of \code{target}

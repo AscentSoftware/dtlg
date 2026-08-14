@@ -10,7 +10,8 @@
 #' @param treat Treatment arm variable.
 #' @param target Preferred term variable for grouping (default: `"AEDECOD"`).
 #' @param rows_by Higher-level term for nesting (default: `"AEBODSYS"`).
-#' @param indent Character or string to indent nested rows (default: 4 non-breaking spaces).
+#' @param indent Character or string to indent nested rows (default: 4
+#'   non-breaking spaces).
 #'
 #' @returns A merged data.table containing AE summary.
 #'
@@ -27,17 +28,19 @@
 #' )
 #'
 #' @export
-AET02_table <- function(adsl,
+AET02_table <- function(adsl, # nolint: object_name_linter
                         adae,
                         patient,
                         treat,
                         target = "AEDECOD",
                         rows_by = "AEBODSYS",
                         indent = nbsp(n = 4L)) {
-
-  stopifnot(is.data.frame(adsl), is.data.frame(adae))
-  stopifnot(all(c(patient, treat, target, rows_by) %in% colnames(adae)))
-  stopifnot(patient %in% colnames(adsl))
+  stopifnot(
+    is.data.frame(adsl),
+    is.data.frame(adae),
+    all(c(patient, treat, target, rows_by) %in% colnames(adae)),
+    patient %in% colnames(adsl)
+  )
 
   patients_with_ae_table <- event_count(
     dt = adae,

@@ -1,0 +1,31 @@
+name: pkgcheck
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/ropesci
+
+jobs:
+  pkgcheck:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      # Restores the permissiveness of libgit2 < 1.4.3, which gert bundled
+      # until 2.4.0. The action's container runs as root against a workspace
+      # owned by the runner user, so ownership validation rejects it.
+      # HOME inside the container is /github/home, mapped from RUNNER_TEMP.
+      - name: register workspace as a safe directory
+        run: |
+          mkdir -p "${RUNNER_TEMP}/_github_home"
+          printf '[safe]\n\tdirectory = /github/workspace\n' \
+            >> "${RUNNER_TEMP}/_github_home/.gitconfig"
+
+      - uses: ropensci-review-tools/pkgcheck-action@main
+        with:
+          ref: refs/heads/feat/ropesci
+          post-to-issue: true
+          issue-title: pkgcheck results - feat/ropesci
+          summary-only: true
+          append-to-issue: true

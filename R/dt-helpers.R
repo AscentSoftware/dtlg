@@ -18,13 +18,14 @@
 dt_expand_grid <- function(..., .include_na = FALSE) {
   args <- list(...)
   if (length(args) == 0L) return(data.table::data.table())
-  if (is.null(nms <- names(args)) || any(!nzchar(nms))) {
+  nms <- names(args)
+  if (is.null(nms) || !all(nzchar(nms))) {
     stop("All arguments to dt_expand_grid() must be *named*.")
   }
 
   if (.include_na) {
     args <- lapply(args, function(v) {
-      if (!anyNA(v)) c(v, NA) else v
+      if (anyNA(v)) v else c(v, NA)
     })
   }
 
@@ -95,7 +96,13 @@ dt_count <- function(dt,
   out_names[out_names == ""] <- orig[out_names == ""]
 
   if (.name %in% out_names) {
-    stop("`.name` ('", .name, "') conflicts with a grouping column name.", call. = FALSE)
+    msg <-
+      paste0(
+        "`.name` ('",
+        .name,
+        "') conflicts with a grouping column name."
+      )
+    stop(msg, call. = FALSE)
   }
 
   # Fast count of observed groups
@@ -104,7 +111,12 @@ dt_count <- function(dt,
   data.table::setnames(out, old = orig, new = out_names)
   data.table::setnames(out, "N", .name)
 
-  vals_list <- level_set(df = dt, cols = orig, .sort = TRUE, .fct_levels = .fct_levels)
+  vals_list <- level_set(
+    df = dt,
+    cols = orig,
+    .sort = TRUE,
+    .fct_levels = .fct_levels
+  )
   names(vals_list) <- out_names
 
   # Full key space via dt_expand_grid(); optionally append NA per column

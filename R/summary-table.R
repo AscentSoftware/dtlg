@@ -15,14 +15,19 @@ reorder_cols <- function(dt, cols, before_cols = "stats", skip_absent = TRUE) {
 #'
 #' @inheritParams calc_stats
 #' @param treat_order Customise the column order of the output table.
+#'
 #' @param skip_absent Whether to ignore variables passed in `treat_order` that
 #'   are absent from `dt`. Default is `TRUE`; `FALSE` will throw an error in
 #'   case there are missing variables.
-#' @param inc_missing If any of the `target` variables are numeric, then used
-#' as a toggle to determine whether or not "Missing" appears in the summary stats:
+#'
+#' @param inc_missing If any of the `target` variables are numeric, then used as
+#'   a toggle to determine whether or not "Missing" appears in the summary
+#'   stats:
+#'
 #' \describe{
 #' \item{`TRUE`}{(default) The Missing row is always displayed}
-#' \item{`NA`}{The Missing row is only displayed if any missing values are present}
+#' \item{`NA`}{The Missing row is only displayed if any missing values are
+#' present.}
 #' \item{`FALSE`}{The Missing row is never included in the table}
 #' }
 #'
@@ -70,8 +75,14 @@ summary_table <- function(dt,
                           skip_absent = TRUE,
                           inc_missing = TRUE) {
 
-  stopifnot(length(target) >= length(target_name), length(target) >= length(indent))
-  vct_args <- vctrs::vec_recycle_common(target = target, target_name = target_name, indent = indent)
+  stopifnot(length(target) >= length(target_name),
+            length(target) >= length(indent))
+  vct_args <-
+    vec_recycle_common( # nolint: object_usage_linter
+      target = target,
+      target_name = target_name,
+      indent = indent
+    )
   scl_args <- list( # nolint: object_usage_linter
     dt = dt,
     treat = treat,
@@ -240,9 +251,11 @@ summary_table_by_targets <- function(dt,
     c(
       list(summary_tables[[1]][, 1, with = FALSE]),
       lapply(
-        seq(2, ncol(summary_tables[[1]])),
-        \(i) data.table::cbindlist(lapply(summary_tables, \(dat) dat[, i, with = FALSE]))
-      )
+        seq(2, ncol(summary_tables[[1]])), function(i) { # nolint: indentation_linter
+          data.table::cbindlist(
+            lapply(summary_tables, \(dat) dat[, i, with = FALSE])
+          )
+        })
     )
   )
 }

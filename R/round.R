@@ -62,17 +62,10 @@ round_sum <- function(x, digits = 0L) {
   x
 }
 
-round_pct_ <- function(
-    x,
-    digits = 1L,
-    method = c("round", "round_sum")) {
-
-  stopifnot(
-    is.numeric(x),
-    is.numeric(digits),
-    all(x >= 0),
-    digits >= 0L
-  )
+round_pct_ <- function(x,
+                       digits = 1L,
+                       method = c("round", "round_sum")) {
+  stopifnot(is.numeric(x), is.numeric(digits), all(x >= 0), digits >= 0L)
 
   method <- match.arg(method)
   round <- match.fun(method)
@@ -119,17 +112,13 @@ round_pct_ <- function(
 #'
 #' @export
 #'
-round_pct <- function(
-    x,
-    digits = 1L,
-    method = c("round", "round_sum")) {
-
-  stopifnot(
-    is.numeric(x),
-    is_scalar_number(digits),
-    all(is.na(x) | x >= 0),
-    digits >= 0L
-  )
+round_pct <- function(x,
+                      digits = 1L,
+                      method = c("round", "round_sum")) {
+  stopifnot(is.numeric(x),
+            is_scalar_number(digits),
+            all(is.na(x) | x >= 0),
+            digits >= 0L)
 
   method <- match.arg(method)
   x[!is.na(x)] <- round_pct_(x[!is.na(x)], digits = digits, method = method)

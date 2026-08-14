@@ -10,7 +10,7 @@ tern_AET01_table(
   patient_var,
   treat_var,
   aesi_vars,
-  aesi_heading = "Total number of patients with at least one",
+  aesi_heading = aesi_heading_msg(),
   indent = "  "
 )
 }
@@ -22,7 +22,8 @@ tern_AET01_table(
 \item{patient_var}{A string indicating the subject identifier variable (e.g.,
 \code{"USUBJID"}).}
 
-\item{treat_var}{A string indicating the treatment arm variable (e.g., \code{"ARM"}).}
+\item{treat_var}{A string indicating the treatment arm variable (e.g.,
+\code{"ARM"}).}
 
 \item{aesi_vars}{A character vector of binary AESI flags in \code{adae}.}
 

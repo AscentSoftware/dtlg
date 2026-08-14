@@ -1,8 +1,8 @@
 test_that("dbl_fmt() returns correct regex for valid integer input", {
-  expect_equal(dbl_fmt(0L), "[-+]?\\d+")
-  expect_equal(dbl_fmt(1L), "[-+]?\\d+\\.\\d{1}")
-  expect_equal(dbl_fmt(2L), "[-+]?\\d+\\.\\d{2}")
-  expect_equal(dbl_fmt(5L), "[-+]?\\d+\\.\\d{5}")
+  expect_identical(dbl_fmt(0L), "[-+]?\\d+")
+  expect_identical(dbl_fmt(1L), "[-+]?\\d+\\.\\d{1}")
+  expect_identical(dbl_fmt(2L), "[-+]?\\d+\\.\\d{2}")
+  expect_identical(dbl_fmt(5L), "[-+]?\\d+\\.\\d{5}")
 })
 
 test_that("dbl_fmt() errors on non-integer or negative input", {
@@ -14,33 +14,33 @@ test_that("dbl_fmt() errors on non-integer or negative input", {
 
 test_that("int_fmt() is equivalent to dbl_fmt(0L)", {
   expect_identical(int_fmt(), dbl_fmt(0L))
-  expect_equal(int_fmt(), "[-+]?\\d+")
+  expect_identical(int_fmt(), "[-+]?\\d+")
 })
 
 test_that("n_pct_fmt() returns correct pattern for support_zero = TRUE", {
-  expect_equal(
+  expect_identical(
     n_pct_fmt(0L),
     "^0$|^[+]?\\d+ \\([+]?\\d+%\\)$"
   )
 
-  expect_equal(
+  expect_identical(
     n_pct_fmt(1L),
     "^0$|^[+]?\\d+ \\([+]?\\d+\\.\\d{1}%\\)$"
   )
 
-  expect_equal(
+  expect_identical(
     n_pct_fmt(2L),
     "^0$|^[+]?\\d+ \\([+]?\\d+\\.\\d{2}%\\)$"
   )
 })
 
 test_that("n_pct_fmt() returns correct pattern for support_zero = FALSE", {
-  expect_equal(
+  expect_identical(
     n_pct_fmt(0L, support_zero = FALSE),
     "^[+]?\\d+ \\([+]?\\d+%\\)$"
   )
 
-  expect_equal(
+  expect_identical(
     n_pct_fmt(2L, support_zero = FALSE),
     "^[+]?\\d+ \\([+]?\\d+\\.\\d{2}%\\)$"
   )
@@ -71,7 +71,7 @@ test_that("detect_fmt() returns FALSE for invalid formats", {
 
 test_that("detect_fmt() is vectorised", {
   x <- c("0", "25 (18%)", "25 (18.5%)", "wrong")
-  expect_equal(
+  expect_identical(
     detect_fmt(x,  n_pct_fmt(1L)),
     c(TRUE, FALSE, TRUE, FALSE)
   )

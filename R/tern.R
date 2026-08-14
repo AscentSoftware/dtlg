@@ -39,7 +39,9 @@ tern_summary_table <- function(dt, target, treat, target_name = target) {
 
   rtables::basic_table(show_colcounts = TRUE) |>
     rtables::split_cols_by(var = treat) |>
-    tern::analyze_vars(vars = target, var_labels = target_name, na_rm = FALSE) |>
+    tern::analyze_vars(vars = target,
+                       var_labels = target_name,
+                       na_rm = FALSE) |>
     rtables::build_table(dt)
 }
 
@@ -56,7 +58,8 @@ tern_summary_table <- function(dt, target, treat, target_name = target) {
 #'
 #' @examples
 #' vars <- c('AGE', 'RACE', 'ETHNIC', 'BMRKR1')
-#' var_labels <- c("Age (yr)", "Race", "Ethnicity", "Continuous Level Biomarker 1")
+#' var_labels <-
+#'   c("Age (yr)", "Race", "Ethnicity", "Continuous Level Biomarker 1")
 #'
 #' # Summary statistics table split by ARM with custom labels.
 #' (tt <- tern_summary_table(
@@ -82,8 +85,96 @@ as_dtlg_table <- function(tt, .label_col = "stats") {
     data_format = "strings"
   ) |>
     dplyr::rename("{.label_col}" := "label_name") |>
-    dplyr::mutate(dplyr::across(is.character, ~ dplyr::if_else(is.na(.x), "", .x))) |>
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::where(is.character), ~ dplyr::if_else(is.na(.x), "", .x)
+      )
+    ) |>
     data.table::as.data.table()
+}
+
+assert_tern_aet01_table_inputs <- function(adsl,
+                                           adae,
+                                           patient_var,
+                                           treat_var,
+                                           aesi_vars) {
+  stopifnot(is.data.frame(adsl), is.data.frame(adae))
+
+  required_vars <- c(patient_var, treat_var)
+  missing_vars_adsl <- setdiff(required_vars, names(adsl))
+  missing_vars_adae <- setdiff(required_vars, names(adae))
+
+  if (length(missing_vars_adsl) > 0) {
+    stop("The following variables are missing in `adsl`: ",
+         toString(missing_vars_adsl))
+  }
+
+  if (length(missing_vars_adae) > 0) {
+    stop("The following variables are missing in `adae`: ",
+         toString(missing_vars_adae))
+  }
+
+  if (!is.character(aesi_vars) || length(aesi_vars) == 0) {
+    stop("`aesi_vars` must be a non-empty character vector.")
+  }
+
+  missing_aesi <- setdiff(aesi_vars, names(adae))
+  if (length(missing_aesi) > 0) {
+    stop("The following `aesi_vars` are not in `adae`: ",
+         toString(missing_aesi))
+  }
+}
+
+tern_AET01_adsl_layout <- function(patient_var, treat_var) { # nolint: object_name_linter
+  rtables::basic_table(show_colcounts = TRUE) |>
+    rtables::split_cols_by(treat_var) |>
+    tern::count_patients_with_event(
+      patient_var,
+      filters = c("DTHFL" = "Y"),
+      denom = "N_col",
+      .labels = c(count_fraction = "Total number of deaths"),
+      table_names = "death_count"
+    ) |>
+    tern::count_patients_with_event(
+      patient_var,
+      filters = c("DCSREAS" = "ADVERSE EVENT"),
+      denom = "N_col",
+      .labels = c(
+        count_fraction =
+          "Total number of patients withdrawn from study due to an AE"
+      ),
+      table_names = "ae_withdrawal"
+    )
+}
+
+tern_AET01_adae_layout <- function(patient_var, # nolint: object_name_linter
+                                   treat_var,
+                                   aesi_vars,
+                                   aesi_labels,
+                                   aesi_heading) {
+  rtables::basic_table(show_colcounts = TRUE) |>
+    rtables::split_cols_by(treat_var) |>
+    tern::analyze_num_patients(
+      vars = patient_var,
+      .stats = c("unique", "nonunique"),
+      .labels = c(
+        unique = "Total number of patients with at least one AE",
+        nonunique = "Total number of AEs"
+      ),
+      .formats = list(
+        unique = tern::format_count_fraction_fixed_dp,
+        nonunique = "xx"
+      ),
+      show_labels = "hidden"
+    ) |>
+    tern::count_patients_with_flags(
+      patient_var,
+      flag_variables = aesi_vars,
+      .labels = aesi_labels,
+      denom = "N_col",
+      var_labels = aesi_heading,
+      show_labels = "visible"
+    )
 }
 
 #' Generate Core Safety Tables (CSR Section 14.3.1) using `tern`/`rtables`
@@ -96,16 +187,7 @@ as_dtlg_table <- function(tt, .label_col = "stats") {
 #' The function returns a single formatted `rtables` table summarising core
 #' safety endpoints by treatment arm.
 #'
-#' @param adsl A subject-level dataset (typically ADaM ADSL).
-#'
-#' @param adae A dataset of adverse events, preprocessed with AESI flags.
-#'
-#' @param patient_var A string indicating the subject identifier variable (e.g.,
-#'   `"USUBJID"`).
-#'
-#' @param treat_var A string indicating the treatment arm variable (e.g., `"ARM"`).
-#'
-#' @param aesi_vars A character vector of binary AESI flags in `adae`.
+#' @inheritParams AET01_table adsl adae patient_var treat_var aesi_vars
 #'
 #' @param aesi_heading Ignored (included for interface compatibility).
 #'
@@ -124,92 +206,33 @@ as_dtlg_table <- function(tt, .label_col = "stats") {
 #' )
 #'
 #' @export
-tern_AET01_table <- function(adsl,
+tern_AET01_table <- function(adsl, # nolint: object_name_linter
                              adae,
                              patient_var,
                              treat_var,
                              aesi_vars,
-                             aesi_heading = "Total number of patients with at least one",
+                             aesi_heading = aesi_heading_msg(),
                              indent = "  ") {
+  assert_tern_aet01_table_inputs(adsl, adae, patient_var, treat_var, aesi_vars)
 
-  # --- Input validation ---
-  stopifnot(is.data.frame(adsl), is.data.frame(adae))
+  aesi_labels <- vapply(aesi_vars, \(x) label(adae[[x]]) %||% x, character(1))
 
-  required_vars <- c(patient_var, treat_var)
-  missing_vars_adsl <- setdiff(required_vars, names(adsl))
-  missing_vars_adae <- setdiff(required_vars, names(adae))
-
-  if (length(missing_vars_adsl) > 0) {
-    stop("The following variables are missing in `adsl`: ", toString(missing_vars_adsl))
-  }
-
-  if (length(missing_vars_adae) > 0) {
-    stop("The following variables are missing in `adae`: ", toString(missing_vars_adae))
-  }
-
-  if (!is.character(aesi_vars) || length(aesi_vars) == 0) {
-    stop("`aesi_vars` must be a non-empty character vector.")
-  }
-
-  missing_aesi <- setdiff(aesi_vars, names(adae))
-  if (length(missing_aesi) > 0) {
-    stop("The following `aesi_vars` are not in `adae`: ", toString(missing_aesi))
-  }
-
-  # --- ADSL layout: deaths and withdrawals ---
-  lyt_adsl <- rtables::basic_table(show_colcounts = TRUE) |>
-    rtables::split_cols_by(treat_var) |>
-    tern::count_patients_with_event(
+  lyt_adsl <- tern_AET01_adsl_layout(patient_var, treat_var)
+  lyt_adae <-
+    tern_AET01_adae_layout(
       patient_var,
-      filters = c("DTHFL" = "Y"),
-      denom = "N_col",
-      .labels = c(count_fraction = "Total number of deaths"),
-      table_names = "death_count"
-    ) |>
-    tern::count_patients_with_event(
-      patient_var,
-      filters = c("DCSREAS" = "ADVERSE EVENT"),
-      denom = "N_col",
-      .labels = c(count_fraction = "Total number of patients withdrawn from study due to an AE"),
-      table_names = "ae_withdrawal"
+      treat_var,
+      aesi_vars,
+      aesi_labels,
+      aesi_heading
     )
 
   tbl_adsl <- rtables::build_table(lyt_adsl, df = adsl, alt_counts_df = adsl)
-
-  # --- ADAE layout: AE summary and AESIs ---
-  aesi_labels <- sapply(aesi_vars, \(x) label(adae[[x]]) %||% x)
-
-  lyt_adae <- rtables::basic_table(show_colcounts = TRUE) |>
-    rtables::split_cols_by(treat_var) |>
-    tern::analyze_num_patients(
-      vars = patient_var,
-      .stats = c("unique", "nonunique"),
-      .labels = c(
-        unique = "Total number of patients with at least one AE",
-        nonunique = "Total number of AEs"
-      ),
-      .formats = list(unique = tern::format_count_fraction_fixed_dp, nonunique = "xx"),
-      show_labels = "hidden"
-    ) |>
-    tern::count_patients_with_flags(
-      patient_var,
-      flag_variables = aesi_vars,
-      .labels = aesi_labels,
-      denom = "N_col",
-      var_labels = aesi_heading,
-      show_labels = "visible"
-    )
-
   tbl_adae <- rtables::build_table(lyt_adae, df = adae, alt_counts_df = adsl)
 
-  # --- Merge final result with consistent col_info ---
   rtables::col_info(tbl_adsl) <- rtables::col_info(tbl_adae)
 
-  rbind(
-    tbl_adae[1:2, ],
-    tbl_adsl,
-    tbl_adae[3:nrow(tbl_adae), ]
-  )
+  rbind(tbl_adae[1:2, ], tbl_adsl, tbl_adae[3:nrow(tbl_adae), ])
 }
 
 #' Generate AET02-style AE summary using `tern` and `rtables`
@@ -218,20 +241,36 @@ tern_AET01_table <- function(adsl,
 #' adverse event summary table, following the AET02 CSR format, using the
 #' `tern` and `rtables` packages.
 #'
-#' @param adsl Subject-level dataset.
-#' @param adae Adverse event dataset.
-#' @param patient Unique subject identifier variable.
-#' @param treat Treatment arm variable.
-#' @param target Preferred term variable (default: `"AEDECOD"`).
-#' @param rows_by Higher-level nesting term (default: `"AEBODSYS"`).
+#' @inheritParams AET02_table adsl adae patient treat target rows_by
 #' @param indent Ignored (included for compatibility).
 #'
 #' @returns A `TableTree` object with AE summary by SOC/PT.
 #'
 #' @seealso [AET02_table()]
 #'
+#' @seealso [AET02_table()]
+#'
+#' @examplesIf requireNamespace("tern", quietly = TRUE)
+#' # AE summary by System Organ Class and Preferred Term
+#' tern_AET02_table(
+#'   adsl = adsl,
+#'   adae = adae,
+#'   patient = "USUBJID",
+#'   treat = "ARM"
+#' )
+#'
+#' # Nesting at a different level of the MedDRA hierarchy
+#' tern_AET02_table(
+#'   adsl = adsl,
+#'   adae = adae,
+#'   patient = "USUBJID",
+#'   treat = "ARM",
+#'   target = "AEHLT",
+#'   rows_by = "AESOC"
+#' )
+#'
 #' @export
-tern_AET02_table <- function(adsl,
+tern_AET02_table <- function(adsl, # nolint: object_name_linter
                              adae,
                              patient,
                              treat,
@@ -239,15 +278,22 @@ tern_AET02_table <- function(adsl,
                              rows_by = "AEBODSYS",
                              indent = "  ") {
 
-  stopifnot(is.data.frame(adsl), is.data.frame(adae))
-  stopifnot(all(c(patient, treat) %in% names(adsl)))
-  stopifnot(all(c(patient, treat, target, rows_by) %in% names(adae)))
+  stopifnot(
+    is.data.frame(adsl),
+    is.data.frame(adae),
+    all(c(patient, treat) %in% names(adsl)),
+    all(c(patient, treat, target, rows_by) %in% names(adae))
+  )
 
   adae <- tern::df_explicit_na(adae, na_level = "Missing")
 
   lyt <- rtables::basic_table(show_colcounts = TRUE) |>
     rtables::split_cols_by(var = treat) |>
-    rtables::split_rows_by(var = rows_by, split_fun = rtables::drop_split_levels, nested = TRUE) |>
+    rtables::split_rows_by(
+      var = rows_by,
+      split_fun = rtables::drop_split_levels,
+      nested = TRUE
+    ) |>
     tern::count_occurrences(
       vars = target,
       id = patient,

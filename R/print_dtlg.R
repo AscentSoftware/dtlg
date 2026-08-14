@@ -16,7 +16,7 @@
 #'   print_dtlg()
 #'
 print_dtlg <- function(dt,
-                       row.names = FALSE,
+                       row.names = FALSE, # nolint: object_name_linter
                        trunc.cols = TRUE,
                        class = FALSE,
                        nrows = Inf,

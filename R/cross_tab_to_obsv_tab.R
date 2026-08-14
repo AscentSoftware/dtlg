@@ -29,10 +29,11 @@ cross_tab_to_obsv_tab <- function(cross_tab, strings_as_factors = TRUE) {
     stop("Input must be a matrix or a table.")
   }
 
-  comb <- expand.grid(dimnames(cross_tab), stringsAsFactors = strings_as_factors)
+  dim_names <- dimnames(cross_tab)
+  comb <- expand.grid(dim_names, stringsAsFactors = strings_as_factors)
   df <- cbind(comb, freq = as.vector(cross_tab))
   idx <- unlist(vrep(seq_len(nrow(df)), df$freq))
-  df <- df[idx, names(dimnames(cross_tab))]
+  df <- df[idx, names(dim_names)]
   rownames(df) <- NULL
   df
 }

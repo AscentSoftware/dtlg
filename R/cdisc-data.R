@@ -42,8 +42,8 @@
 #' special interest (AESIs).
 #'
 #' These derived flags include seriousness, severity, fatality, relatedness, and
-#' treatment consequence (e.g., dose modification or withdrawal), and are used to
-#' illustrate key safety summaries in clinical reporting.
+#' treatment consequence (e.g., dose modification or withdrawal), and are used
+#' to illustrate key safety summaries in clinical reporting.
 #'
 #' Each derived variable is labeled using [dtlg::with_label()] for compatibility
 #' with tabulation functions.
@@ -57,7 +57,8 @@
 #'   \item{FATAL}{Logical flag for fatal AEs (`AESDTH == "Y"`).}
 #'   \item{SEV}{Logical flag for severe AEs (`AESEV == "SEVERE"`).}
 #'   \item{SER}{Logical flag for serious AEs (`AESER == "Y"`).}
-#'   \item{SERWD}{Serious AE leading to withdrawal (`AESER == "Y" & AEACN == "DRUG WITHDRAWN"`).}
+#'   \item{SERWD}{Serious AE leading to withdrawal
+#'   (`AESER == "Y" & AEACN == "DRUG WITHDRAWN"`).}
 #'   \item{SERDSM}{Serious AE leading to dose modification/interruption.}
 #'   \item{RELSER}{Serious and related AE.}
 #'   \item{WD}{AE leading to withdrawal.}

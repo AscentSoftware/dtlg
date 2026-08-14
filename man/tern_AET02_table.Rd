@@ -23,9 +23,9 @@ tern_AET02_table(
 
 \item{treat}{Treatment arm variable.}
 
-\item{target}{Preferred term variable (default: \code{"AEDECOD"}).}
+\item{target}{Preferred term variable for grouping (default: \code{"AEDECOD"}).}
 
-\item{rows_by}{Higher-level nesting term (default: \code{"AEBODSYS"}).}
+\item{rows_by}{Higher-level term for nesting (default: \code{"AEBODSYS"}).}
 
 \item{indent}{Ignored (included for compatibility).}
 }
@@ -36,6 +36,27 @@ A \code{TableTree} object with AE summary by SOC/PT.
 This function builds a System Organ Class (SOC) and Preferred Term (PT)
 adverse event summary table, following the AET02 CSR format, using the
 \code{tern} and \code{rtables} packages.
+}
+\examples{
+\dontshow{if (requireNamespace("tern", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+# AE summary by System Organ Class and Preferred Term
+tern_AET02_table(
+  adsl = adsl,
+  adae = adae,
+  patient = "USUBJID",
+  treat = "ARM"
+)
+
+# Nesting at a different level of the MedDRA hierarchy
+tern_AET02_table(
+  adsl = adsl,
+  adae = adae,
+  patient = "USUBJID",
+  treat = "ARM",
+  target = "AEHLT",
+  rows_by = "AESOC"
+)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=AET02_table]{AET02_table()}}

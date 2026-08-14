@@ -27,7 +27,8 @@ AET02_table(
 
 \item{rows_by}{Higher-level term for nesting (default: \code{"AEBODSYS"}).}
 
-\item{indent}{Character or string to indent nested rows (default: 4 non-breaking spaces).}
+\item{indent}{Character or string to indent nested rows (default: 4
+non-breaking spaces).}
 }
 \value{
 A merged data.table containing AE summary.

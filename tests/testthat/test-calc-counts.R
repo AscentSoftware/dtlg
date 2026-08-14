@@ -22,12 +22,13 @@ test_that("calc_counts() returns a list with a single data.table", {
 })
 
 test_that("calc_counts() correctly counts and casts values", {
-  tbl <- calc_counts(dt = adsl, target = "RACE", treat = "ARM", indent = "")[[1]]
-  expect_equal(colnames(tbl), c("stats", "A", "B", "C"))
-  expect_equal(tbl[2L, C], "2")  # Asian
-  expect_equal(tbl[3L, A], "1")  # Black
-  expect_equal(tbl[4L, A], "1")  # White
-  expect_equal(tbl[4L, B], "2")  # White
+  tbl <-
+    calc_counts(dt = adsl, target = "RACE", treat = "ARM", indent = "")[[1]]
+  expect_identical(colnames(tbl), c("stats", "A", "B", "C"))
+  expect_identical(tbl[2L, C], "2")  # Asian
+  expect_identical(tbl[3L, A], "1")  # Black
+  expect_identical(tbl[4L, A], "1")  # White
+  expect_identical(tbl[4L, B], "2")  # White
 })
 
 test_that("calc_counts() handles .total_dt and percentage formatting", {
@@ -40,17 +41,22 @@ test_that("calc_counts() handles .total_dt and percentage formatting", {
 
 test_that("calc_counts() applies indentation correctly", {
   indent <- "&nbsp;&nbsp;"
-  tbl <- calc_counts(dt = adsl, target = "RACE", treat = "ARM", indent = indent)[[1]]
+  tbl <-
+    calc_counts(dt = adsl, target = "RACE", treat = "ARM", indent = indent)[[1]]
   expect_true(startsWith(tbl$stats[2], indent))
 })
 
 test_that("calc_counts() works with logical variables", {
-  tbl <- calc_counts(dt = adsl, target = "FLAG", treat = "ARM", indent = "")[[1]]
+  tbl <-
+    calc_counts(dt = adsl, target = "FLAG", treat = "ARM", indent = "")[[1]]
   expect_true(all(c("FLAG", "TRUE", "FALSE", "NA") %in% tbl$stats))
 })
 
 test_that("calc_counts() fails if `dt` is not a data.frame", {
-  non_df_inputs <- list(NULL, 42, "not a data frame", matrix(1:4, nrow = 2), list(a = 1, b = 2))
+  non_df_inputs <-
+    list(NULL, 42, "not a data frame", matrix(1:4, nrow = 2),
+         list(a = 1, b = 2)
+    )
 
   for (bad_dt in non_df_inputs) {
     expect_error(calc_counts(
@@ -137,7 +143,12 @@ test_that("calc_counts() fails if `indent` is not a scalar string", {
 
   for (bad_indent in invalid_indent_values) {
     expect_error(
-      calc_counts(dt = valid_dt, target = "RACE", treat = "ARM", indent = bad_indent),
+      calc_counts(
+        dt = valid_dt,
+        target = "RACE",
+        treat = "ARM",
+        indent = bad_indent
+      ),
       regexp = "is_string\\(indent\\)"
     )
   }
