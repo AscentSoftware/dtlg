@@ -165,7 +165,7 @@ summary_table_by <- function(dt,
   if (length(rows_by) > 1) {
     x <- 0
     for (i in seq_along(heading)) {
-      y = sum(heading_full %in% heading[i])
+      y <- sum(heading_full %in% heading[i])
       summary_split <- append(
         summary_split,
         list(data.table::data.table(stats = heading[[i]])),
