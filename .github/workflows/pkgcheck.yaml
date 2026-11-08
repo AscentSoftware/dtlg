@@ -1,10 +1,13 @@
 name: pkgcheck
 
+# Check the revision that triggered the run. Results are posted to an issue
+# only for pushes and manual runs; pull requests report in the job log.
 on:
   workflow_dispatch:
   push:
-    branches:
-      - feat/ropesci
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   pkgcheck:
@@ -24,8 +27,5 @@ jobs:
 
       - uses: ropensci-review-tools/pkgcheck-action@main
         with:
-          ref: refs/heads/feat/ropesci
-          post-to-issue: true
-          issue-title: pkgcheck results - feat/ropesci
           summary-only: true
           append-to-issue: true
