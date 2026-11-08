@@ -133,7 +133,8 @@ summary_table_by <- function(dt,
                              pct_dec = 1,
                              treat_order = NULL,
                              skip_absent = TRUE,
-                             sep = ".") {
+                             sep = ".",
+                             inc_missing = TRUE) {
   dt <- maybe_copy_dt(x = dt)
 
   dt <- split(droplevels(dt), by = rows_by, drop = TRUE, sorted = TRUE)
@@ -157,13 +158,14 @@ summary_table_by <- function(dt,
     target_name = label,
     treat = treat,
     indent = indent,
-    pct_dec = pct_dec
+    pct_dec = pct_dec,
+    MoreArgs = list(inc_missing = inc_missing)
   )
 
   if (length(rows_by) > 1) {
     x <- 0
     for (i in seq_along(heading)) {
-      y = sum(heading_full %in% heading[i])
+      y <- sum(heading_full %in% heading[i])
       summary_split <- append(
         summary_split,
         list(data.table::data.table(stats = heading[[i]])),
@@ -196,6 +198,7 @@ summary_table_by <- function(dt,
 #' - `TRUE` will silently ignore them
 #' - `FALSE` will throw an error
 #' @param sep character string to separate the terms
+#' @inheritParams summary_table
 #'
 #' @return data.table
 #' @export
@@ -220,8 +223,15 @@ summary_table_by_targets <- function(dt,
                                      pct_dec = 1,
                                      treat_order = NULL,
                                      skip_absent = TRUE,
-                                     sep = ".") {
+                                     sep = ".",
+                                     inc_missing = TRUE) {
   .total_dt <- maybe_copy_dt(x = .total_dt)
+
+  # Per-target tables are column-bound, so they must share rows. Resolve `NA`
+  # once across all targets rather than per target and group.
+  if (is.na(inc_missing)) {
+    inc_missing <- any(vapply(target, \(x) anyNA(dt[[x]]), logical(1L)))
+  }
 
   summary_tables <- mapply(
     summary_table_by,
@@ -235,7 +245,8 @@ summary_table_by_targets <- function(dt,
       pct_dec = pct_dec,
       treat_order = treat_order,
       skip_absent = skip_absent,
-      sep = sep
+      sep = sep,
+      inc_missing = inc_missing
     )
   )
 

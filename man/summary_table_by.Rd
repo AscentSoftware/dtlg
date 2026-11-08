@@ -14,7 +14,8 @@ summary_table_by(
   pct_dec = 1,
   treat_order = NULL,
   skip_absent = TRUE,
-  sep = "."
+  sep = ".",
+  inc_missing = TRUE
 )
 }
 \arguments{
@@ -44,6 +45,17 @@ are absent from \code{dt}. Default is \code{TRUE}; \code{FALSE} will throw an er
 case there are missing variables.}
 
 \item{sep}{character string to separate the terms}
+
+\item{inc_missing}{If any of the \code{target} variables are numeric, then used as
+a toggle to determine whether or not "Missing" appears in the summary
+stats:
+
+\describe{
+\item{\code{TRUE}}{(default) The Missing row is always displayed}
+\item{\code{NA}}{The Missing row is only displayed if any missing values are
+present.}
+\item{\code{FALSE}}{The Missing row is never included in the table}
+}}
 }
 \value{
 The same output as \code{\link[=summary_table]{summary_table()}} except that folded by variables

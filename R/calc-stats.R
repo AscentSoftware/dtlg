@@ -144,8 +144,9 @@ calc_desc <- function(dt,
 #' labels. Defaults to four HTML non-breaking spaces (`&nbsp;`).
 #' @param .total_dt Separate table from `dt` from which to derive total counts
 #' per group.
-#' @param pct_dec This argument is ignored, and is only kept for backward
-#' compatibility reasons.
+#' @param pct_dec Number of decimal places for percentages. Used only when
+#'   `.total_dt` is supplied; otherwise counts are reported without
+#'   percentages.
 #'
 #' @returns A list containing a `data.table` formatted as follows:
 #'

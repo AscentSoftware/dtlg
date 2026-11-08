@@ -33,8 +33,9 @@ labels. Defaults to four HTML non-breaking spaces (\verb{&nbsp;}).}
 \item{.total_dt}{Separate table from \code{dt} from which to derive total counts
 per group.}
 
-\item{pct_dec}{This argument is ignored, and is only kept for backward
-compatibility reasons.}
+\item{pct_dec}{Number of decimal places for percentages. Used only when
+\code{.total_dt} is supplied; otherwise counts are reported without
+percentages.}
 }
 \value{
 A list containing a \code{data.table} formatted as follows:
