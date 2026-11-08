@@ -8,7 +8,7 @@
   [`aesi_heading_msg()`](https://AscentSoftware.github.io/dtlg/reference/aesi_heading_msg.md),
   which provides the shared default heading used for adverse events of
   special interest in the native and
-  [tern](https://insightsengineering.github.io/tern/) AET01 tables.
+  [tern](https://pharmaverse.github.io/tern/) AET01 tables.
 
 ### Bug fixes and behaviour changes
 
@@ -37,7 +37,7 @@
 - Removed unused column-relevel helpers and moved format-matching
   utilities from package code into the test suite.
 - Expanded tests for AET01 and AET02 tables,
-  [tern](https://insightsengineering.github.io/tern/) table layouts,
+  [tern](https://pharmaverse.github.io/tern/) table layouts,
   [`calc_stats()`](https://AscentSoftware.github.io/dtlg/reference/calc_stats.md),
   [`as_dtlg_table()`](https://AscentSoftware.github.io/dtlg/reference/as_dtlg_table.md),
   printing, labels, package availability, contingency-table expansion,

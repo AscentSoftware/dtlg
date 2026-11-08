@@ -88,7 +88,7 @@ ADaM-like analysis datasets (ADSL, ADAE, ADLB); outputs are tidy
 <p>The package began as a response to a specific frustration: Shiny
 dashboards for clinical review needed aggregations fast enough to
 recompute on user input. The reference implementations in
-<a href="https://insightsengineering.github.io/tern/" class="external-link">tern</a> and <a href="https://github.com/insightsengineering/rtables" class="external-link">rtables</a> are authoritative but
+<a href="https://pharmaverse.github.io/tern/" class="external-link">tern</a> and <a href="https://github.com/pharmaverse/rtables" class="external-link">rtables</a> are authoritative but
 were not designed for the round-trip latency of an interactive session.
 Two design choices follow from that origin:</p>
 <ul>
@@ -98,7 +98,7 @@ populations of
 to
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>6</mn></msup><annotation encoding="application/x-tex">10^6</annotation></semantics></math>
 subjects remains interactive. See <code>vignette("benchmarks")</code>
-for comparisons against <a href="https://insightsengineering.github.io/tern/" class="external-link">tern</a>.</p></li>
+for comparisons against <a href="https://pharmaverse.github.io/tern/" class="external-link">tern</a>.</p></li>
 <li><p>The output is always a plain <code>data.table</code> with a
 <code>stats</code> column and one column per treatment level. There is
 no bespoke table object, no print method to learn, and no rendering
@@ -877,11 +877,11 @@ allocation.</p>
 <div class="section level2">
 <h2 id="comparison-with-tern">Comparison with tern<a class="anchor" aria-label="anchor" href="#comparison-with-tern"></a>
 </h2>
-<p><a href="https://insightsengineering.github.io/tern/" class="external-link">tern</a> and <a href="https://github.com/insightsengineering/rtables" class="external-link">rtables</a> produce the canonical
+<p><a href="https://pharmaverse.github.io/tern/" class="external-link">tern</a> and <a href="https://github.com/pharmaverse/rtables" class="external-link">rtables</a> produce the canonical
 reference output for these tables. <a href="https://AscentSoftware.github.io/dtlg/">dtlg</a> ships thin
 wrappers — <code><a href="../reference/tern_summary_table.html">tern_summary_table()</a></code>,
 <code><a href="../reference/tern_AET01_table.html">tern_AET01_table()</a></code>, <code><a href="../reference/tern_AET02_table.html">tern_AET02_table()</a></code> — that
-build the equivalent <code>TableTree</code> through <a href="https://insightsengineering.github.io/tern/" class="external-link">tern</a>
+build the equivalent <code>TableTree</code> through <a href="https://pharmaverse.github.io/tern/" class="external-link">tern</a>
 using the same call signature as the <a href="https://AscentSoftware.github.io/dtlg/">dtlg</a> constructor.
 <code><a href="../reference/as_dtlg_table.html">as_dtlg_table()</a></code> flattens a <code>TableTree</code> to the
 <code>data.table</code> shape used in this article. Together they enable
@@ -913,7 +913,7 @@ structured side-by-side checks during validation:</p>
 <ul>
 <li>
 <code>vignette("benchmarks")</code> — timing comparisons against
-<a href="https://insightsengineering.github.io/tern/" class="external-link">tern</a> on realistic population sizes.</li>
+<a href="https://pharmaverse.github.io/tern/" class="external-link">tern</a> on realistic population sizes.</li>
 <li>The function reference, grouped by responsibility (Statistics,
 Events, Summary Tables, Clinical Tables, tern interop, Copy
 semantics).</li>

@@ -18,15 +18,15 @@ tidy `data.table`s ready to render with any downstream formatter
 The package began as a response to a specific frustration: Shiny
 dashboards for clinical review needed aggregations fast enough to
 recompute on user input. The reference implementations in
-[tern](https://insightsengineering.github.io/tern/) and
-[rtables](https://github.com/insightsengineering/rtables) are
-authoritative but were not designed for the round-trip latency of an
-interactive session. Two design choices follow from that origin:
+[tern](https://pharmaverse.github.io/tern/) and
+[rtables](https://github.com/pharmaverse/rtables) are authoritative but
+were not designed for the round-trip latency of an interactive session.
+Two design choices follow from that origin:
 
 - The compute backend is `data.table`. Aggregation over populations of
   $`10^5`$ to $`10^6`$ subjects remains interactive. See
   `vignette("benchmarks")` for comparisons against
-  [tern](https://insightsengineering.github.io/tern/).
+  [tern](https://pharmaverse.github.io/tern/).
 
 - The output is always a plain `data.table` with a `stats` column and
   one column per treatment level. There is no bespoke table object, no
@@ -480,15 +480,15 @@ downstream, the default is correct and avoids redundant allocation.
 
 ## Comparison with tern
 
-[tern](https://insightsengineering.github.io/tern/) and
-[rtables](https://github.com/insightsengineering/rtables) produce the
-canonical reference output for these tables.
+[tern](https://pharmaverse.github.io/tern/) and
+[rtables](https://github.com/pharmaverse/rtables) produce the canonical
+reference output for these tables.
 [dtlg](https://AscentSoftware.github.io/dtlg/) ships thin wrappers —
 [`tern_summary_table()`](https://AscentSoftware.github.io/dtlg/reference/tern_summary_table.md),
 [`tern_AET01_table()`](https://AscentSoftware.github.io/dtlg/reference/tern_AET01_table.md),
 [`tern_AET02_table()`](https://AscentSoftware.github.io/dtlg/reference/tern_AET02_table.md)
 — that build the equivalent `TableTree` through
-[tern](https://insightsengineering.github.io/tern/) using the same call
+[tern](https://pharmaverse.github.io/tern/) using the same call
 signature as the [dtlg](https://AscentSoftware.github.io/dtlg/)
 constructor.
 [`as_dtlg_table()`](https://AscentSoftware.github.io/dtlg/reference/as_dtlg_table.md)
@@ -521,8 +521,8 @@ as_dtlg_table(tt)
 ## Where to go next
 
 - `vignette("benchmarks")` — timing comparisons against
-  [tern](https://insightsengineering.github.io/tern/) on realistic
-  population sizes.
+  [tern](https://pharmaverse.github.io/tern/) on realistic population
+  sizes.
 - The function reference, grouped by responsibility (Statistics, Events,
   Summary Tables, Clinical Tables, tern interop, Copy semantics).
 - [`?aesi`](https://AscentSoftware.github.io/dtlg/reference/aesi.md) —
