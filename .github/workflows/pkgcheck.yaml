@@ -1,10 +1,15 @@
 name: pkgcheck
 
+# Cancel a superseded run on the same branch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+# Manual runs only, checking the selected branch. Automatic triggers are
+# suspended until ropensci-review-tools/pkgcheck#444 is fixed (PR #445);
+# then restore `push: branches: [main]` and `pull_request`.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feat/ropesci
 
 jobs:
   pkgcheck:
@@ -24,8 +29,5 @@ jobs:
 
       - uses: ropensci-review-tools/pkgcheck-action@main
         with:
-          ref: refs/heads/feat/ropesci
-          post-to-issue: true
-          issue-title: pkgcheck results - feat/ropesci
           summary-only: true
           append-to-issue: true
