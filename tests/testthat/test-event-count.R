@@ -71,3 +71,30 @@ test_that("`event_count()` can count lives", {
   expect_identical(sum_stat_tbl$B[1L], "6 (50.0%)")
   expect_identical(sum_stat_tbl$C[1L], "24 (80.0%)")
 })
+
+test_that("`event_count()` honours `pct_dec`", {
+  # Deaths per arm: A 18/18, B 6/12, C 6/30 (see fixture above).
+  res <- event_count(
+    dt = dt,
+    patient = "USUBJID",
+    treat = "ARM",
+    label = "Deaths",
+    .filters = "DTHFL == 'Y'",
+    pct_dec = 3
+  )[[1L]]
+
+  expect_identical(res$A, "18 (100.000%)")
+  expect_identical(res$B, "6 (50.000%)")
+  expect_identical(res$C, "6 (20.000%)")
+
+  res0 <- event_count(
+    dt = dt,
+    patient = "USUBJID",
+    treat = "ARM",
+    label = "Deaths",
+    .filters = "DTHFL == 'Y'",
+    pct_dec = 0
+  )[[1L]]
+
+  expect_identical(res0$B, "6 (50%)")
+})

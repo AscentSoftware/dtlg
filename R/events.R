@@ -80,7 +80,8 @@ event_count <- function(dt,
       target = label,
       treat = treat,
       .total_dt = .total_dt,
-      indent = ""
+      indent = "",
+      pct_dec = pct_dec
     )[.N, ]
 
   list(events)

@@ -1,3 +1,19 @@
+# dtlg (development version)
+
+## Bug fixes and behaviour changes
+
+- `event_count()` now passes `pct_dec` on to the percentage calculation;
+  previously the argument was accepted but ignored, and percentages always
+  used one decimal place.
+- `summary_table_by()` and `summary_table_by_targets()` gain the
+  `inc_missing` argument announced in 0.1.0, with the same meaning as in
+  `summary_table()`. It is appended after existing arguments, so positional
+  calls are unaffected. In `summary_table_by_targets()`, `inc_missing = NA`
+  shows the Missing row in every group when any target has a missing value,
+  so that the per-target columns stay aligned.
+- Corrected the `calc_counts()` documentation of `pct_dec`, which is used
+  when `.total_dt` is supplied.
+
 # dtlg 0.1.2
 
 ## New features
