@@ -1,5 +1,10 @@
 name: pkgcheck
 
+# Cancel a superseded run on the same branch or pull request.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 # Check the revision that triggered the run. Results are posted to an issue
 # only for pushes and manual runs; pull requests report in the job log.
 on:
