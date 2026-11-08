@@ -50,8 +50,8 @@ event_count(
 
 - pct_dec:
 
-  This argument is ignored, and is only kept for backward compatibility
-  reasons.
+  Number of decimal places for percentages. Used only when `.total_dt`
+  is supplied; otherwise counts are reported without percentages.
 
 ## Value
 

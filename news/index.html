@@ -37,6 +37,17 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="dtlg-development-version">dtlg (development version)<a class="anchor" aria-label="anchor" href="#dtlg-development-version"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-and-behaviour-changes-development-version">Bug fixes and behaviour changes<a class="anchor" aria-label="anchor" href="#bug-fixes-and-behaviour-changes-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/event_count.html">event_count()</a></code> now passes <code>pct_dec</code> on to the percentage calculation; previously the argument was accepted but ignored, and percentages always used one decimal place.</li>
+<li>
+<code><a href="../reference/summary_table_by.html">summary_table_by()</a></code> and <code><a href="../reference/summary_table_by_targets.html">summary_table_by_targets()</a></code> gain the <code>inc_missing</code> argument announced in 0.1.0, with the same meaning as in <code><a href="../reference/summary_table.html">summary_table()</a></code>. It is appended after existing arguments, so positional calls are unaffected. In <code><a href="../reference/summary_table_by_targets.html">summary_table_by_targets()</a></code>, <code>inc_missing = NA</code> shows the Missing row in every group when any target has a missing value, so that the per-target columns stay aligned.</li>
+<li>Corrected the <code><a href="../reference/calc_counts.html">calc_counts()</a></code> documentation of <code>pct_dec</code>, which is used when <code>.total_dt</code> is supplied.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="dtlg-012">dtlg 0.1.2<a class="anchor" aria-label="anchor" href="#dtlg-012"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-1-2">New features<a class="anchor" aria-label="anchor" href="#new-features-0-1-2"></a></h3>
