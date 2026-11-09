@@ -13,6 +13,35 @@
   so that the per-target columns stay aligned.
 - Corrected the `calc_counts()` documentation of `pct_dec`, which is used
   when `.total_dt` is supplied.
+- `event_count()`, `event_count_by()` and `multi_event_true()` now check that
+  the denominator population `.total_dt` has one row per patient, no missing
+  patient identifiers and one treatment per patient. Previously, calling them
+  on event-level data such as ADAE without `.total_dt` silently divided
+  patient counts by the number of event records (e.g. 20% instead of 91% of
+  subjects with an AE in the bundled data); this now raises an informative
+  error asking for a subject-level population such as ADSL.
+- `multi_event_true()` now defaults to `.total_dt = dt`, as its documentation
+  described. Previously the `NULL` default caused an error.
+- In the event helpers, `.total_dt = NULL` now reports counts without
+  percentages, consistent with `calc_counts()`.
+- `summary_table_by()` and `summary_table_by_targets()` now pass `.total_dt`
+  on, so categorical targets report percentages against the supplied
+  population. `summary_table_by()` now defaults to `.total_dt = NULL`; output
+  without a supplied population is unchanged (counts only).
+- `.total_dt` is documented consistently across the package as the
+  subject-level population used for percentages.
+- Numeric summaries of a group with no observed values now show empty Mean
+  (SD), Median and Min, Max cells, instead of `Inf, -Inf` with warnings.
+- `multi_event_true()`, and therefore `AET01_table()`, now reject character or
+  factor flags in `event_vars`, which previously counted zero patients
+  silently because they never equal `TRUE`.
+- `event_count()` no longer fails when no record matches its filters, for
+  example a study without deaths or an AESI flag without events. It reports
+  `0` in every arm instead. This also fixes `multi_event_true()`,
+  `AET01_table()` and `AET02_table()` in those situations.
+- `AET01_table()` now checks that `adsl` contains `DTHFL` and `DCSREAS`, and
+  `AET02_table()` that `adsl` contains the treatment column, reporting a clear
+  error instead of failing later.
 
 # dtlg 0.1.2
 

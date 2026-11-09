@@ -38,7 +38,8 @@
 #'   adae,
 #'   patient = "USUBJID",
 #'   treat = "ARM",
-#'   label = "Total number of patients with at least one AE"
+#'   label = "Total number of patients with at least one AE",
+#'   .total_dt = adsl
 #' )
 #'
 #' # Count total number of adverse events (not patients)

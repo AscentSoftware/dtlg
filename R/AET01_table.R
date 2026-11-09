@@ -10,7 +10,10 @@ assert_aet01_inputs <- function(adsl,
                                 aesi_vars) {
   stopifnot(is.data.frame(adsl), is.data.frame(adae))
 
-  missing_vars_adsl <- setdiff(c(patient_var, treat_var), names(adsl))
+  missing_vars_adsl <- setdiff(
+    c(patient_var, treat_var, "DTHFL", "DCSREAS"),
+    names(adsl)
+  )
   missing_vars_adae <- setdiff(c(patient_var, treat_var), names(adae))
 
   if (length(missing_vars_adsl) > 0) {
@@ -66,7 +69,9 @@ aesi_heading_msg <- function() {
 #' calculates patient counts and event totals for deaths, AE-related
 #' withdrawals, total AEs, and adverse events of special interest (AESIs).
 #'
-#' @param adsl A subject-level dataset (typically ADaM ADSL).
+#' @param adsl A subject-level dataset (typically ADaM ADSL). Besides
+#'   `patient_var` and `treat_var`, it must contain `DTHFL` (deaths, `"Y"`) and
+#'   `DCSREAS` (withdrawals, `"ADVERSE EVENT"`).
 #' @param adae A dataset of adverse events, preprocessed with AESI flags.
 #' @param patient_var A string indicating the subject identifier variable (e.g.,
 #'   `"USUBJID"`).

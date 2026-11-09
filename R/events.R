@@ -7,6 +7,13 @@
 #'
 #' @param patient A string indicating the subject identifying variable.
 #'
+#' @param .total_dt Subject-level population used as the denominator for
+#'   percentages, with one row per patient, e.g. ADSL. Defaults to `dt`,
+#'   before `.filters` are applied.
+#'   An error is raised if it has missing or duplicated `patient` values, or a
+#'   patient under more than one treatment; for event-level `dt`, such as
+#'   ADAE, supply ADSL. If `NULL`, counts are reported without percentages.
+#'
 #' @param label A string to be used as label in the output reporting table. This
 #' should be a text descriptive of the event being counted.
 #'
@@ -59,7 +66,10 @@ event_count <- function(dt,
                         pct_dec = 1) {
 
   dt <- maybe_copy_dt(x = dt)
-  .total_dt <- maybe_copy_dt(x = .total_dt)
+  if (!is.null(.total_dt)) {
+    .total_dt <- maybe_copy_dt(x = .total_dt)
+    assert_subject_population(.total_dt, patient = patient, treat = treat)
+  }
 
   df_filtered <-
     if (isFALSE(is.null(.filters))) {
@@ -71,8 +81,18 @@ event_count <- function(dt,
     }
 
   df_filtered_uniq <- unique(df_filtered, by = patient)
+
+  # No matching records: a count table cannot be built from zero rows, so
+  # report zero for every arm of the population, or of `dt` without one.
+  if (nrow(df_filtered_uniq) == 0L) {
+    arms <- level_set(.total_dt %||% dt, cols = treat)[[treat]]
+    return(list(zero_event_row(label, arms = arms)))
+  }
+
   df_filtered_uniq[[label]] <- label
-  .total_dt[[label]] <- label
+  if (!is.null(.total_dt)) {
+    .total_dt[[label]] <- label
+  }
 
   events <-
     summary_table(
@@ -85,6 +105,17 @@ event_count <- function(dt,
     )[.N, ]
 
   list(events)
+}
+
+# One-row event table with a zero count in each treatment arm, in the same
+# layout as a row produced by `event_count()`.
+zero_event_row <- function(label, arms) {
+  arms <- as.character(arms[!is.na(arms)])
+  out <- data.table::data.table(stats = label)
+  for (arm in arms) {
+    data.table::set(out, j = arm, value = "0")
+  }
+  out
 }
 
 #' Count total events
@@ -150,8 +181,9 @@ total_events <- function(dt, treat, label) {
 #' @param dt A `data.frame` or `data.table` containing the binary event flags
 #'   and subject-level data.
 #'
-#' @param event_vars A character vector of column names (binary flags) to
-#'   summarise.
+#' @param event_vars A character vector of column names of binary flags to
+#'   summarise. Flags must be logical, or numeric with `1` marking the event;
+#'   character or factor flags such as `"Y"`/`"N"` raise an error.
 #'
 #' @param patient A string giving the name of the variable that uniquely
 #'   identifies each patient (e.g., `"USUBJID"`).
@@ -167,8 +199,11 @@ total_events <- function(dt, treat, label) {
 #'   are extracted from the `label` attribute of each variable, or fall back to
 #'   the variable name.
 #'
-#' @param .total_dt A `data.frame` or `data.table` containing the total analysis
-#'   population (denominator). If `NULL`, `dt` is used as the denominator.
+#' @param .total_dt Subject-level population used as the denominator for
+#'   percentages, with one row per patient, e.g. ADSL. Defaults to `dt`.
+#'   An error is raised if it has missing or duplicated `patient` values, or a
+#'   patient under more than one treatment; for event-level `dt`, such as
+#'   ADAE, supply ADSL. If `NULL`, counts are reported without percentages.
 #'
 #' @param indent A string to indent the row labels (e.g., `"  "` or `nbsp(n =
 #'   4L)` for non-breaking spaces).
@@ -209,7 +244,7 @@ multi_event_true <- function(dt,
                              treat,
                              heading,
                              label = NULL,
-                             .total_dt = NULL,
+                             .total_dt = dt,
                              indent = nbsp(n = 4L),
                              pct_dec = 1) {
   dt <- maybe_copy_dt(x = dt)
@@ -220,6 +255,23 @@ multi_event_true <- function(dt,
     identical(length(event_filters), length(event_label)),
     all(event_vars %in% colnames(dt))
   )
+
+  # Flags are selected with `== TRUE`, which is never true for text such as
+  # "Y", so character or factor flags would silently count zero patients.
+  is_flag <- vapply(
+    event_vars,
+    \(x) is.logical(dt[[x]]) || is.numeric(dt[[x]]),
+    logical(1L)
+  )
+  if (!all(is_flag)) {
+    stop(
+      sprintf(
+        "`event_vars` must be logical (or numeric 0/1) flags; not: %s.",
+        toString(event_vars[!is_flag])
+      ),
+      call. = FALSE
+    )
+  }
 
   event <- mapply(
     event_count,
@@ -265,8 +317,11 @@ multi_event_true <- function(dt,
 #' @param target A string giving the name of the variable to report within each
 #'   group (e.g., `"AEDECOD"` for preferred term).
 #'
-#' @param .total_dt A `data.frame` or `data.table` containing the denominator
-#'   population. Defaults to `dt`.
+#' @param .total_dt Subject-level population used as the denominator for
+#'   percentages, with one row per patient, e.g. ADSL. Defaults to `dt`.
+#'   An error is raised if it has missing or duplicated `patient` values, or a
+#'   patient under more than one treatment; for event-level `dt`, such as
+#'   ADAE, supply ADSL. If `NULL`, counts are reported without percentages.
 #'
 #' @param indent A string used to indent row labels (e.g., `"  "` or `nbsp(n =
 #'   4L)`).
@@ -309,7 +364,10 @@ event_count_by <- function(dt,
                            indent = nbsp(n = 4L),
                            pct_dec = 1) {
   dt <- maybe_copy_dt(x = dt)
-  .total_dt <- maybe_copy_dt(x = .total_dt)
+  if (!is.null(.total_dt)) {
+    .total_dt <- maybe_copy_dt(x = .total_dt)
+    assert_subject_population(.total_dt, patient = patient, treat = treat)
+  }
 
   event <- dt
 

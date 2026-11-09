@@ -14,6 +14,12 @@ reorder_cols <- function(dt, cols, before_cols = "stats", skip_absent = TRUE) {
 #' `data.table` as backend.
 #'
 #' @inheritParams calc_stats
+#' @param .total_dt Subject-level population used as the denominator for
+#'   percentages of categorical targets, with one row per subject, e.g. ADSL.
+#'   Defaults to `dt`, which is then assumed to have one row per subject. If
+#'   `NULL`, counts are reported without percentages. Not used for numeric
+#'   targets.
+#'
 #' @param treat_order Customise the column order of the output table.
 #'
 #' @param skip_absent Whether to ignore variables passed in `treat_order` that
@@ -111,6 +117,11 @@ summary_table <- function(dt,
 #'
 #' @inheritParams summary_table
 #' @param rows_by string, grouping variable to split events by.
+#' @param .total_dt Subject-level population used as the denominator for
+#'   percentages of categorical targets, with one row per subject, e.g. ADSL.
+#'   Every group uses this population, not the subjects present in the group.
+#'   Defaults to `NULL`, in which case counts are reported without
+#'   percentages. Not used for numeric targets.
 #' @param sep character string to separate the terms
 #'
 #' @returns The same output as [summary_table()] except that folded by variables
@@ -129,7 +140,7 @@ summary_table_by <- function(dt,
                              treat,
                              rows_by,
                              indent = nbsp(n = 4L),
-                             .total_dt = dt,
+                             .total_dt = NULL,
                              pct_dec = 1,
                              treat_order = NULL,
                              skip_absent = TRUE,
@@ -159,7 +170,7 @@ summary_table_by <- function(dt,
     treat = treat,
     indent = indent,
     pct_dec = pct_dec,
-    MoreArgs = list(inc_missing = inc_missing)
+    MoreArgs = list(.total_dt = .total_dt, inc_missing = inc_missing)
   )
 
   if (length(rows_by) > 1) {
@@ -189,7 +200,11 @@ summary_table_by <- function(dt,
 #' @param treat string of treatment variable used for splitting / grouping data
 #' @param rows_by string, grouping variable to split events by.
 #' @param indent indent to be used for display and formatting purposes
-#' @param .total_dt optional table for total counts to be derived
+#' @param .total_dt Subject-level population used as the denominator for
+#'   percentages of categorical targets, with one row per subject, e.g. ADSL.
+#'   Every group uses this population, not the subjects present in the group.
+#'   Defaults to `NULL`, in which case counts are reported without
+#'   percentages. Not used for numeric targets.
 #' @param pct_dec decimal places for percentages
 #' @param treat_order customise the column order of output table
 #' @param skip_absent Logical, default `TRUE`. Passed to
@@ -225,7 +240,9 @@ summary_table_by_targets <- function(dt,
                                      skip_absent = TRUE,
                                      sep = ".",
                                      inc_missing = TRUE) {
-  .total_dt <- maybe_copy_dt(x = .total_dt)
+  if (!is.null(.total_dt)) {
+    .total_dt <- maybe_copy_dt(x = .total_dt)
+  }
 
   # Per-target tables are column-bound, so they must share rows. Resolve `NA`
   # once across all targets rather than per target and group.

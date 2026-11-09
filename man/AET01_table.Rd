@@ -15,7 +15,9 @@ AET01_table(
 )
 }
 \arguments{
-\item{adsl}{A subject-level dataset (typically ADaM ADSL).}
+\item{adsl}{A subject-level dataset (typically ADaM ADSL). Besides
+\code{patient_var} and \code{treat_var}, it must contain \code{DTHFL} (deaths, \code{"Y"}) and
+\code{DCSREAS} (withdrawals, \code{"ADVERSE EVENT"}).}
 
 \item{adae}{A dataset of adverse events, preprocessed with AESI flags.}
 

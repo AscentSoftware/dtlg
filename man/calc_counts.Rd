@@ -30,8 +30,10 @@ specifying the treatment population.}
 \item{indent}{A string to be used as indentation of summary statistics
 labels. Defaults to four HTML non-breaking spaces (\verb{&nbsp;}).}
 
-\item{.total_dt}{Separate table from \code{dt} from which to derive total counts
-per group.}
+\item{.total_dt}{Subject-level population used as the denominator for
+percentages, with one row per subject, e.g. ADSL. Percentages are counts
+divided by the number of rows per treatment arm. If \code{NULL}, counts are
+reported without percentages.}
 
 \item{pct_dec}{Number of decimal places for percentages. Used only when
 \code{.total_dt} is supplied; otherwise counts are reported without

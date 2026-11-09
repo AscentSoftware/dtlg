@@ -110,3 +110,11 @@ test_that("detect_fmt() works with min_max_fmt()", {
   expect_false(detect_fmt("1.0, ", fmt))      # missing max
   expect_false(detect_fmt("a, b", fmt))       # non-numeric
 })
+
+test_that("format_median() rounds and blanks undefined medians", {
+  expect_identical(
+    format_median(c(30, 35.24, 35.26, NA), .digits = 1L),
+    c("30", "35.2", "35.3", "")
+  )
+  expect_identical(format_median(numeric(0L)), character(0L))
+})

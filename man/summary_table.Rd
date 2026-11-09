@@ -33,8 +33,11 @@ specifying the treatment population.}
 \item{indent}{A string to be used as indentation of summary statistics
 labels. Defaults to four HTML non-breaking spaces (\verb{&nbsp;}).}
 
-\item{.total_dt}{Separate table from \code{dt} from which to derive total counts
-per group.}
+\item{.total_dt}{Subject-level population used as the denominator for
+percentages of categorical targets, with one row per subject, e.g. ADSL.
+Defaults to \code{dt}, which is then assumed to have one row per subject. If
+\code{NULL}, counts are reported without percentages. Not used for numeric
+targets.}
 
 \item{pct_dec}{Decimal places for reported figures.}
 

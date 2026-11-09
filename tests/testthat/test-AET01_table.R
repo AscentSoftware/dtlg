@@ -44,6 +44,23 @@ test_that("Input validation of AET01 table creation works as expected", {
   )
 })
 
+test_that("AET01_table() requires DTHFL and DCSREAS in adsl", {
+  no_flags <- as.data.frame(adsl)
+  no_flags <- no_flags[setdiff(names(no_flags), c("DTHFL", "DCSREAS"))]
+
+  expect_error(
+    AET01_table(
+      adsl = no_flags,
+      adae = aesi,
+      patient_var = "USUBJID",
+      treat_var = "ARM",
+      aesi_vars = c("FATAL", "SER")
+    ),
+    "The following variables are missing in `adsl`: DTHFL, DCSREAS",
+    fixed = TRUE
+  )
+})
+
 test_that("Able to re-create the AET01 table using data.table", {
   AET01_summary <- AET01_table( # nolint: object_name_linter
     adsl = adsl,

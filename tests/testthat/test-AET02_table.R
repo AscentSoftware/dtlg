@@ -47,6 +47,21 @@ test_that("AET02_table() validates its inputs", {
   )
 })
 
+test_that("AET02_table() requires the treatment column in adsl", {
+  no_arm <- as.data.frame(adsl)
+  no_arm <- no_arm[setdiff(names(no_arm), "ARM")]
+
+  expect_error(
+    AET02_table(
+      adsl = no_arm,
+      adae = aesi,
+      patient = "USUBJID",
+      treat = "ARM"
+    ),
+    r"{treat %in% colnames\(adsl\) is not TRUE}"
+  )
+})
+
 test_that("Able to create the AET02 table using data.table", {
   indent <- "  "
 

@@ -59,3 +59,22 @@ test_that("calc_desc() does not display Missing if inc_missing is FALSE", {
                    inc_missing = FALSE)[[1]]
   expect_false("Missing" %in% tbl$stats)
 })
+
+test_that("min_or_na() and max_or_na() return NA without observed values", {
+  expect_identical(min_or_na(c(NA_real_, NA_real_)), NA_real_)
+  expect_identical(max_or_na(numeric(0L)), NA_real_)
+  expect_identical(min_or_na(c(3, NA, 1)), 1)
+  expect_identical(max_or_na(c(3L, NA, 1L)), 3L)
+})
+
+test_that("calc_desc() leaves statistics empty for a group with no values", {
+  dt <- data.frame(ARM = c("A", "A", "B", "B"), AVAL = c(1, 3, NA, NA))
+
+  expect_no_warning(
+    calc_desc(dt, target = "AVAL", treat = "ARM", indent = "")
+  )
+
+  tbl <- calc_desc(dt, target = "AVAL", treat = "ARM", indent = "")[[1L]]
+  expect_identical(tbl$B, c("", "0", "", "", "", "2"))
+  expect_identical(tbl$A, c("", "2", "2.0 (1.4)", "2", "1.0, 3.0", "0"))
+})
