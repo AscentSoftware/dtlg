@@ -30,8 +30,12 @@ should be a text descriptive of the event being counted.}
 should be passed as a \code{character} vector of expressions to be evaluated in
 the frame of \code{dt}.}
 
-\item{.total_dt}{Separate table from \code{dt} from which to derive total counts
-per group.}
+\item{.total_dt}{Subject-level population used as the denominator for
+percentages, with one row per patient, e.g. ADSL. Defaults to \code{dt},
+before \code{.filters} are applied.
+An error is raised if it has missing or duplicated \code{patient} values, or a
+patient under more than one treatment; for event-level \code{dt}, such as
+ADAE, supply ADSL. If \code{NULL}, counts are reported without percentages.}
 
 \item{pct_dec}{Number of decimal places for percentages. Used only when
 \code{.total_dt} is supplied; otherwise counts are reported without

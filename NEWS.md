@@ -13,6 +13,23 @@
   so that the per-target columns stay aligned.
 - Corrected the `calc_counts()` documentation of `pct_dec`, which is used
   when `.total_dt` is supplied.
+- `event_count()`, `event_count_by()` and `multi_event_true()` now check that
+  the denominator population `.total_dt` has one row per patient, no missing
+  patient identifiers and one treatment per patient. Previously, calling them
+  on event-level data such as ADAE without `.total_dt` silently divided
+  patient counts by the number of event records (e.g. 20% instead of 91% of
+  subjects with an AE in the bundled data); this now raises an informative
+  error asking for a subject-level population such as ADSL.
+- `multi_event_true()` now defaults to `.total_dt = dt`, as its documentation
+  described. Previously the `NULL` default caused an error.
+- In the event helpers, `.total_dt = NULL` now reports counts without
+  percentages, consistent with `calc_counts()`.
+- `summary_table_by()` and `summary_table_by_targets()` now pass `.total_dt`
+  on, so categorical targets report percentages against the supplied
+  population. `summary_table_by()` now defaults to `.total_dt = NULL`; output
+  without a supplied population is unchanged (counts only).
+- `.total_dt` is documented consistently across the package as the
+  subject-level population used for percentages.
 
 # dtlg 0.1.2
 

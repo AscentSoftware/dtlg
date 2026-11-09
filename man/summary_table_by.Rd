@@ -10,7 +10,7 @@ summary_table_by(
   treat,
   rows_by,
   indent = nbsp(n = 4L),
-  .total_dt = dt,
+  .total_dt = NULL,
   pct_dec = 1,
   treat_order = NULL,
   skip_absent = TRUE,
@@ -33,8 +33,11 @@ specifying the treatment population.}
 \item{indent}{A string to be used as indentation of summary statistics
 labels. Defaults to four HTML non-breaking spaces (\verb{&nbsp;}).}
 
-\item{.total_dt}{Separate table from \code{dt} from which to derive total counts
-per group.}
+\item{.total_dt}{Subject-level population used as the denominator for
+percentages of categorical targets, with one row per subject, e.g. ADSL.
+Every group uses this population, not the subjects present in the group.
+Defaults to \code{NULL}, in which case counts are reported without
+percentages. Not used for numeric targets.}
 
 \item{pct_dec}{Decimal places for reported figures.}
 
