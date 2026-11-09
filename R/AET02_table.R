@@ -4,7 +4,8 @@
 #' showing total AE counts, patients with AEs, and a breakdown by System Organ
 #' Class (SOC) and Preferred Term (PT).
 #'
-#' @param adsl Subject-level dataset.
+#' @param adsl Subject-level dataset, with one row per patient and the
+#'   `patient` and `treat` columns.
 #' @param adae Adverse event dataset.
 #' @param patient Unique subject identifier variable.
 #' @param treat Treatment arm variable.
@@ -39,7 +40,8 @@ AET02_table <- function(adsl, # nolint: object_name_linter
     is.data.frame(adsl),
     is.data.frame(adae),
     all(c(patient, treat, target, rows_by) %in% colnames(adae)),
-    patient %in% colnames(adsl)
+    patient %in% colnames(adsl),
+    treat %in% colnames(adsl)
   )
 
   patients_with_ae_table <- event_count(

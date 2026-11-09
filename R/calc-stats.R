@@ -14,6 +14,16 @@ assert_calc_desc_inputs <- function(dt,
   )
 }
 
+# Extrema of the observed values, or `NA` when there are none. Base `min()` and
+# `max()` would return `Inf`/`-Inf` with a warning.
+min_or_na <- function(x) {
+  if (all(is.na(x))) NA_real_ else min(x, na.rm = TRUE)
+}
+
+max_or_na <- function(x) {
+  if (all(is.na(x))) NA_real_ else max(x, na.rm = TRUE)
+}
+
 dt_stats <- function(dt, target, treat, pct_dec = 1) {
   dt_summarise(
     dt,
@@ -24,10 +34,13 @@ dt_stats <- function(dt, target, treat, pct_dec = 1) {
       sd = stats::sd(target, na.rm = TRUE),
       .digits = pct_dec
     ),
-    Median = round(stats::median(target, na.rm = TRUE), digits = pct_dec),
+    Median = format_median(
+      stats::median(target, na.rm = TRUE),
+      .digits = pct_dec
+    ),
     `Min, Max` = format_min_max(
-      min = min(target, na.rm = TRUE),
-      max = max(target, na.rm = TRUE),
+      min = min_or_na(target),
+      max = max_or_na(target),
       .digits = pct_dec
     ),
     .env = list(target = as.name(target), pct_dec = pct_dec)

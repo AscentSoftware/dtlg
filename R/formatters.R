@@ -82,6 +82,21 @@ format_mean_sd <- function(mean, sd, .digits = 1L) {
   sprintf(fmt = "%s%s%s", mean_str, ws_str, sd_str)
 }
 
+# Median as text. An undefined median (no observed values) is shown as an
+# empty string, like the other statistics, rather than as `NA`.
+format_median <- function(median, .digits = 1L) {
+
+  stopifnot(
+    is.numeric(median),
+    is_scalar_number(.digits),
+    .digits >= 0L
+  )
+
+  out <- as.character(round(median, digits = .digits))
+  out[is.na(median)] <- ""
+  out
+}
+
 format_min_max <- function(min, max, .digits = 1L) {
 
   stopifnot(

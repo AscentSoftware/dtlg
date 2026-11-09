@@ -162,8 +162,9 @@ total_events <- function(dt, treat, label) {
 #' @param dt A `data.frame` or `data.table` containing the binary event flags
 #'   and subject-level data.
 #'
-#' @param event_vars A character vector of column names (binary flags) to
-#'   summarise.
+#' @param event_vars A character vector of column names of binary flags to
+#'   summarise. Flags must be logical, or numeric with `1` marking the event;
+#'   character or factor flags such as `"Y"`/`"N"` raise an error.
 #'
 #' @param patient A string giving the name of the variable that uniquely
 #'   identifies each patient (e.g., `"USUBJID"`).
@@ -235,6 +236,23 @@ multi_event_true <- function(dt,
     identical(length(event_filters), length(event_label)),
     all(event_vars %in% colnames(dt))
   )
+
+  # Flags are selected with `== TRUE`, which is never true for text such as
+  # "Y", so character or factor flags would silently count zero patients.
+  is_flag <- vapply(
+    event_vars,
+    \(x) is.logical(dt[[x]]) || is.numeric(dt[[x]]),
+    logical(1L)
+  )
+  if (!all(is_flag)) {
+    stop(
+      sprintf(
+        "`event_vars` must be logical (or numeric 0/1) flags; not: %s.",
+        toString(event_vars[!is_flag])
+      ),
+      call. = FALSE
+    )
+  }
 
   event <- mapply(
     event_count,

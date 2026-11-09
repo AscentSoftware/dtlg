@@ -30,6 +30,14 @@
   without a supplied population is unchanged (counts only).
 - `.total_dt` is documented consistently across the package as the
   subject-level population used for percentages.
+- Numeric summaries of a group with no observed values now show empty Mean
+  (SD), Median and Min, Max cells, instead of `Inf, -Inf` with warnings.
+- `multi_event_true()`, and therefore `AET01_table()`, now reject character or
+  factor flags in `event_vars`, which previously counted zero patients
+  silently because they never equal `TRUE`.
+- `AET01_table()` now checks that `adsl` contains `DTHFL` and `DCSREAS`, and
+  `AET02_table()` that `adsl` contains the treatment column, reporting a clear
+  error instead of failing later.
 
 # dtlg 0.1.2
 
