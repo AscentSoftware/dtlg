@@ -35,6 +35,10 @@
 - `multi_event_true()`, and therefore `AET01_table()`, now reject character or
   factor flags in `event_vars`, which previously counted zero patients
   silently because they never equal `TRUE`.
+- `event_count()` no longer fails when no record matches its filters, for
+  example a study without deaths or an AESI flag without events. It reports
+  `0` in every arm instead. This also fixes `multi_event_true()`,
+  `AET01_table()` and `AET02_table()` in those situations.
 - `AET01_table()` now checks that `adsl` contains `DTHFL` and `DCSREAS`, and
   `AET02_table()` that `adsl` contains the treatment column, reporting a clear
   error instead of failing later.

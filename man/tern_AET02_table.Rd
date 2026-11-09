@@ -15,7 +15,8 @@ tern_AET02_table(
 )
 }
 \arguments{
-\item{adsl}{Subject-level dataset.}
+\item{adsl}{Subject-level dataset, with one row per patient and the
+\code{patient} and \code{treat} columns.}
 
 \item{adae}{Adverse event dataset.}
 

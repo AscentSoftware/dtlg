@@ -81,6 +81,14 @@ event_count <- function(dt,
     }
 
   df_filtered_uniq <- unique(df_filtered, by = patient)
+
+  # No matching records: a count table cannot be built from zero rows, so
+  # report zero for every arm of the population, or of `dt` without one.
+  if (nrow(df_filtered_uniq) == 0L) {
+    arms <- level_set(.total_dt %||% dt, cols = treat)[[treat]]
+    return(list(zero_event_row(label, arms = arms)))
+  }
+
   df_filtered_uniq[[label]] <- label
   if (!is.null(.total_dt)) {
     .total_dt[[label]] <- label
@@ -97,6 +105,17 @@ event_count <- function(dt,
     )[.N, ]
 
   list(events)
+}
+
+# One-row event table with a zero count in each treatment arm, in the same
+# layout as a row produced by `event_count()`.
+zero_event_row <- function(label, arms) {
+  arms <- as.character(arms[!is.na(arms)])
+  out <- data.table::data.table(stats = label)
+  for (arm in arms) {
+    data.table::set(out, j = arm, value = "0")
+  }
+  out
 }
 
 #' Count total events

@@ -20,8 +20,9 @@ multi_event_true(
 \item{dt}{A \code{data.frame} or \code{data.table} containing the binary event flags
 and subject-level data.}
 
-\item{event_vars}{A character vector of column names (binary flags) to
-summarise.}
+\item{event_vars}{A character vector of column names of binary flags to
+summarise. Flags must be logical, or numeric with \code{1} marking the event;
+character or factor flags such as \code{"Y"}/\code{"N"} raise an error.}
 
 \item{patient}{A string giving the name of the variable that uniquely
 identifies each patient (e.g., \code{"USUBJID"}).}
