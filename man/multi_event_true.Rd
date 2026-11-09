@@ -11,7 +11,7 @@ multi_event_true(
   treat,
   heading,
   label = NULL,
-  .total_dt = NULL,
+  .total_dt = dt,
   indent = nbsp(n = 4L),
   pct_dec = 1
 )
@@ -37,8 +37,11 @@ giving human-readable labels for the output table rows. If \code{NULL}, labels
 are extracted from the \code{label} attribute of each variable, or fall back to
 the variable name.}
 
-\item{.total_dt}{A \code{data.frame} or \code{data.table} containing the total analysis
-population (denominator). If \code{NULL}, \code{dt} is used as the denominator.}
+\item{.total_dt}{Subject-level population used as the denominator for
+percentages, with one row per patient, e.g. ADSL. Defaults to \code{dt}.
+An error is raised if it has missing or duplicated \code{patient} values, or a
+patient under more than one treatment; for event-level \code{dt}, such as
+ADAE, supply ADSL. If \code{NULL}, counts are reported without percentages.}
 
 \item{indent}{A string to indent the row labels (e.g., \code{"  "} or \code{nbsp(n = 4L)} for non-breaking spaces).}
 

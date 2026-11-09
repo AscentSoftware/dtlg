@@ -30,7 +30,11 @@ summary_table_by_targets(
 
 \item{indent}{indent to be used for display and formatting purposes}
 
-\item{.total_dt}{optional table for total counts to be derived}
+\item{.total_dt}{Subject-level population used as the denominator for
+percentages of categorical targets, with one row per subject, e.g. ADSL.
+Every group uses this population, not the subjects present in the group.
+Defaults to \code{NULL}, in which case counts are reported without
+percentages. Not used for numeric targets.}
 
 \item{pct_dec}{decimal places for percentages}
 

@@ -121,6 +121,16 @@ intermediates can be assembled without intermediate casting.
 | `multi_event_true()`  | Patients flagged across many binary indicators.       |
 | `event_count_by()`    | Patients and events nested by a grouping variable.    |
 
+### Denominators
+
+Percentages are computed against a subject-level population passed as
+`.total_dt`, with one row per subject. `summary_table()` and the event helpers
+default to `dt`, which is correct when `dt` is ADSL. For event-level data such
+as `adae`, pass `.total_dt = adsl`: the event helpers check that the
+population has one row per patient and stop with an error otherwise, rather
+than dividing by event records. Grouped summaries (`summary_table_by()`)
+report counts only unless a population is supplied.
+
 A minimal example. Deaths per arm:
 
 ```{r}

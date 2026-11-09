@@ -7,6 +7,13 @@
 #'
 #' @param patient A string indicating the subject identifying variable.
 #'
+#' @param .total_dt Subject-level population used as the denominator for
+#'   percentages, with one row per patient, e.g. ADSL. Defaults to `dt`,
+#'   before `.filters` are applied.
+#'   An error is raised if it has missing or duplicated `patient` values, or a
+#'   patient under more than one treatment; for event-level `dt`, such as
+#'   ADAE, supply ADSL. If `NULL`, counts are reported without percentages.
+#'
 #' @param label A string to be used as label in the output reporting table. This
 #' should be a text descriptive of the event being counted.
 #'
@@ -59,7 +66,10 @@ event_count <- function(dt,
                         pct_dec = 1) {
 
   dt <- maybe_copy_dt(x = dt)
-  .total_dt <- maybe_copy_dt(x = .total_dt)
+  if (!is.null(.total_dt)) {
+    .total_dt <- maybe_copy_dt(x = .total_dt)
+    assert_subject_population(.total_dt, patient = patient, treat = treat)
+  }
 
   df_filtered <-
     if (isFALSE(is.null(.filters))) {
@@ -72,7 +82,9 @@ event_count <- function(dt,
 
   df_filtered_uniq <- unique(df_filtered, by = patient)
   df_filtered_uniq[[label]] <- label
-  .total_dt[[label]] <- label
+  if (!is.null(.total_dt)) {
+    .total_dt[[label]] <- label
+  }
 
   events <-
     summary_table(
@@ -167,8 +179,11 @@ total_events <- function(dt, treat, label) {
 #'   are extracted from the `label` attribute of each variable, or fall back to
 #'   the variable name.
 #'
-#' @param .total_dt A `data.frame` or `data.table` containing the total analysis
-#'   population (denominator). If `NULL`, `dt` is used as the denominator.
+#' @param .total_dt Subject-level population used as the denominator for
+#'   percentages, with one row per patient, e.g. ADSL. Defaults to `dt`.
+#'   An error is raised if it has missing or duplicated `patient` values, or a
+#'   patient under more than one treatment; for event-level `dt`, such as
+#'   ADAE, supply ADSL. If `NULL`, counts are reported without percentages.
 #'
 #' @param indent A string to indent the row labels (e.g., `"  "` or `nbsp(n =
 #'   4L)` for non-breaking spaces).
@@ -209,7 +224,7 @@ multi_event_true <- function(dt,
                              treat,
                              heading,
                              label = NULL,
-                             .total_dt = NULL,
+                             .total_dt = dt,
                              indent = nbsp(n = 4L),
                              pct_dec = 1) {
   dt <- maybe_copy_dt(x = dt)
@@ -265,8 +280,11 @@ multi_event_true <- function(dt,
 #' @param target A string giving the name of the variable to report within each
 #'   group (e.g., `"AEDECOD"` for preferred term).
 #'
-#' @param .total_dt A `data.frame` or `data.table` containing the denominator
-#'   population. Defaults to `dt`.
+#' @param .total_dt Subject-level population used as the denominator for
+#'   percentages, with one row per patient, e.g. ADSL. Defaults to `dt`.
+#'   An error is raised if it has missing or duplicated `patient` values, or a
+#'   patient under more than one treatment; for event-level `dt`, such as
+#'   ADAE, supply ADSL. If `NULL`, counts are reported without percentages.
 #'
 #' @param indent A string used to indent row labels (e.g., `"  "` or `nbsp(n =
 #'   4L)`).
@@ -309,7 +327,10 @@ event_count_by <- function(dt,
                            indent = nbsp(n = 4L),
                            pct_dec = 1) {
   dt <- maybe_copy_dt(x = dt)
-  .total_dt <- maybe_copy_dt(x = .total_dt)
+  if (!is.null(.total_dt)) {
+    .total_dt <- maybe_copy_dt(x = .total_dt)
+    assert_subject_population(.total_dt, patient = patient, treat = treat)
+  }
 
   event <- dt
 

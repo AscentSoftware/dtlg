@@ -31,8 +31,11 @@ and patient-level identifiers.}
 \item{target}{A string giving the name of the variable to report within each
 group (e.g., \code{"AEDECOD"} for preferred term).}
 
-\item{.total_dt}{A \code{data.frame} or \code{data.table} containing the denominator
-population. Defaults to \code{dt}.}
+\item{.total_dt}{Subject-level population used as the denominator for
+percentages, with one row per patient, e.g. ADSL. Defaults to \code{dt}.
+An error is raised if it has missing or duplicated \code{patient} values, or a
+patient under more than one treatment; for event-level \code{dt}, such as
+ADAE, supply ADSL. If \code{NULL}, counts are reported without percentages.}
 
 \item{indent}{A string used to indent row labels (e.g., \code{"  "} or \code{nbsp(n = 4L)}).}
 
